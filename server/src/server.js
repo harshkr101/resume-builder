@@ -1,8 +1,13 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import authRoutes from './routers/auth.js';
+
 import {config} from './config/config.js';
 import bodyParser from 'body-parser';
+
+
+import authRoutes from './routers/auth.js';
+import dashboardRoutes from './routers/dashboard.js';
+import verifyToken from './utils/verify-token.js';
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -10,6 +15,7 @@ app.use(bodyParser.json());
 
 
 app.use('/api', authRoutes);
+app.use('/api/dashboard',verifyToken,dashboardRoutes);
 
 const connect = async (url) => {
     await mongoose.connect(

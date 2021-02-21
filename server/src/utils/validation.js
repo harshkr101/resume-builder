@@ -2,9 +2,8 @@ import Joi from '@hapi/joi';
 
 
 // validation schema for req body
-const signupValidation = (data)=>{
+export const signupValidation = (data)=>{
     const schema = Joi.object({
-        // userName: Joi.string().min(3).max(100).required(),
         email: Joi.string().min(3).max(255).required().email(),
         password: Joi.string().min(8).max(255).required(),
         firstName: Joi.string().min(2).max(100).required(),
@@ -13,4 +12,11 @@ const signupValidation = (data)=>{
     return schema.validate(data);
 }
 
-export default signupValidation;
+export const loginValidation = (data)=>{
+    const schema = Joi.object({
+        email: Joi.string().min(3).max(255).required().email(),
+        password: Joi.string().min(8).max(255).required()
+    });
+    return schema.validate(data);
+}
+

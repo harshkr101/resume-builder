@@ -1,6 +1,6 @@
 
 import User from '../models/user.js'
-import signupValidation from '../utils/validation.js';
+import {signupValidation,loginValidation} from '../utils/validation.js';
 import bcrypt from 'bcrypt';
 
 
@@ -17,14 +17,10 @@ export const Sign = async (req, res) => {
 
     // check if user exists
 
-    User.findOne({
-        email: req.body.email
-    }).exec((error, user) => {
-            if (user)
-                return res.status(400).json({
-                    message: 'User already exists.'
-                });
-        });
+        const userExists = await User.findOne({email: req.body.email}).exec();
+        if(userExists){
+            return res.status(400).json({message: 'User already exists'});
+        }
 
 
            // create a new user if user doesn't exists
@@ -54,7 +50,12 @@ export const Sign = async (req, res) => {
                 if (data) {
                     return res.status(200).json({
                         message: 'SignUp Successfull',
-                        user: data
+                        user: {
+                            id: data._id,
+                            firstName: data.firstName,
+                            lastName: data.lastName,
+                            email: data.email
+                        }
                     });
                 }
             });

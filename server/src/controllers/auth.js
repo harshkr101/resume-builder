@@ -112,7 +112,7 @@ export const Login = async (req,res)=>{
     res.header("auth-token",token).status(200).json({
         error: null,
         token
-    })
+    });
    
 }
 

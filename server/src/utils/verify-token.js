@@ -1,7 +1,7 @@
 
 // middleware to validate token
 
-import  verify  from "jsonwebtoken";
+import  jwt from "jsonwebtoken";
 import {config} from "../config/config.js";
 
 const verifyToken = (req, res, next) => {
@@ -9,15 +9,17 @@ const verifyToken = (req, res, next) => {
   const token = req.header("auth-token");
 
   if (!token){
-     return res.status(401).json({ error: "Access denied" }); 
+     return res.status(401).json({ error: "No token provided" }); 
   }
 
-  try {
-    const verified = verify(token,config.JWT_SECRET);
-    req.user = verified;
-    next(); // to continue the flow
-  } catch (err) {
-    res.status(400).json({ error: "Token is not valid" });
-  }
-};
+  jwt.verify(token,config.JWT_SECRET,function (err,verified) {
+    
+    if(err)
+     return res.status(500).json({error:'Authentication error'});
+
+    next();
+  });
+}
+
+
 export default verifyToken;

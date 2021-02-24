@@ -4,7 +4,6 @@ import mongoose from 'mongoose';
 import {config} from './config/config.js';
 import bodyParser from 'body-parser';
 
-
 import authRoutes from './routers/auth.js';
 import dashboardRoutes from './routers/dashboard.js';
 import verifyToken from './utils/verify-token.js';
@@ -21,7 +20,9 @@ const connect = async (url) => {
     await mongoose.connect(
         url, {
             useNewUrlParser: true,
-            useUnifiedTopology: true
+            useUnifiedTopology: true,
+            useFindAndModify:false,
+            useCreateIndex:true
         }
     ).then(() => {
         console.log('Database Connected...');

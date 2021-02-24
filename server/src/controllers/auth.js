@@ -105,7 +105,9 @@ export const Login = async (req,res)=>{
             email: user.email
         },
         // jwt secret key
-        config.JWT_SECRET
+        config.JWT_SECRET,
+        // token expires in 24 hrs
+        {expiresIn:86400}
         );
     
 

@@ -1,0 +1,122 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+html {
+  font-family: "Montserrat", sans-serif;
+  color: #fff;
+}
+
+body {
+  background: #1e212d;
+  background-image: url("https://www.transparenttextures.com/patterns/cubes.png");
+  padding: 0 16px;
+}
+
+header {
+  background-color: #413c69;
+  display: inline-flex;
+  width: 102.5%;
+  margin: auto -16px;
+  padding: 16px 32px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+}
+
+header img {
+  width: 2em;
+  height: 2em;
+}
+
+header h1 {
+  color: #fff;
+  font-family: "McLaren", cursive;
+  font-weight: 200;
+  margin-left: 0.67em;
+}
+
+header a {
+  color: #fff;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.67em;
+  margin-left: 0.67em;
+  text-decoration: none;
+  font-weight: bold;
+  display: block;
+}
+
+h1 {
+  text-align: center;
+  position: relative;
+  top: 50%;
+}
+
+nav {
+  position: absolute;
+  right: 10px;
+}
+
+.nav-link {
+  display: inline;
+  font-size: 1.2em;
+  margin: 10px;
+  position: relative;
+  top: 50%;
+  border: #fff 1px solid;
+  border-radius: 5px;
+  padding: 5px 25px;
+}
+
+.container {
+  background-color: #413c69;
+  height: auto;
+  width: 400px;
+  margin: auto;
+  padding-top: 1em;
+  margin-top: 75px;
+}
+
+footer {
+  position: absolute;
+  text-align: center;
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem;
+}
+
+footer p {
+  color: #ccc;
+}
+
+label {
+  display: block;
+  margin: 0 20px;
+}
+
+input,
+select {
+  margin: 20px;
+  margin-right: 10px;
+  margin-bottom: 30px;
+  font-size: 18px;
+  height: 30px;
+  width: 200px;
+}
+
+button {
+  background-color: #1e212d;
+  padding: 5px 25px;
+  color: white;
+  font-size: 18px;
+  border: #fff 1px solid;
+  border-radius: 5px;
+  display: block;
+  margin: 0 auto;
+  cursor: pointer;
+  position: relative;
+  top: 15px;
+}
+
+button:hover {
+  background-color: #122622;
+}

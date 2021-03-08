@@ -84,7 +84,7 @@ export const getOne = model => async (req, res) => {
     }
   }
   
-  export const crudControllers = model => ({
+   const crudControllers = model => ({
     removeOne: removeOne(model),
     updateOne: updateOne(model),
     getMany: getMany(model),
@@ -92,3 +92,4 @@ export const getOne = model => async (req, res) => {
     createOne: createOne(model)
   })
   
+  export default crudControllers;

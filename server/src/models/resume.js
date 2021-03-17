@@ -46,6 +46,69 @@ const resumeSchema = new mongoose.Schema({
             max: 255
         }
     },
+    education:[
+        {
+            university:{
+                type:String,
+                min:3,
+                max:100
+            },
+            degree:{
+                type:String,
+                min:2,
+                max:100
+            },
+            startDate:{
+                type:String,
+                min:3,
+                max:50
+            },
+            endDate:{
+                type:String,
+                min:3,
+                max:50
+            },
+            gpa:{
+                type:String,
+                min:1,
+                max:5
+            },
+        }
+    ],
+    experience:[
+        {
+            title:{
+                type:String,
+                min:3,
+                max:100,
+            },
+            organisation:{
+                type:String,
+                min:3,
+                max:100,
+            },
+            
+            startDate:{
+                type:String,
+                min:3,
+                max:50
+            },
+            endDate:{
+                type:String,
+                min:3,
+                max:50
+            },
+            description:[
+                {
+                    type:String,
+                    min:3,
+                    max:100
+                }
+            ]
+            
+        }
+
+    ],
     skills:[
         {
             skillName:{

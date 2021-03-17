@@ -12,7 +12,6 @@ const router = express.Router();
 
         router.
         route('/resume')
-        .get(controllers.getOne)
         .post(controllers.createOne)
   
         router

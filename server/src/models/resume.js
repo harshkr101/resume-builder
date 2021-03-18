@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import User from './user.js';
+
 // schema for resume
 
 const resumeSchema = new mongoose.Schema({
@@ -135,11 +135,13 @@ const resumeSchema = new mongoose.Schema({
                 min:2,
                 max:50
             }],
-            projectDescription:{
+            projectDescription:[
+            {
                 type: String,
                 min:3,
                 max: 500
-            },
+            }
+        ],
             projectLink:{
                 type: String,
                 min:3,
@@ -162,7 +164,13 @@ const resumeSchema = new mongoose.Schema({
                 type: String,
                 min:1,
                 max:100
-            }
+            },
+            description:[
+                {
+                    type:String,
+                    max:100
+                }
+            ]
 
         }
     ],

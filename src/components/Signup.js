@@ -1,13 +1,10 @@
-import React from 'react';
+import { React, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -36,6 +33,52 @@ const useStyles = makeStyles((theme) => ({
 export default function Signup() {
     const classes = useStyles();
 
+    const [values, setValues] = useState({
+        firstName: '',
+        lastName: '',
+        password: '',
+        email: '',
+        open: false,
+        error: ''
+    })
+
+    const handleChange = name => event => {
+        setValues({ ...values, [name]: event.target.value })
+    }
+
+    const create = async (user) => {
+        try {
+            let response = await fetch('http://localhost:3000/api/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(user)
+            })
+            console.log(response)
+            return await response.json()
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const clickSubmit = (event) => {
+        event.preventDefault();
+        const user = {
+            firstName: values.firstName || undefined,
+            lastName: values.lastName || undefined,
+            email: values.email || undefined,
+            password: values.password || undefined
+        }
+        create(user).then((data) => {
+            if (data.error) {
+                setValues({ ...values, error: data.error })
+            } else {
+                setValues({ ...values, error: '', open: true })
+            }
+        })
+    }
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -50,12 +93,14 @@ export default function Signup() {
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                autoComplete="fname"
+                                autoComplete="firstName"
                                 name="firstName"
                                 variant="outlined"
                                 required
                                 fullWidth
                                 id="firstName"
+                                onChange={handleChange('firstName')}
+                                value={values.firstName}
                                 label="First Name"
                                 autoFocus
                             />
@@ -66,20 +111,11 @@ export default function Signup() {
                                 required
                                 fullWidth
                                 id="lastName"
+                                onChange={handleChange('lastName')}
+                                value={values.lastName}
                                 label="Last Name"
                                 name="lastName"
-                                autoComplete="lname"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="userName"
-                                label="User Name"
-                                name="userName"
-                                autoComplete="userName"
+                                autoComplete="lastName"
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -88,6 +124,8 @@ export default function Signup() {
                                 required
                                 fullWidth
                                 id="email"
+                                onChange={handleChange('email')}
+                                value={values.email}
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
@@ -102,13 +140,9 @@ export default function Signup() {
                                 label="Password"
                                 type="password"
                                 id="password"
+                                onChange={handleChange('password')}
+                                value={values.password}
                                 autoComplete="current-password"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <FormControlLabel
-                                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                                label="I want to receive inspiration, marketing promotions and updates via email."
                             />
                         </Grid>
                     </Grid>
@@ -118,6 +152,7 @@ export default function Signup() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        onClick={clickSubmit}
                     >
                         Sign Up
                     </Button>

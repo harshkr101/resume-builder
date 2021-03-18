@@ -10,6 +10,17 @@ const useStyles = makeStyles((theme) => ({
         },
         textAlign: 'center'
     },
+    image: {
+        backgroundImage: 'url(https://source.unsplash.com/800x450/?resume)',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor:
+            theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        width: '100%',
+        height: '66vh',
+        margin: '0'
+    },
 }));
 
 const Home = (props) => {
@@ -17,6 +28,7 @@ const Home = (props) => {
 
     return (
         <div className={classes.root}>
+            <img xs={false} sm={4} md={7} className={classes.image} alt-text="resume" />
             <Button variant="contained" color="primary">
                 <Link to="/dashboard">Let's Start</Link>
             </Button>

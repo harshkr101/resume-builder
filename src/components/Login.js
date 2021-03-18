@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -7,7 +7,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -47,6 +46,49 @@ const useStyles = makeStyles((theme) => ({
 export default function Login() {
     const classes = useStyles();
 
+    const [values, setValues] = useState({
+        email: '',
+        password: '',
+        open: false,
+        error: ''
+    })
+
+    const handleChange = name => event => {
+        setValues({ ...values, [name]: event.target.value })
+    }
+
+
+    const login = async (user) => {
+        try {
+            let response = await fetch('http://localhost:3000/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(user)
+            })
+            console.log(response)
+            return await response.json()
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const clickSubmit = (event) => {
+        event.preventDefault();
+        const user = {
+            email: values.email || undefined,
+            password: values.password || undefined
+        }
+        login(user).then((data) => {
+            if (data.error) {
+                setValues({ ...values, error: data.error })
+            } else {
+                setValues({ ...values, error: '', open: true })
+            }
+        })
+    }
+
     return (
         <Grid container component="main" className={classes.root}>
             <CssBaseline />
@@ -66,6 +108,8 @@ export default function Login() {
                             required
                             fullWidth
                             id="email"
+                            onChange={handleChange('email')}
+                            value={values.email}
                             label="Email Address"
                             name="email"
                             autoComplete="email"
@@ -80,6 +124,8 @@ export default function Login() {
                             label="Password"
                             type="password"
                             id="password"
+                            onChange={handleChange('password')}
+                            value={values.password}
                             autoComplete="current-password"
                         />
                         <FormControlLabel
@@ -92,6 +138,7 @@ export default function Login() {
                             variant="contained"
                             color="primary"
                             className={classes.submit}
+                            onClick={clickSubmit}
                         >
                             Sign In
                         </Button>

@@ -11,6 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -57,8 +58,14 @@ export default function Login() {
         setValues({ ...values, [name]: event.target.value })
     }
 
+    const goto = (res) => {
+        if (res.status === 200)
+            return (
+                <Redirect to="/" />
+            )
+    }
 
-    const login = async (user) => {
+    const loginCheck = async (user) => {
         try {
             let response = await fetch('http://localhost:3000/api/login', {
                 method: 'POST',
@@ -68,7 +75,8 @@ export default function Login() {
                 body: JSON.stringify(user)
             })
             console.log(response)
-            return await response.json()
+            goto(response)
+            return response.json()
         } catch (err) {
             console.log(err)
         }
@@ -80,7 +88,7 @@ export default function Login() {
             email: values.email || undefined,
             password: values.password || undefined
         }
-        login(user).then((data) => {
+        loginCheck(user).then((data) => {
             if (data.error) {
                 setValues({ ...values, error: data.error })
             } else {

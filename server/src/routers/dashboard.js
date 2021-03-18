@@ -12,14 +12,16 @@ const router = express.Router();
 
         router.
         route('/resume')
-        .get(controllers.getOne)
         .post(controllers.createOne)
   
         router
         .route('/resume/:id')
         .get(controllers.getOne)
         .put(controllers.updateOne)
-        .delete(controllers.removeOne)
+        .delete(controllers.removeOne);
+
+        router.route('/resume/all/:id')
+        .get(controllers.getMany);
 
 
   export default router;

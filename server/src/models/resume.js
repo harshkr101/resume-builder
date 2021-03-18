@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import User from './user.js';
+
 // schema for resume
 
 const resumeSchema = new mongoose.Schema({
@@ -46,6 +46,69 @@ const resumeSchema = new mongoose.Schema({
             max: 255
         }
     },
+    education:[
+        {
+            university:{
+                type:String,
+                min:3,
+                max:100
+            },
+            degree:{
+                type:String,
+                min:2,
+                max:100
+            },
+            startDate:{
+                type:String,
+                min:3,
+                max:50
+            },
+            endDate:{
+                type:String,
+                min:3,
+                max:50
+            },
+            gpa:{
+                type:String,
+                min:1,
+                max:5
+            },
+        }
+    ],
+    experience:[
+        {
+            title:{
+                type:String,
+                min:3,
+                max:100,
+            },
+            organisation:{
+                type:String,
+                min:3,
+                max:100,
+            },
+            
+            startDate:{
+                type:String,
+                min:3,
+                max:50
+            },
+            endDate:{
+                type:String,
+                min:3,
+                max:50
+            },
+            description:[
+                {
+                    type:String,
+                    min:3,
+                    max:100
+                }
+            ]
+            
+        }
+
+    ],
     skills:[
         {
             skillName:{
@@ -72,11 +135,13 @@ const resumeSchema = new mongoose.Schema({
                 min:2,
                 max:50
             }],
-            projectDescription:{
+            projectDescription:[
+            {
                 type: String,
                 min:3,
                 max: 500
-            },
+            }
+        ],
             projectLink:{
                 type: String,
                 min:3,
@@ -99,7 +164,13 @@ const resumeSchema = new mongoose.Schema({
                 type: String,
                 min:1,
                 max:100
-            }
+            },
+            description:[
+                {
+                    type:String,
+                    max:100
+                }
+            ]
 
         }
     ],

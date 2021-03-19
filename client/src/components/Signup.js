@@ -8,7 +8,7 @@ import { Redirect } from "@reach/router";
     lastName:  req.body.lastName
 */
 
-const axios = require("axios");
+// const axios = require("axios");
 
 const Signup = (props) => {
   const [userName, setUserName] = useState("");
@@ -16,9 +16,8 @@ const Signup = (props) => {
   const [lName, setlName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [redirect, setRedirect] = useState(
-    false
-  ); /*
+  const [redirect, setRedirect] = useState(false);
+  /*
   const submit = () => {
     axios
       .post("http://localhost:3000/api/signup", {
@@ -46,19 +45,27 @@ const Signup = (props) => {
   const submit = async (e) => {
     e.preventDefault();
 
-    await fetch("http://localhost:3000/api/signup", {
-      method: "POST",
-      body: JSON.stringify({
-        userName: e.target.userName.value,
-        fName: e.target.fName.value,
-        lName: e.target.lName.value,
-        email: e.target.email.value,
-        password: e.target.password.value,
-      }),
-    });
+    try {
+      let response = await fetch("http://localhost:3000/api/signup", {
+        method: "POST",
+        body: JSON.stringify({
+          // userName: userName,
+          firstName: fName,
+          lastName: lName,
+          email: email,
+          password: password,
+        }),
+      });
 
-    setRedirect(true);
+      // setRedirect(true);
+      const temp = response.json()
+      console.log(temp);
+      return temp;
+    } catch (err) {
+      console.log(err);
+    }
   };
+
   if (redirect) {
     return <Redirect to="/login" />;
   }
@@ -110,7 +117,7 @@ const Signup = (props) => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </label>
-      <button>Submit</button>
+      <button type="submit">Submit</button>
     </form>
   );
 };

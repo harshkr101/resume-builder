@@ -3,26 +3,26 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 
-export default function EducationForm() {
+export default function ExperienceForm() {
     return (
         <React.Fragment>
             <Typography variant="h6" gutterBottom>
-                Educational Details
+                Experience Details
             </Typography>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <TextField
-                        id="university"
-                        name="university"
-                        label="University"
+                        id="title"
+                        name="title"
+                        label="Job Title"
                         fullWidth
                     />
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
-                        id="degree"
-                        name="degree"
-                        label="Degree"
+                        id="organisation"
+                        name="organisation"
+                        label="Organisation"
                         fullWidth
                     />
                 </Grid>
@@ -44,9 +44,9 @@ export default function EducationForm() {
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
-                        id="gpa"
-                        name="gpa"
-                        label="GPA"
+                        id="description"
+                        name="description"
+                        label="Description"
                         fullWidth
                     />
                 </Grid>

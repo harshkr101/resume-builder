@@ -10,6 +10,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import PersonalForm from './PersonalForm';
 import EducationForm from './EducationForm';
+import ExperienceForm from './ExperienceForm';
+import ProjectForm from './ProjectForm';
 import Review from './Review';
 
 const useStyles = makeStyles((theme) => ({
@@ -49,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const steps = ['Personal Details', 'Educational Details', 'Review your Resume'];
+const steps = ['Personal', 'Educational', 'Experience', 'Projects', 'Preview'];
 
 function getStepContent(step) {
     switch (step) {
@@ -58,6 +60,10 @@ function getStepContent(step) {
         case 1:
             return <EducationForm />;
         case 2:
+            return <ExperienceForm />;
+        case 3:
+            return <ProjectForm />;
+        case 4:
             return <Review />;
         default:
             throw new Error('Unknown step');

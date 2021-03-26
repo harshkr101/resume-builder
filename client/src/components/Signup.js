@@ -1,118 +1,170 @@
-import React, { useState } from "react";
+import { React, useState } from 'react';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
 
-import { Redirect } from "@reach/router";
+const useStyles = makeStyles((theme) => ({
+    paper: {
+        marginTop: theme.spacing(4),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(3),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
+}));
 
-/*
-    userName:  req.body.userName,
-    firstName: req.body.firstName,
-    lastName:  req.body.lastName
-*/
+export default function Signup() {
+    const classes = useStyles();
 
-const axios = require("axios");
+    const [values, setValues] = useState({
+        firstName: '',
+        lastName: '',
+        password: '',
+        email: '',
+        open: false,
+        error: ''
+    })
 
-const Signup = (props) => {
-  const [userName, setUserName] = useState("");
-  const [fName, setfName] = useState("");
-  const [lName, setlName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [redirect, setRedirect] = useState(
-    false
-  ); /*
-  const submit = () => {
-    axios
-      .post("http://localhost:3000/api/signup", {
-        userName: userName,
-        fName: fName,
-        lName: lName,
-        email: email,
-        password: password
-      })
-      .then(function (response) {
-        console.log(response);
-        setRedirect(true);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-*/
-  /*
-  const api = axios.create({
-    baseURL: 'http://localhost:3000/api/'
-  });
-*/
+    const handleChange = name => event => {
+        setValues({ ...values, [name]: event.target.value })
+    }
 
-  const submit = async (e) => {
-    e.preventDefault();
+    const create = async (user) => {
+        try {
+            let response = await fetch('http://localhost:3000/api/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(user)
+            })
+            console.log(response)
+            return await response.json()
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
-    await fetch("http://localhost:3000/api/signup", {
-      method: "POST",
-      body: JSON.stringify({
-        userName: e.target.userName.value,
-        fName: e.target.fName.value,
-        lName: e.target.lName.value,
-        email: e.target.email.value,
-        password: e.target.password.value,
-      }),
-    });
+    const clickSubmit = (event) => {
+        event.preventDefault();
+        const user = {
+            firstName: values.firstName || undefined,
+            lastName: values.lastName || undefined,
+            email: values.email || undefined,
+            password: values.password || undefined
+        }
+        create(user).then((data) => {
+            if (data.error) {
+                setValues({ ...values, error: data.error })
+            } else {
+                setValues({ ...values, error: '', open: true })
+            }
+        })
+    }
 
-    setRedirect(true);
-  };
-  if (redirect) {
-    return <Redirect to="/login" />;
-  }
-
-  return (
-    <form className="container" onSubmit={submit}>
-      <label htmlFor="userName">
-        User Name
-        <input
-          id="userName"
-          value={userName}
-          placeholder="User Name"
-          onChange={(e) => setUserName(e.target.value)}
-        />
-      </label>
-      <label htmlFor="fName">
-        First Name
-        <input
-          id="fName"
-          value={fName}
-          placeholder="First Name"
-          onChange={(e) => setfName(e.target.value)}
-        />
-      </label>
-      <label htmlFor="lName">
-        Last Name
-        <input
-          id="lName"
-          value={lName}
-          placeholder="Last Name"
-          onChange={(e) => setlName(e.target.value)}
-        />
-      </label>
-      <label htmlFor="email">
-        Email
-        <input
-          id="email"
-          value={email}
-          placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </label>
-      <label htmlFor="password">
-        Password
-        <input
-          id="password"
-          value={password}
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </label>
-      <button>Submit</button>
-    </form>
-  );
-};
-
-export default Signup;
+    return (
+        <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <div className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                    <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    Sign up
+                </Typography>
+                <form className={classes.form} noValidate>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                autoComplete="firstName"
+                                name="firstName"
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="firstName"
+                                onChange={handleChange('firstName')}
+                                value={values.firstName}
+                                label="First Name"
+                                autoFocus
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="lastName"
+                                onChange={handleChange('lastName')}
+                                value={values.lastName}
+                                label="Last Name"
+                                name="lastName"
+                                autoComplete="lastName"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="email"
+                                onChange={handleChange('email')}
+                                value={values.email}
+                                label="Email Address"
+                                name="email"
+                                autoComplete="email"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="password"
+                                id="password"
+                                onChange={handleChange('password')}
+                                value={values.password}
+                                autoComplete="current-password"
+                            />
+                        </Grid>
+                    </Grid>
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                        onClick={clickSubmit}
+                    >
+                        Sign Up
+                    </Button>
+                    <Grid container justify="flex-end">
+                        <Grid item>
+                            <Link href="#" variant="body2">
+                                Already have an account? Sign in
+                            </Link>
+                        </Grid>
+                    </Grid>
+                </form>
+            </div>
+        </Container>
+    );
+}

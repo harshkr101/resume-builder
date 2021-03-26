@@ -1,21 +1,17 @@
-import React from "react";
-import { Router } from "@reach/router";
-import Header from "./components/Header";
-import Home from "./components/Home";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from '@material-ui/styles';
+import MainRouter from './MainRouter';
+import theme from './theme';
 
 const App = () => {
-  return (
-    <div>
-      <Header />
-      <Router>
-        <Home path="/" />
-        <Login path="/login" />
-        <Signup path="/signup" />
-      </Router>
-    </div>
-  );
-};
+    return (
+        <BrowserRouter>
+            <ThemeProvider theme={theme}>
+                <MainRouter />
+            </ThemeProvider>
+        </BrowserRouter>
+    )
+}
 
 export default App;

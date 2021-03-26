@@ -8,9 +8,8 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-// import PersonalForm from './PersonalForm';
+import PersonalForm from './PersonalForm';
 import EducationForm from './EducationForm';
-import FormSection from './FormSection';
 import ExperienceForm from './ExperienceForm';
 import ProjectForm from './ProjectForm';
 import Review from './Review';
@@ -57,7 +56,7 @@ const steps = ['Personal', 'Educational', 'Experience', 'Projects', 'Preview'];
 function getStepContent(step) {
     switch (step) {
         case 0:
-            return <FormSection />;
+            return <PersonalForm />;
         case 1:
             return <EducationForm />;
         case 2:

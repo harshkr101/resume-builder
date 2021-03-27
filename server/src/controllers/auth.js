@@ -22,7 +22,6 @@ export const Sign = async (req, res) => {
         return res.status(400).json({ error: 'User already exists' });
     }
 
-    console.log("user email not exist")
 
     // create a new user if user doesn't exists
 

@@ -38,11 +38,12 @@ export default function EducationForm() {
 
     const addSchool = () => {
         setSchool([...school, { ...blankSchool }]);
+        console.log(school);
     };
 
     const handleSchoolChange = (e) => {
         const updatedSchools = [...school];
-        updatedSchools[e.target.dataset.idx][e.target.className] = e.target.value;
+        updatedSchools[e.target.dataset.idx][e.target.name] = e.target.value;
         setSchool(updatedSchools);
     };
 
@@ -76,10 +77,13 @@ export default function EducationForm() {
                                 <Grid item xs={12}>
                                     <TextField
                                         id={university}
-                                        name={university}
-                                        data-idx={idx}
+                                        className="university"
+                                        name="university"
                                         label="University"
                                         value={school[idx].university}
+                                        inputProps={{
+                                            'data-idx': idx
+                                        }}
                                         onChange={handleSchoolChange}
                                         fullWidth
                                     />
@@ -87,10 +91,14 @@ export default function EducationForm() {
                                 <Grid item xs={12}>
                                     <TextField
                                         id={degree}
+                                        className="degree"
                                         data-idx={idx}
-                                        name={degree}
+                                        name="degree"
                                         label="Degree"
                                         value={school[idx].degree}
+                                        inputProps={{
+                                            'data-idx': idx
+                                        }}
                                         onChange={handleSchoolChange}
                                         fullWidth
                                     />
@@ -98,10 +106,14 @@ export default function EducationForm() {
                                 <Grid item xs={12}>
                                     <TextField
                                         id={startDate}
+                                        className="startDate"
                                         data-idx={idx}
-                                        name={startDate}
+                                        name="startDate"
                                         label="Start Date"
                                         value={school[idx].startDate}
+                                        inputProps={{
+                                            'data-idx': idx
+                                        }}
                                         onChange={handleSchoolChange}
                                         fullWidth
                                     />
@@ -109,10 +121,14 @@ export default function EducationForm() {
                                 <Grid item xs={12}>
                                     <TextField
                                         id={endDate}
+                                        className="endDate"
                                         data-idx={idx}
-                                        name={endDate}
+                                        name="endDate"
                                         label="End Date"
                                         value={school[idx].endDate}
+                                        inputProps={{
+                                            'data-idx': idx
+                                        }}
                                         onChange={handleSchoolChange}
                                         fullWidth
                                     />
@@ -120,10 +136,14 @@ export default function EducationForm() {
                                 <Grid item xs={12}>
                                     <TextField
                                         id={gpa}
+                                        className="gpa"
                                         data-idx={idx}
-                                        name={gpa}
+                                        name="gpa"
                                         label="GPA"
                                         value={school[idx].gpa}
+                                        inputProps={{
+                                            'data-idx': idx
+                                        }}
                                         onChange={handleSchoolChange}
                                         fullWidth
                                     />

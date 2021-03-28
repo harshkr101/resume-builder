@@ -188,7 +188,7 @@ export const ResetPassword = async (req, res) => {
     const updatedPassword = await bcrypt.hash(req.body.password, salt);
 
     try {
-        await User.findOneAndUpdate({email: req.body.email},{password: req.body.password});
+        await User.findOneAndUpdate({email: req.body.email},{password: updatedPassword});
     } catch (error) {
        return res.status(400).json({error:"Update Failed"});   
     }

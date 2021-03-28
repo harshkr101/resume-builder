@@ -1,23 +1,23 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import FormSection from '../common/FormSection';
+import FormSection from '../../common/FormSection';
 
-export default function ProjectForm() {
+export default function Education() {
 
-    const project = {
-        title: "",
-        organisation: "",
+    const school = {
+        university: "",
+        degree: "",
         startDate: "",
         endDate: "",
-        description: ""
+        gpa: ""
     };
 
     return (
         <React.Fragment>
             <Typography variant="h6" gutterBottom>
-                Project Details
+                Educational Details
             </Typography>
-            <FormSection input={project} name="Project" />
+            <FormSection input={school} name="School" />
         </React.Fragment>
     );
 }

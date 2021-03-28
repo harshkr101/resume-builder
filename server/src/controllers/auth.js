@@ -176,12 +176,7 @@ export const ResetPassword = async (req, res) => {
       });
 
 
-    //   const user = await User.findOne({ email: req.body.email }).exec();
-
-    //  if(!user) {
-    //         return res.status(400).json({error:"User doesn't exists"});
-    //     }
-      
+ 
 
     // hash the password
     const salt = await bcrypt.genSalt(10);

@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
     button: {
-        margin: theme.spacing(3),
+        margin: theme.spacing(1),
     },
     line: {
         height: '10px',
@@ -54,13 +54,6 @@ export default function EducationForm() {
             <Typography variant="h6" gutterBottom>
                 Educational Details
             </Typography>
-            <Button onClick={addSchool}
-                variant="contained"
-                color="primary"
-                className={classes.button}
-            >
-                Add School
-            </Button>
             {
                 school.map((val, idx) => {
 
@@ -77,7 +70,6 @@ export default function EducationForm() {
                                 <Grid item xs={12}>
                                     <TextField
                                         id={university}
-                                        className="university"
                                         name="university"
                                         label="University"
                                         value={school[idx].university}
@@ -91,7 +83,6 @@ export default function EducationForm() {
                                 <Grid item xs={12}>
                                     <TextField
                                         id={degree}
-                                        className="degree"
                                         data-idx={idx}
                                         name="degree"
                                         label="Degree"
@@ -106,7 +97,6 @@ export default function EducationForm() {
                                 <Grid item xs={12}>
                                     <TextField
                                         id={startDate}
-                                        className="startDate"
                                         data-idx={idx}
                                         name="startDate"
                                         label="Start Date"
@@ -121,7 +111,6 @@ export default function EducationForm() {
                                 <Grid item xs={12}>
                                     <TextField
                                         id={endDate}
-                                        className="endDate"
                                         data-idx={idx}
                                         name="endDate"
                                         label="End Date"
@@ -136,7 +125,6 @@ export default function EducationForm() {
                                 <Grid item xs={12}>
                                     <TextField
                                         id={gpa}
-                                        className="gpa"
                                         data-idx={idx}
                                         name="gpa"
                                         label="GPA"
@@ -153,6 +141,13 @@ export default function EducationForm() {
                     );
                 })
             }
+            <Button onClick={addSchool}
+                variant="contained"
+                color="primary"
+                className={classes.button}
+            >
+                Add School
+            </Button>
         </React.Fragment>
     );
 }

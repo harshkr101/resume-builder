@@ -59,7 +59,7 @@ export default function ExperienceForm() {
                 color="primary"
                 className={classes.button}
             >
-                Add School
+                Work Ex
             </Button>
             {
                 workEx.map((val, idx) => {
@@ -71,13 +71,12 @@ export default function ExperienceForm() {
                     const description = `description-${idx}`;
 
                     return (
-                        <div key={`school-${idx}`}>
+                        <div key={`workEx-${idx}`}>
                             <hr className={classes.line}></hr>
                             <Grid container spacing={3}>
                                 <Grid item xs={12}>
                                     <TextField
                                         id={title}
-                                        className="title"
                                         name="title"
                                         label="Title"
                                         value={workEx[idx].title}
@@ -91,7 +90,6 @@ export default function ExperienceForm() {
                                 <Grid item xs={12}>
                                     <TextField
                                         id={organisation}
-                                        className="organisation"
                                         name="organisation"
                                         label="Organisation"
                                         value={workEx[idx].organisation}
@@ -105,7 +103,6 @@ export default function ExperienceForm() {
                                 <Grid item xs={12}>
                                     <TextField
                                         id={startDate}
-                                        className="startDate"
                                         data-idx={idx}
                                         name="startDate"
                                         label="Start Date"
@@ -120,7 +117,6 @@ export default function ExperienceForm() {
                                 <Grid item xs={12}>
                                     <TextField
                                         id={endDate}
-                                        className="endDate"
                                         data-idx={idx}
                                         name="endDate"
                                         label="End Date"
@@ -135,7 +131,6 @@ export default function ExperienceForm() {
                                 <Grid item xs={12}>
                                     <TextField
                                         id={description}
-                                        className="description"
                                         data-idx={idx}
                                         name="description"
                                         label="Description"

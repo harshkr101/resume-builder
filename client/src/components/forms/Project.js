@@ -1,8 +1,8 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import FormSection from '../../common/FormSection';
+import FormSection from '../common/FormSection';
 
-export default function Project() {
+export default function Project({ resume }) {
 
     const project = {
         projectName: '',
@@ -16,7 +16,7 @@ export default function Project() {
             <Typography variant="h6" gutterBottom>
                 Project Details
             </Typography>
-            <FormSection input={project} name="Project" />
+            <FormSection input={project} name="Project" section="projects" resume={resume} />
         </React.Fragment>
     );
 }

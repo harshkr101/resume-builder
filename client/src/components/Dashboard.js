@@ -15,6 +15,7 @@ import Project from './forms/Project';
 import Skill from './forms/Skill';
 import Achievement from './forms/Achievement';
 import Review from './Review';
+import resume from '../resume';
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -32,17 +33,17 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
     },
     paper: {
-        marginTop: theme.spacing(3),
+        marginTop: theme.spacing(0),
         marginBottom: theme.spacing(3),
         padding: theme.spacing(2),
         [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-            marginTop: theme.spacing(6),
+            marginTop: theme.spacing(2),
             marginBottom: theme.spacing(6),
             padding: theme.spacing(3),
         },
     },
     stepper: {
-        margin: theme.spacing(6, 1),
+        margin: theme.spacing(2, 1),
         width: '12%',
         display: 'inline-block'
     },
@@ -61,19 +62,19 @@ const steps = ['Personal', 'Educational', 'Experience', 'Projects', 'Skills', 'A
 function getStepContent(step) {
     switch (step) {
         case 0:
-            return <Personal />;
+            return <Personal resume={resume} />;
         case 1:
-            return <Education />;
+            return <Education resume={resume} />;
         case 2:
-            return <Experience />;
+            return <Experience resume={resume} />;
         case 3:
-            return <Project />;
+            return <Project resume={resume} />;
         case 4:
-            return <Skill />;
+            return <Skill resume={resume} />;
         case 5:
-            return <Achievement />;
+            return <Achievement resume={resume} />;
         case 6:
-            return <Review />;
+            return <Review resume={resume} />;
         default:
             throw new Error('Unknown step');
     }
@@ -85,6 +86,7 @@ export default function Dashboard() {
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
+        console.log(resume);
     };
 
     const handleBack = () => {

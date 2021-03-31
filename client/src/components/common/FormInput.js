@@ -17,12 +17,11 @@ export default function FormSection(props) {
             <Grid container spacing={3}>
                 {
                     Object.entries(props.input).map((name, idx) => {
-
                         return (
                             <Grid item xs={12}>
                                 <TextField
-                                    id={name}
-                                    name={name}
+                                    id={name[0]}
+                                    name={name[0]}
                                     label={_.startCase(name[0])}
                                     value={props.section[props.id].name}
                                     onChange={handleSchoolChange}

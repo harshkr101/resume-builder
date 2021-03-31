@@ -24,12 +24,11 @@ export default function FormSection(props) {
 
     const blankSection = props.input;
 
-    const [section, setSection] = useState([
-        { ...blankSection },
-    ]);
+    const [section, setSection] = useState(props.resume[props.section]);
 
     const addSection = () => {
         setSection([...section, { ...blankSection }]);
+        props.resume[props.section] = section;
     };
 
     const classes = useStyles();

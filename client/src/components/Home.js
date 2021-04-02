@@ -28,7 +28,7 @@ const Home = (props) => {
 
     return (
         <div className={classes.root}>
-            <img xs={false} sm={4} md={7} className={classes.image} alt-text="resume" />
+            <img xs={false} sm={4} md={7} className={classes.image} alt="resume" />
             <Button variant="contained" color="primary">
                 <Link to="/dashboard">Let's Start</Link>
             </Button>

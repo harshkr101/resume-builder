@@ -80,9 +80,13 @@ function getStepContent(step) {
     }
 }
 
-export default function Dashboard() {
+export default function Dashboard(props) {
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
+
+    const user = props.location.state;
+
+    console.log(user)
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
@@ -91,6 +95,10 @@ export default function Dashboard() {
 
     const handleBack = () => {
         setActiveStep(activeStep - 1);
+    };
+
+    const generate = () => {
+        console.log(resume);
     };
 
     return (
@@ -112,8 +120,11 @@ export default function Dashboard() {
                             {activeStep === steps.length ? (
                                 <React.Fragment>
                                     <Typography variant="h2">
-                                        Downloading Your Resume...
+                                        Review Your Resume...
                                     </Typography>
+                                    <Button onClick={generate} className={classes.button}>
+                                        Generate Resume
+                                    </Button>
                                 </React.Fragment>
                             ) : (
                                     <React.Fragment>
@@ -130,7 +141,7 @@ export default function Dashboard() {
                                                 onClick={handleNext}
                                                 className={classes.button}
                                             >
-                                                {activeStep === steps.length - 1 ? 'Download' : 'Next'}
+                                                {activeStep === steps.length - 1 ? 'Preview' : 'Next'}
                                             </Button>
                                         </div>
                                     </React.Fragment>

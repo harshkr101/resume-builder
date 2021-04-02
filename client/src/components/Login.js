@@ -11,7 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from "react-router-dom"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
     const classes = useStyles();
+    const history = useHistory()
 
     const [values, setValues] = useState({
         email: '',
@@ -58,11 +59,20 @@ export default function Login() {
         setValues({ ...values, [name]: event.target.value })
     }
 
-    const goto = (res) => {
-        if (res.status === 200)
-            return (
-                <Redirect to="/" />
+    const goto = (res, token) => {
+
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace('-', '+').replace('_', '/');
+        const data = JSON.parse(window.atob(base64));
+
+        console.log(data)
+
+        if (res.status === 200) {
+            history.push(
+                "/dashboard", data
             )
+        }
+
     }
 
     const loginCheck = async (user) => {
@@ -74,9 +84,9 @@ export default function Login() {
                 },
                 body: JSON.stringify(user)
             })
-            console.log(response)
-            goto(response)
-            return response.json()
+            let res = await response.json()
+            goto(response, res.token)
+            return response
         } catch (err) {
             console.log(err)
         }
@@ -148,7 +158,7 @@ export default function Login() {
                             className={classes.submit}
                             onClick={clickSubmit}
                         >
-                            Sign In
+                            Log In
                         </Button>
                         <Grid container>
                             <Grid item xs>

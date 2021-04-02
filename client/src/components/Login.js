@@ -60,17 +60,9 @@ export default function Login() {
     }
 
     const goto = (res, token) => {
-
-        var base64Url = token.split('.')[1];
-        var base64 = base64Url.replace('-', '+').replace('_', '/');
-        const data = JSON.parse(window.atob(base64));
-
-        console.log(data)
-
+        //console.log(token)
         if (res.status === 200) {
-            history.push(
-                "/dashboard", data
-            )
+            history.push("/dashboard", token)
         }
 
     }

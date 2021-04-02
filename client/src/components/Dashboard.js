@@ -84,9 +84,15 @@ export default function Dashboard(props) {
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
 
-    const user = props.location.state;
+    const token = props.location.state;
 
-    console.log(user)
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace('-', '+').replace('_', '/');
+    const user = JSON.parse(window.atob(base64));
+
+    resume.personal.firstName = user.firstName || '';
+    resume.personal.lastName = user.lastName || '';
+    resume.personal.email = user.email || '';
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
@@ -97,9 +103,34 @@ export default function Dashboard(props) {
         setActiveStep(activeStep - 1);
     };
 
-    const generate = () => {
-        console.log(resume);
-    };
+    const create = async (resume) => {
+        const bodyData = {
+            data: resume,
+            user: user
+        }
+
+        try {
+            let response = await fetch('http://localhost:3000/api/dashboard/resume', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': token
+                },
+                body: JSON.stringify(bodyData)
+            })
+            return await response.json()
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const clickGenerate = (event) => {
+        event.preventDefault();
+
+        create(resume).then((data) => {
+            console.log(data)
+        })
+    }
 
     return (
         <React.Fragment>
@@ -122,7 +153,7 @@ export default function Dashboard(props) {
                                     <Typography variant="h2">
                                         Review Your Resume...
                                     </Typography>
-                                    <Button onClick={generate} className={classes.button}>
+                                    <Button onClick={clickGenerate} className={classes.button}>
                                         Generate Resume
                                     </Button>
                                 </React.Fragment>

@@ -4,16 +4,16 @@ import mongoose from 'mongoose';
 
 const resumeSchema = new mongoose.Schema({
 
-    title:{
-        type:String,
-        required:true,
+    title: {
+        type: String,
+        //required: true,
         unique: true,
-        min:3,
-        max:50
+        min: 3,
+        max: 50
     },
     template: {
         type: String,
-        required: true
+        //required: true
     },
     personal: {
         firstName: {
@@ -28,9 +28,9 @@ const resumeSchema = new mongoose.Schema({
             min: 2,
             max: 100
         },
-        phone:{
+        phone: {
             type: String,
-            required:true,
+            required: true,
             min: 6,
             max: 50
         },
@@ -40,150 +40,150 @@ const resumeSchema = new mongoose.Schema({
             min: 3,
             max: 255
         },
-        website:{
+        website: {
             type: String,
             min: 3,
             max: 255
         }
     },
-    education:[
+    education: [
         {
-            university:{
-                type:String,
-                min:3,
-                max:100
+            university: {
+                type: String,
+                min: 3,
+                max: 100
             },
-            degree:{
-                type:String,
-                min:2,
-                max:100
+            degree: {
+                type: String,
+                min: 2,
+                max: 100
             },
-            startDate:{
-                type:String,
-                min:3,
-                max:50
+            startDate: {
+                type: String,
+                min: 3,
+                max: 50
             },
-            endDate:{
-                type:String,
-                min:3,
-                max:50
+            endDate: {
+                type: String,
+                min: 3,
+                max: 50
             },
-            gpa:{
-                type:String,
-                min:1,
-                max:5
+            gpa: {
+                type: String,
+                min: 1,
+                max: 5
             },
         }
     ],
-    experience:[
+    experience: [
         {
-            title:{
-                type:String,
-                min:3,
-                max:100,
+            title: {
+                type: String,
+                min: 3,
+                max: 100,
             },
-            organisation:{
-                type:String,
-                min:3,
-                max:100,
+            organisation: {
+                type: String,
+                min: 3,
+                max: 100,
             },
-            
-            startDate:{
-                type:String,
-                min:3,
-                max:50
+
+            startDate: {
+                type: String,
+                min: 3,
+                max: 50
             },
-            endDate:{
-                type:String,
-                min:3,
-                max:50
+            endDate: {
+                type: String,
+                min: 3,
+                max: 50
             },
-            description:[
+            description: [
                 {
-                    type:String,
-                    min:3,
-                    max:100
+                    type: String,
+                    min: 3,
+                    max: 100
                 }
             ]
-            
+
         }
 
     ],
-    skills:[
+    skills: [
         {
-            skillName:{
-                type:String,
-                min:3,
-                max:255
+            skillName: {
+                type: String,
+                min: 3,
+                max: 255
             },
-            keywords:[{
+            keywords: [{
                 type: String,
                 min: 3,
                 max: 50
             }]
         }
     ],
-    projects:[
+    projects: [
         {
-            projectName:{
+            projectName: {
                 type: String,
-                min:3,
-                max:100
+                min: 3,
+                max: 100
             },
-            keywords:[{
-                type:String,
-                min:2,
-                max:50
+            keywords: [{
+                type: String,
+                min: 2,
+                max: 50
             }],
-            projectDescription:[
-            {
+            projectDescription: [
+                {
+                    type: String,
+                    min: 3,
+                    max: 500
+                }
+            ],
+            projectLink: {
                 type: String,
-                min:3,
-                max: 500
-            }
-        ],
-            projectLink:{
-                type: String,
-                min:3,
-                max:255
+                min: 3,
+                max: 255
             }
         }
     ],
-    achivements:[
+    achivements: [
         {
-            title:{
+            title: {
                 type: String,
-                min:2,
-                max:100,
-                required:true
+                min: 2,
+                max: 100,
+                required: true
             },
-            date:{
-                type:String
+            date: {
+                type: String
             },
-            organisation:{
+            organisation: {
                 type: String,
-                min:1,
-                max:100
+                min: 1,
+                max: 100
             },
-            description:[
+            description: [
                 {
-                    type:String,
-                    max:100
+                    type: String,
+                    max: 100
                 }
             ]
 
         }
     ],
-    createdBy:{
+    createdBy: {
         type: mongoose.SchemaTypes.ObjectId,
         required: true,
-        ref:'User'
+        ref: 'User'
     },
 
-},{timestamps:true});
+}, { timestamps: true });
 
-resumeSchema.index({user:1,title:1},{unique:true});
+resumeSchema.index({ user: 1, title: 1 }, { unique: true });
 
-const Resume  = mongoose.model('Resume',resumeSchema);
+const Resume = mongoose.model('Resume', resumeSchema);
 
 export default Resume;

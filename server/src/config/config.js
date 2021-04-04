@@ -10,7 +10,7 @@ export const config= {
   CLIENT_URL: process.env.CLIENT_URL,
   MAIL_HOST : process.env.MAIL_HOST,
   MAIL_PORT : process.env.MAIL_PORT,
-  MAIL_USER: process.env.MAIL_USER,
+  MAIL_USER: process.env.MAIL_USERNAME,
   MAIL_PASSWORD: process.env.MAIL_PASSWORD,
   MAIL_SENDER: process.env.MAIL_SENDER
 };

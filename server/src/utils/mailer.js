@@ -3,25 +3,16 @@ import {config} from '../config/config.js';
 
 const sendMail= (sender,recipient,subject,content) => {
     
-  // let transport = nodemailer.createTransport({
-  //       host: config.MAIL_HOST,
-  //       port: config.MAIL_PORT,
-  //       auth: {
-  //         user: config.MAIL_USER,
-  //         pass: config.MAIL_PASSWORD
-  //       }
-  //     });
+  console.log(config);
 
-     
-
-  var transport = nodemailer.createTransport({
-    host: "smtp.mailtrap.io",
-    port: 2525,
-    auth: {
-      user: "ee6e5f6f3a7dd1",
-      pass: "5cd4222f0aa883"
-    }
-  });
+ let transport = nodemailer.createTransport({
+        host: config.MAIL_HOST,
+        port: config.MAIL_PORT,
+        auth: {
+          user: config.MAIL_USER,
+          pass: config.MAIL_PASSWORD
+        }
+      });
 
     const message = {
         from: sender, // Sender address

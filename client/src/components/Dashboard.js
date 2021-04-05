@@ -89,7 +89,7 @@ export default function Dashboard(props) {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace('-', '+').replace('_', '/');
     const user = JSON.parse(window.atob(base64));
-
+    console.log(user)
     resume.personal.firstName = user.firstName || '';
     resume.personal.lastName = user.lastName || '';
     resume.personal.email = user.email || '';
@@ -102,6 +102,23 @@ export default function Dashboard(props) {
     const handleBack = () => {
         setActiveStep(activeStep - 1);
     };
+
+    const getData = async () => {
+
+        try {
+            let response = await fetch(`http://localhost:3000/api/dashboard/resume/${user.id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': token
+                },
+                body: JSON.stringify(user)
+            })
+            return await response.json()
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
     const create = async (resume) => {
         const bodyData = {

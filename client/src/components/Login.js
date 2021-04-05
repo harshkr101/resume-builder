@@ -60,7 +60,6 @@ export default function Login() {
     }
 
     const goto = (res, token) => {
-        //console.log(token)
         if (res.status === 200) {
             history.push("/dashboard", token)
         }

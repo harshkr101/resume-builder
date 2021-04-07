@@ -8,7 +8,9 @@ export default function FormSection(props) {
 
     const handleSchoolChange = (e) => {
         const updatedSection = [...props.section];
+        //console.log(props.section)
         updatedSection[props.id][e.target.name] = e.target.value;
+        //console.log(e.target.value)
         props.setSection(updatedSection);
     };
 
@@ -23,7 +25,7 @@ export default function FormSection(props) {
                                     id={name[0]}
                                     name={name[0]}
                                     label={_.startCase(name[0])}
-                                    value={props.section[props.id].name}
+                                    value={props.section[props.id][name[0]]}
                                     onChange={handleSchoolChange}
                                     fullWidth
                                 />

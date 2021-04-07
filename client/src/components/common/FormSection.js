@@ -23,9 +23,9 @@ const useStyles = makeStyles((theme) => ({
 export default function FormSection(props) {
 
     const blankSection = props.input;
-
+    //console.log(props.resume[props.section])
     const [section, setSection] = useState(props.resume[props.section]);
-
+    //console.log([...section])
     const addSection = () => {
         setSection([...section, { ...blankSection }]);
         props.resume[props.section] = section;

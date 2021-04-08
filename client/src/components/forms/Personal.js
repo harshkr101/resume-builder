@@ -26,11 +26,21 @@ export default function PersonalForm({ resume }) {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+
         setPersonal(prevState => ({
             ...prevState,
             [name]: value
         }));
+        console.log(resume.personal, personal, value);
         resume.personal = personal;
+
+        /*
+         const updatedSection = resume.personal;
+         updatedSection[name] = value;
+         setPersonal(updatedSection)
+         resume.personal = personal;
+         console.log(resume.personal, personal, value);
+         */
     }
 
     return (

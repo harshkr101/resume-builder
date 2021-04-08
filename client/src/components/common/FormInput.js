@@ -11,7 +11,7 @@ export default function FormSection(props) {
         //console.log(props.section)
         updatedSection[props.id][e.target.name] = e.target.value;
         //console.log(e.target.value)
-        props.setSection(updatedSection);
+        props.update(updatedSection);
     };
 
     return (

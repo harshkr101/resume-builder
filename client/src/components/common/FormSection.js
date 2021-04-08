@@ -31,6 +31,11 @@ export default function FormSection(props) {
         props.resume[props.section] = section;
     };
 
+    const update = (updatedSection) => {
+        setSection(updatedSection)
+        props.resume[props.section] = updatedSection;
+    }
+
     const classes = useStyles();
 
     return (
@@ -41,7 +46,7 @@ export default function FormSection(props) {
                     return (
                         <div key={`section-${idx}`}>
                             <hr className={classes.line}></hr>
-                            <FormInput section={[...section]} id={idx} setSection={setSection} input={props.input} />
+                            <FormInput section={[...section]} id={idx} update={update} input={props.input} />
                         </div>
                     );
                 })

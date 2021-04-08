@@ -14,7 +14,7 @@ import Experience from './forms/Experience';
 import Project from './forms/Project';
 import Skill from './forms/Skill';
 import Achievement from './forms/Achievement';
-import Review from './Review';
+import Template from './forms/Template';
 import resume from '../resume';
 
 const useStyles = makeStyles((theme) => ({
@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const steps = ['Personal', 'Educational', 'Experience', 'Projects', 'Skills', 'Achievements', 'Preview'];
+const steps = ['Personal', 'Educational', 'Experience', 'Projects', 'Skills', 'Achievements', 'Template'];
 
 function getStepContent(step) {
     switch (step) {
@@ -74,7 +74,7 @@ function getStepContent(step) {
         case 5:
             return <Achievement resume={resume} />;
         case 6:
-            return <Review resume={resume} />;
+            return <Template resume={resume} />;
         default:
             throw new Error('Unknown step');
     }
@@ -103,16 +103,22 @@ export default function Dashboard(props) {
         setActiveStep(activeStep - 1);
     };
 
-    const getData = async () => {
+    let resume_id = '';
+
+    const updateData = async (id) => {
+        const bodyData = {
+            data: resume,
+            user: user
+        }
 
         try {
-            let response = await fetch(`http://localhost:3000/api/dashboard/resume/${user.id}`, {
-                method: 'GET',
+            let response = await fetch(`http://localhost:3000/api/dashboard/resume/${id}`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'auth-token': token
                 },
-                body: JSON.stringify(user)
+                body: JSON.stringify(bodyData)
             })
             return await response.json()
         } catch (err) {
@@ -146,6 +152,11 @@ export default function Dashboard(props) {
 
         create(resume).then((data) => {
             console.log(data)
+            resume_id = data._id;
+        }).catch((err) => {
+            updateData(resume_id).then((data) => {
+                console.log(data)
+            })
         })
     }
 
@@ -167,10 +178,13 @@ export default function Dashboard(props) {
                         <React.Fragment>
                             {activeStep === steps.length ? (
                                 <React.Fragment>
-                                    <Typography variant="h2">
+                                    <Typography variant="h4">
                                         Review Your Resume...
                                     </Typography>
-                                    <Button onClick={clickGenerate} className={classes.button}>
+                                    <Button onClick={handleBack} className={classes.button}>
+                                        Back
+                                                </Button>
+                                    <Button onClick={clickGenerate} variant="contained" color="primary" className={classes.button}>
                                         Generate Resume
                                     </Button>
                                 </React.Fragment>

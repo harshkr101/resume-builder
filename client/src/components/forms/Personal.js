@@ -31,7 +31,7 @@ export default function PersonalForm({ resume }) {
             ...prevState,
             [name]: value
         }));
-        console.log(resume.personal, personal, value);
+        //console.log(resume.personal, personal, value);
         resume.personal = personal;
 
         /*

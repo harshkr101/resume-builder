@@ -126,6 +126,34 @@ export default function Dashboard(props) {
         }
     }
 
+    const getData = async () => {
+
+        try {
+            let response = await fetch(`http://localhost:3000/api/dashboard/resume/all/${user.id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': token
+                },
+            })
+            return await response.json()
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    getData().then((res) => {
+        console.log(res.data[0])
+        Object.entries(resume).map((item) => {
+            resume[item[0]] = res.data[0][item[0]];
+            //console.log(resume[item[0]], res.data[0][item[0]], item[0])
+            return resume;
+        })
+        console.log(resume)
+    }).catch((err) => {
+        console.log(err)
+    })
+
     const create = async (resume) => {
         const bodyData = {
             data: resume,
@@ -147,7 +175,7 @@ export default function Dashboard(props) {
         }
     }
 
-    const clickGenerate = (event) => {
+    const clickSave = (event) => {
         event.preventDefault();
 
         create(resume).then((data) => {
@@ -184,8 +212,8 @@ export default function Dashboard(props) {
                                     <Button onClick={handleBack} className={classes.button}>
                                         Back
                                                 </Button>
-                                    <Button onClick={clickGenerate} variant="contained" color="primary" className={classes.button}>
-                                        Generate Resume
+                                    <Button onClick={clickSave} variant="contained" color="primary" className={classes.button}>
+                                        Save Resume Data
                                     </Button>
                                 </React.Fragment>
                             ) : (

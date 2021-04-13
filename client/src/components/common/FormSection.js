@@ -23,14 +23,18 @@ const useStyles = makeStyles((theme) => ({
 export default function FormSection(props) {
 
     const blankSection = props.input;
-
-    const [section, setSection] = useState([
-        { ...blankSection },
-    ]);
-
+    //console.log(props.resume[props.section])
+    const [section, setSection] = useState(props.resume[props.section]);
+    //console.log([...section])
     const addSection = () => {
         setSection([...section, { ...blankSection }]);
+        props.resume[props.section] = section;
     };
+
+    const update = (updatedSection) => {
+        setSection(updatedSection)
+        props.resume[props.section] = updatedSection;
+    }
 
     const classes = useStyles();
 
@@ -42,7 +46,7 @@ export default function FormSection(props) {
                     return (
                         <div key={`section-${idx}`}>
                             <hr className={classes.line}></hr>
-                            <FormInput section={[...section]} id={idx} setSection={setSection} input={props.input} />
+                            <FormInput section={[...section]} id={idx} update={update} input={props.input} />
                         </div>
                     );
                 })

@@ -9,6 +9,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { useHistory } from "react-router-dom"
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -32,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Signup() {
     const classes = useStyles();
+    const history = useHistory();
 
     const [values, setValues] = useState({
         firstName: '',
@@ -46,6 +48,12 @@ export default function Signup() {
         setValues({ ...values, [name]: event.target.value })
     }
 
+    const goto = (res, user) => {
+        if (res.status === 200) {
+            history.push("/login", user)
+        }
+    }
+
     const create = async (user) => {
         try {
             let response = await fetch('http://localhost:3000/api/signup', {
@@ -55,8 +63,10 @@ export default function Signup() {
                 },
                 body: JSON.stringify(user)
             })
-            console.log(response)
-            return await response.json()
+            let res = await response.json()
+            console.log(res)
+            goto(response, res.user)
+            return response
         } catch (err) {
             console.log(err)
         }

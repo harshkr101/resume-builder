@@ -1,8 +1,8 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import FormSection from '../../common/FormSection';
+import FormSection from '../common/FormSection';
 
-export default function Achievement() {
+export default function Achievement({ resume }) {
 
     const achievement = {
         title: '',
@@ -16,7 +16,7 @@ export default function Achievement() {
             <Typography variant="h6" gutterBottom>
                 Achievement Details
             </Typography>
-            <FormSection input={achievement} name="Achievement" />
+            <FormSection input={achievement} name="Achievement" section="achivements" resume={resume} />
         </React.Fragment>
     );
 }

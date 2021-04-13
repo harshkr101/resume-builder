@@ -1,8 +1,8 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import FormSection from '../../common/FormSection';
+import FormSection from '../common/FormSection';
 
-export default function Education() {
+export default function Education({ resume }) {
 
     const school = {
         university: "",
@@ -17,7 +17,7 @@ export default function Education() {
             <Typography variant="h6" gutterBottom>
                 Educational Details
             </Typography>
-            <FormSection input={school} name="School" />
+            <FormSection input={school} name="School" section="education" resume={resume} />
         </React.Fragment>
     );
 }

@@ -14,7 +14,8 @@ import Experience from './forms/Experience';
 import Project from './forms/Project';
 import Skill from './forms/Skill';
 import Achievement from './forms/Achievement';
-import Review from './Review';
+import Template from './forms/Template';
+import resume from '../resume';
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -32,17 +33,17 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
     },
     paper: {
-        marginTop: theme.spacing(3),
+        marginTop: theme.spacing(0),
         marginBottom: theme.spacing(3),
         padding: theme.spacing(2),
         [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-            marginTop: theme.spacing(6),
+            marginTop: theme.spacing(2),
             marginBottom: theme.spacing(6),
             padding: theme.spacing(3),
         },
     },
     stepper: {
-        margin: theme.spacing(6, 1),
+        margin: theme.spacing(2, 1),
         width: '12%',
         display: 'inline-block'
     },
@@ -56,40 +57,136 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const steps = ['Personal', 'Educational', 'Experience', 'Projects', 'Skills', 'Achievements', 'Preview'];
+const steps = ['Personal', 'Educational', 'Experience', 'Projects', 'Skills', 'Achievements', 'Template'];
 
 function getStepContent(step) {
     switch (step) {
         case 0:
-            return <Personal />;
+            return <Personal resume={resume} />;
         case 1:
-            return <Education />;
+            return <Education resume={resume} />;
         case 2:
-            return <Experience />;
+            return <Experience resume={resume} />;
         case 3:
-            return <Project />;
+            return <Project resume={resume} />;
         case 4:
-            return <Skill />;
+            return <Skill resume={resume} />;
         case 5:
-            return <Achievement />;
+            return <Achievement resume={resume} />;
         case 6:
-            return <Review />;
+            return <Template resume={resume} />;
         default:
             throw new Error('Unknown step');
     }
 }
 
-export default function Dashboard() {
+export default function Dashboard(props) {
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
 
+    const token = props.location.state;
+
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace('-', '+').replace('_', '/');
+    const user = JSON.parse(window.atob(base64));
+
+    resume.personal.firstName = user.firstName || '';
+    resume.personal.lastName = user.lastName || '';
+    resume.personal.email = user.email || '';
+
     const handleNext = () => {
         setActiveStep(activeStep + 1);
+        console.log(resume);
     };
 
     const handleBack = () => {
         setActiveStep(activeStep - 1);
     };
+
+    let resume_id = '';
+
+    const updateData = async (id) => {
+        const bodyData = {
+            data: resume,
+            user: user
+        }
+
+        try {
+            let response = await fetch(`http://localhost:3000/api/dashboard/resume/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': token
+                },
+                body: JSON.stringify(bodyData)
+            })
+            return await response.json()
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const getData = async () => {
+
+        try {
+            let response = await fetch(`http://localhost:3000/api/dashboard/resume/all/${user.id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': token
+                },
+            })
+            return await response.json()
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    getData().then((res) => {
+        console.log(res.data[0])
+        Object.entries(resume).map((item) => {
+            resume[item[0]] = res.data[0][item[0]];
+            //console.log(resume[item[0]], res.data[0][item[0]], item[0])
+            return resume;
+        })
+        console.log(resume)
+    }).catch((err) => {
+        console.log(err)
+    })
+
+    const create = async (resume) => {
+        const bodyData = {
+            data: resume,
+            user: user
+        }
+
+        try {
+            let response = await fetch('http://localhost:3000/api/dashboard/resume', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': token
+                },
+                body: JSON.stringify(bodyData)
+            })
+            return await response.json()
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const clickSave = (event) => {
+        event.preventDefault();
+
+        create(resume).then((data) => {
+            console.log(data)
+            resume_id = data._id;
+        }).catch((err) => {
+            updateData(resume_id).then((data) => {
+                console.log(data)
+            })
+        })
+    }
 
     return (
         <React.Fragment>
@@ -109,9 +206,15 @@ export default function Dashboard() {
                         <React.Fragment>
                             {activeStep === steps.length ? (
                                 <React.Fragment>
-                                    <Typography variant="h2">
-                                        Downloading Your Resume...
+                                    <Typography variant="h4">
+                                        Review Your Resume...
                                     </Typography>
+                                    <Button onClick={handleBack} className={classes.button}>
+                                        Back
+                                                </Button>
+                                    <Button onClick={clickSave} variant="contained" color="primary" className={classes.button}>
+                                        Save Resume Data
+                                    </Button>
                                 </React.Fragment>
                             ) : (
                                     <React.Fragment>
@@ -128,7 +231,7 @@ export default function Dashboard() {
                                                 onClick={handleNext}
                                                 className={classes.button}
                                             >
-                                                {activeStep === steps.length - 1 ? 'Download' : 'Next'}
+                                                {activeStep === steps.length - 1 ? 'Preview' : 'Next'}
                                             </Button>
                                         </div>
                                     </React.Fragment>

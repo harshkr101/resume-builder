@@ -1,8 +1,8 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import FormSection from '../../common/FormSection';
+import FormSection from '../common/FormSection';
 
-export default function Experience() {
+export default function Experience({ resume }) {
 
     const workEx = {
         title: "",
@@ -17,7 +17,7 @@ export default function Experience() {
             <Typography variant="h6" gutterBottom>
                 Experience Details
             </Typography>
-            <FormSection input={workEx} name="Experience" />
+            <FormSection input={workEx} name="Experience" section="experience" resume={resume} />
         </React.Fragment>
     );
 }

@@ -16,6 +16,7 @@ import Skill from './forms/Skill';
 import Achievement from './forms/Achievement';
 import Template from './forms/Template';
 import resume from '../resume';
+import { useHistory } from "react-router-dom"
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -48,8 +49,9 @@ const useStyles = makeStyles((theme) => ({
         display: 'inline-block'
     },
     buttons: {
-        display: 'flex',
-        justifyContent: 'flex-end',
+        position: 'absolute',
+        left: '480px',
+        top: '80px',
     },
     button: {
         marginTop: theme.spacing(3),
@@ -82,17 +84,34 @@ function getStepContent(step) {
 
 export default function Dashboard(props) {
     const classes = useStyles();
+    const history = useHistory()
+
     const [activeStep, setActiveStep] = React.useState(0);
 
+    const loggedUser = (token) => {
+        if (token) {
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace('-', '+').replace('_', '/');
+            const user = JSON.parse(window.atob(base64));
+
+            return user;
+        }
+        else {
+            const user = {
+                firstName: '',
+                lastName: '',
+                email: ''
+            }
+            return user;
+        }
+    }
+
     const token = props.location.state;
+    const user = loggedUser(token);
 
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace('-', '+').replace('_', '/');
-    const user = JSON.parse(window.atob(base64));
-
-    resume.personal.firstName = user.firstName || '';
-    resume.personal.lastName = user.lastName || '';
-    resume.personal.email = user.email || '';
+    resume.personal.firstName = user.firstName;
+    resume.personal.lastName = user.lastName;
+    resume.personal.email = user.email;
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
@@ -178,14 +197,19 @@ export default function Dashboard(props) {
     const clickSave = (event) => {
         event.preventDefault();
 
-        create(resume).then((data) => {
-            console.log(data)
-            resume_id = data._id;
-        }).catch((err) => {
-            updateData(resume_id).then((data) => {
+        if (token) {
+            create(resume).then((data) => {
                 console.log(data)
+                resume_id = data._id;
+            }).catch((err) => {
+                updateData(resume_id).then((data) => {
+                    console.log(data)
+                })
             })
-        })
+        }
+        else {
+            history.push("/signup", resume);
+        }
     }
 
     return (

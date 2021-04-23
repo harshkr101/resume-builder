@@ -17,6 +17,18 @@ import Achievement from './forms/Achievement';
 import Template from './forms/Template';
 import resume from '../resume';
 import { useHistory } from "react-router-dom"
+import { connect } from 'react-redux';
+import { fetchData } from '../redux/actionCreators';
+
+const mapStateToProps = state => {
+    return {
+        resume: state.resume.data
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+    fetchData: () => { dispatch(fetchData()) },
+});
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -82,7 +94,7 @@ function getStepContent(step) {
     }
 }
 
-export default function Dashboard(props) {
+const Dashboard = (props) => {
     const classes = useStyles();
     const history = useHistory()
 
@@ -108,6 +120,8 @@ export default function Dashboard(props) {
 
     const token = props.location.state;
     const user = loggedUser(token);
+
+    React.useEffect(() => { fetchData(user, token) }, [])
 
     resume.personal.firstName = user.firstName;
     resume.personal.lastName = user.lastName;
@@ -144,35 +158,35 @@ export default function Dashboard(props) {
             console.log(err)
         }
     }
-
-    const getData = async () => {
-
-        try {
-            let response = await fetch(`http://localhost:3000/api/dashboard/resume/all/${user.id}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'auth-token': token
-                },
-            })
-            return await response.json()
-        } catch (err) {
-            console.log(err)
+    /*
+        const getData = async () => {
+    
+            try {
+                let response = await fetch(`http://localhost:3000/api/dashboard/resume/all/${user.id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'auth-token': token
+                    },
+                })
+                return await response.json()
+            } catch (err) {
+                console.log(err)
+            }
         }
-    }
-
-    getData().then((res) => {
-        console.log(res.data[0])
-        Object.entries(resume).map((item) => {
-            resume[item[0]] = res.data[0][item[0]];
-            //console.log(resume[item[0]], res.data[0][item[0]], item[0])
-            return resume;
+    
+        getData().then((res) => {
+            console.log(res.data[0])
+            Object.entries(resume).map((item) => {
+                resume[item[0]] = res.data[0][item[0]];
+                //console.log(resume[item[0]], res.data[0][item[0]], item[0])
+                return resume;
+            })
+            console.log(resume)
+        }).catch((err) => {
+            console.log(err)
         })
-        console.log(resume)
-    }).catch((err) => {
-        console.log(err)
-    })
-
+    */
     const create = async (resume) => {
         const bodyData = {
             data: resume,
@@ -267,3 +281,5 @@ export default function Dashboard(props) {
         </React.Fragment>
     );
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

@@ -6,7 +6,13 @@ import {
     FETCH_DATA_FAILED
 } from './actionTypes'
 
-export const fetchData = (user, token) => {
+export const fetchData = (token) => {
+    console.log(token);
+
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace('-', '+').replace('_', '/');
+    const user = JSON.parse(window.atob(base64));
+
     return (dispatch) => {
         dispatch(fetchDataRequest())
 
@@ -18,7 +24,7 @@ export const fetchData = (user, token) => {
         })
             .then(response => {
                 const data = response.data
-                dispatch(fetchDataSuccess(data))
+                dispatch(fetchDataSuccess(data.data[0]))
             })
             .catch(error => {
                 dispatch(fetchDataFailure(error.message))

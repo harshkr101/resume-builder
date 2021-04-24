@@ -15,20 +15,9 @@ import Project from './forms/Project';
 import Skill from './forms/Skill';
 import Achievement from './forms/Achievement';
 import Template from './forms/Template';
-import resume from '../resume';
 import { useHistory } from "react-router-dom"
 import { connect } from 'react-redux';
 import { fetchData } from '../redux/actionCreators';
-
-const mapStateToProps = state => {
-    return {
-        resume: state.resume.data
-    }
-}
-
-const mapDispatchToProps = dispatch => ({
-    fetchData: () => { dispatch(fetchData()) },
-});
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -71,29 +60,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const steps = ['Personal', 'Educational', 'Experience', 'Projects', 'Skills', 'Achievements', 'Template'];
-
-function getStepContent(step) {
-    switch (step) {
-        case 0:
-            return <Personal resume={resume} />;
-        case 1:
-            return <Education resume={resume} />;
-        case 2:
-            return <Experience resume={resume} />;
-        case 3:
-            return <Project resume={resume} />;
-        case 4:
-            return <Skill resume={resume} />;
-        case 5:
-            return <Achievement resume={resume} />;
-        case 6:
-            return <Template resume={resume} />;
-        default:
-            throw new Error('Unknown step');
-    }
-}
-
 const Dashboard = (props) => {
     const classes = useStyles();
     const history = useHistory()
@@ -120,16 +86,44 @@ const Dashboard = (props) => {
 
     const token = props.location.state;
     const user = loggedUser(token);
+    console.log(user, token);
+    React.useEffect(() => {
+        props.fetchData(token)
+    }, [])
 
-    React.useEffect(() => { fetchData(user, token) }, [])
+    console.log(props.resume);
 
-    resume.personal.firstName = user.firstName;
-    resume.personal.lastName = user.lastName;
-    resume.personal.email = user.email;
+    const steps = ['Personal', 'Educational', 'Experience', 'Projects', 'Skills', 'Achievements', 'Template'];
+
+    function getStepContent(step) {
+        switch (step) {
+            case 0:
+                return <Personal resume={props.resume} />;
+            case 1:
+                return <Education resume={props.resume} />;
+            case 2:
+                return <Experience resume={props.resume} />;
+            case 3:
+                return <Project resume={props.resume} />;
+            case 4:
+                return <Skill resume={props.resume} />;
+            case 5:
+                return <Achievement resume={props.resume} />;
+            case 6:
+                return <Template resume={props.resume} />;
+            default:
+                throw new Error('Unknown step');
+        }
+    }
+
+
+    props.resume.personal.firstName = user.firstName;
+    props.resume.personal.lastName = user.lastName;
+    props.resume.personal.email = user.email;
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
-        console.log(resume);
+        console.log(props.resume);
     };
 
     const handleBack = () => {
@@ -137,95 +131,98 @@ const Dashboard = (props) => {
     };
 
     let resume_id = '';
-
-    const updateData = async (id) => {
-        const bodyData = {
-            data: resume,
-            user: user
-        }
-
-        try {
-            let response = await fetch(`http://localhost:3000/api/dashboard/resume/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'auth-token': token
-                },
-                body: JSON.stringify(bodyData)
-            })
-            return await response.json()
-        } catch (err) {
-            console.log(err)
-        }
-    }
     /*
-        const getData = async () => {
+        const updateData = async (id) => {
+            const bodyData = {
+                data: resume,
+                user: user
+            }
     
             try {
-                let response = await fetch(`http://localhost:3000/api/dashboard/resume/all/${user.id}`, {
-                    method: 'GET',
+                let response = await fetch(`http://localhost:3000/api/dashboard/resume/${id}`, {
+                    method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                         'auth-token': token
                     },
+                    body: JSON.stringify(bodyData)
                 })
                 return await response.json()
             } catch (err) {
                 console.log(err)
             }
         }
-    
-        getData().then((res) => {
-            console.log(res.data[0])
-            Object.entries(resume).map((item) => {
-                resume[item[0]] = res.data[0][item[0]];
-                //console.log(resume[item[0]], res.data[0][item[0]], item[0])
-                return resume;
-            })
-            console.log(resume)
-        }).catch((err) => {
-            console.log(err)
-        })
     */
-    const create = async (resume) => {
-        const bodyData = {
-            data: resume,
-            user: user
-        }
-
-        try {
-            let response = await fetch('http://localhost:3000/api/dashboard/resume', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'auth-token': token
-                },
-                body: JSON.stringify(bodyData)
-            })
-            return await response.json()
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
-    const clickSave = (event) => {
-        event.preventDefault();
-
-        if (token) {
-            create(resume).then((data) => {
-                console.log(data)
-                resume_id = data._id;
-            }).catch((err) => {
-                updateData(resume_id).then((data) => {
-                    console.log(data)
+    /*
+            const getData = async () => {
+        
+                try {
+                    let response = await fetch(`http://localhost:3000/api/dashboard/resume/all/${user.id}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'auth-token': token
+                        },
+                    })
+                    return await response.json()
+                } catch (err) {
+                    console.log(err)
+                }
+            }
+        
+            getData().then((res) => {
+                console.log(res.data[0])
+                Object.entries(resume).map((item) => {
+                    resume[item[0]] = res.data[0][item[0]];
+                    //console.log(resume[item[0]], res.data[0][item[0]], item[0])
+                    return resume;
                 })
+                console.log(resume)
+            }).catch((err) => {
+                console.log(err)
             })
+        */
+    /*
+        const create = async (resume) => {
+            const bodyData = {
+                data: resume,
+                user: user
+            }
+    
+            try {
+                let response = await fetch('http://localhost:3000/api/dashboard/resume', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'auth-token': token
+                    },
+                    body: JSON.stringify(bodyData)
+                })
+                return await response.json()
+            } catch (err) {
+                console.log(err)
+            }
         }
-        else {
-            history.push("/signup", resume);
+        */
+    /*    
+        const clickSave = (event) => {
+            event.preventDefault();
+    
+            if (token) {
+                create(resume).then((data) => {
+                    console.log(data)
+                    resume_id = data._id;
+                }).catch((err) => {
+                    updateData(resume_id).then((data) => {
+                        console.log(data)
+                    })
+                })
+            }
+            else {
+                history.push("/signup", resume);
+            }
         }
-    }
-
+    */
     return (
         <React.Fragment>
             <CssBaseline />
@@ -250,7 +247,7 @@ const Dashboard = (props) => {
                                     <Button onClick={handleBack} className={classes.button}>
                                         Back
                                                 </Button>
-                                    <Button onClick={clickSave} variant="contained" color="primary" className={classes.button}>
+                                    <Button variant="contained" color="primary" className={classes.button}>
                                         Save Resume Data
                                     </Button>
                                 </React.Fragment>
@@ -281,5 +278,16 @@ const Dashboard = (props) => {
         </React.Fragment>
     );
 }
+
+const mapStateToProps = state => {
+    console.log(state.resume.data)
+    return {
+        resume: state.resume.data
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+    fetchData: (props) => { dispatch(fetchData(props)) },
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

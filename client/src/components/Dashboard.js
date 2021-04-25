@@ -74,14 +74,6 @@ const Dashboard = (props) => {
 
             return user;
         }
-        else {
-            const user = {
-                firstName: '',
-                lastName: '',
-                email: ''
-            }
-            return user;
-        }
     }
 
     const token = props.location.state;
@@ -112,9 +104,11 @@ const Dashboard = (props) => {
         }
     }
 
-    props.resume.personal.firstName = user.firstName;
-    props.resume.personal.lastName = user.lastName;
-    props.resume.personal.email = user.email;
+    if (user) {
+        props.resume.personal.firstName = user.firstName;
+        props.resume.personal.lastName = user.lastName;
+        props.resume.personal.email = user.email;
+    }
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);

@@ -14,10 +14,15 @@ import {
 
 export const fetchData = (token) => {
     console.log(token);
-
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace('-', '+').replace('_', '/');
-    const user = JSON.parse(window.atob(base64));
+    var user;
+    if (token) {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace('-', '+').replace('_', '/');
+        user = JSON.parse(window.atob(base64));
+    }
+    else {
+        user = {};
+    }
 
     return (dispatch) => {
         dispatch(fetchDataRequest())

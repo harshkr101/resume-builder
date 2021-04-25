@@ -9,6 +9,7 @@ import {
     UPDATE_DATA_SUCCESS,
     UPDATE_DATA_FAILED
 } from './actionTypes'
+import blankResume from '../resume';
 
 const initialState = {
     loading: false,
@@ -82,7 +83,7 @@ const reducer = (state = initialState, action) => {
             }
         case FETCH_DATA_FAILED:
             return {
-                ...state,
+                data: blankResume,
                 loading: false,
                 error: action.payload
             }

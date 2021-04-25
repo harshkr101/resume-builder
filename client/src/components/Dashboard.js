@@ -129,11 +129,9 @@ const Dashboard = (props) => {
         event.preventDefault();
 
         if (props.resume._id) {
-            console.log(props.resume._id)
             props.updateData(token, props.resume);
         }
         else if (token) {
-            console.log(token)
             props.postData(token, props.resume)
         }
         else {

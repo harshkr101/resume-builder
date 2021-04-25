@@ -73,16 +73,18 @@ export const postData = (token, resume) => {
     return (dispatch) => {
         dispatch(postDataRequest())
 
-        axios.post('http://localhost:3000/api/dashboard/resume', {
+        axios({
+            url: 'http://localhost:3000/api/dashboard/resume',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'auth-token': token
             },
-            body: JSON.stringify(bodyData)
+            data: JSON.stringify(bodyData)
         })
             .then(response => {
                 const data = response.data
-                dispatch(fetchDataSuccess(data.data[0]))
+                dispatch(postDataSuccess(data.data))
             })
             .catch(error => {
                 dispatch(postDataFailure(error.message))
@@ -124,21 +126,7 @@ export const updateData = (token, resume) => {
 
     return (dispatch) => {
         dispatch(updateDataRequest())
-        /*
-                axios.put(`http://localhost:3000/api/dashboard/resume/${resume._id}`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'auth-token': token
-                    },
-                })
-                    .then(response => {
-                        const data = response.data
-                        dispatch(updateDataSuccess(data.data[0]))
-                    })
-                    .catch(error => {
-                        dispatch(updateDataFailure(error.message))
-                    })
-        */
+
         axios({
             url: `http://localhost:3000/api/dashboard/resume/${resume._id}`,
             method: 'PUT',

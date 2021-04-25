@@ -22,8 +22,10 @@ export const getMany = model => async (req, res) => {
       .find({ createdBy: req.params.id })
       .lean()
       .exec();
-
-    res.status(200).json({ data: docs });
+    if (docs.length)
+      res.status(200).json({ data: docs });
+    else
+      res.status(404).json({ error: 'No user data available' });
   } catch (e) {
     console.error(e);
     res.status(400).end();

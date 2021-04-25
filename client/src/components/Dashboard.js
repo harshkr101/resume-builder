@@ -17,7 +17,7 @@ import Achievement from './forms/Achievement';
 import Template from './forms/Template';
 import { useHistory } from "react-router-dom"
 import { connect } from 'react-redux';
-import { fetchData } from '../redux/actionCreators';
+import { fetchData, postData, updateData } from '../redux/actionCreators';
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -86,12 +86,8 @@ const Dashboard = (props) => {
 
     const token = props.location.state;
     const user = loggedUser(token);
-    console.log(user, token);
-    React.useEffect(() => {
-        props.fetchData(token)
-    }, [])
 
-    console.log(props.resume);
+    React.useEffect(() => { props.fetchData(token) }, [])
 
     const steps = ['Personal', 'Educational', 'Experience', 'Projects', 'Skills', 'Achievements', 'Template'];
 
@@ -116,7 +112,6 @@ const Dashboard = (props) => {
         }
     }
 
-
     props.resume.personal.firstName = user.firstName;
     props.resume.personal.lastName = user.lastName;
     props.resume.personal.email = user.email;
@@ -130,99 +125,22 @@ const Dashboard = (props) => {
         setActiveStep(activeStep - 1);
     };
 
-    let resume_id = '';
-    /*
-        const updateData = async (id) => {
-            const bodyData = {
-                data: resume,
-                user: user
-            }
-    
-            try {
-                let response = await fetch(`http://localhost:3000/api/dashboard/resume/${id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'auth-token': token
-                    },
-                    body: JSON.stringify(bodyData)
-                })
-                return await response.json()
-            } catch (err) {
-                console.log(err)
-            }
+    const clickSave = (event) => {
+        event.preventDefault();
+
+        if (props.resume._id) {
+            console.log(props.resume._id)
+            props.updateData(token, props.resume);
         }
-    */
-    /*
-            const getData = async () => {
-        
-                try {
-                    let response = await fetch(`http://localhost:3000/api/dashboard/resume/all/${user.id}`, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'auth-token': token
-                        },
-                    })
-                    return await response.json()
-                } catch (err) {
-                    console.log(err)
-                }
-            }
-        
-            getData().then((res) => {
-                console.log(res.data[0])
-                Object.entries(resume).map((item) => {
-                    resume[item[0]] = res.data[0][item[0]];
-                    //console.log(resume[item[0]], res.data[0][item[0]], item[0])
-                    return resume;
-                })
-                console.log(resume)
-            }).catch((err) => {
-                console.log(err)
-            })
-        */
-    /*
-        const create = async (resume) => {
-            const bodyData = {
-                data: resume,
-                user: user
-            }
-    
-            try {
-                let response = await fetch('http://localhost:3000/api/dashboard/resume', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'auth-token': token
-                    },
-                    body: JSON.stringify(bodyData)
-                })
-                return await response.json()
-            } catch (err) {
-                console.log(err)
-            }
+        else if (token) {
+            console.log(token)
+            props.postData(token, props.resume)
         }
-        */
-    /*    
-        const clickSave = (event) => {
-            event.preventDefault();
-    
-            if (token) {
-                create(resume).then((data) => {
-                    console.log(data)
-                    resume_id = data._id;
-                }).catch((err) => {
-                    updateData(resume_id).then((data) => {
-                        console.log(data)
-                    })
-                })
-            }
-            else {
-                history.push("/signup", resume);
-            }
+        else {
+            history.push("/signup", props.resume);
         }
-    */
+    }
+
     return (
         <React.Fragment>
             <CssBaseline />
@@ -247,7 +165,7 @@ const Dashboard = (props) => {
                                     <Button onClick={handleBack} className={classes.button}>
                                         Back
                                                 </Button>
-                                    <Button variant="contained" color="primary" className={classes.button}>
+                                    <Button onClick={clickSave} variant="contained" color="primary" className={classes.button}>
                                         Save Resume Data
                                     </Button>
                                 </React.Fragment>
@@ -280,7 +198,6 @@ const Dashboard = (props) => {
 }
 
 const mapStateToProps = state => {
-    console.log(state.resume.data)
     return {
         resume: state.resume.data
     }
@@ -288,6 +205,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     fetchData: (props) => { dispatch(fetchData(props)) },
+    postData: (token, resume) => { dispatch(postData(token, resume)) },
+    updateData: (token, resume) => { dispatch(updateData(token, resume)) },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

@@ -10,7 +10,10 @@ import {
     UPDATE_DATA_FAILED,
     LOG_IN_REQUEST,
     LOG_IN_SUCCESS,
-    LOG_IN_FAILED
+    LOG_IN_FAILED,
+    LOG_OUT_REQUEST,
+    LOG_OUT_SUCCESS,
+    LOG_OUT_FAILED
 } from './actionTypes'
 import blankResume from '../resume';
 
@@ -86,6 +89,23 @@ const reducer = (state = initialState, action) => {
                 token: action.payload
             }
         case LOG_IN_FAILED:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
+        case LOG_OUT_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case LOG_OUT_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                token: action.payload
+            }
+        case LOG_OUT_FAILED:
             return {
                 ...state,
                 loading: false,

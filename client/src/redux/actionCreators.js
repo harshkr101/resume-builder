@@ -12,7 +12,10 @@ import {
     UPDATE_DATA_FAILED,
     LOG_IN_REQUEST,
     LOG_IN_SUCCESS,
-    LOG_IN_FAILED
+    LOG_IN_FAILED,
+    LOG_OUT_REQUEST,
+    LOG_OUT_SUCCESS,
+    LOG_OUT_FAILED
 } from './actionTypes'
 
 export const loginCheck = (user, callback) => {
@@ -54,6 +57,32 @@ export const logInSuccess = token => {
 export const logInFailure = () => {
     return {
         type: LOG_IN_FAILED,
+    }
+}
+
+export const logout = (user, callback) => {
+    return (dispatch) => {
+        dispatch(logOutRequest())
+        dispatch(logOutSuccess())
+    }
+}
+
+export const logOutRequest = () => {
+    return {
+        type: LOG_OUT_REQUEST,
+    }
+}
+
+export const logOutSuccess = token => {
+    return {
+        type: LOG_OUT_SUCCESS,
+        payload: null
+    }
+}
+
+export const logOutFailure = () => {
+    return {
+        type: LOG_OUT_FAILED,
     }
 }
 

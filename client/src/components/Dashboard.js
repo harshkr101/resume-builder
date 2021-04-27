@@ -66,18 +66,7 @@ const Dashboard = (props) => {
 
     const [activeStep, setActiveStep] = React.useState(0);
 
-    const loggedUser = (token) => {
-        if (token) {
-            var base64Url = token.split('.')[1];
-            var base64 = base64Url.replace('-', '+').replace('_', '/');
-            const user = JSON.parse(window.atob(base64));
-
-            return user;
-        }
-    }
-
-    const token = props.location.state;
-    const user = loggedUser(token);
+    const token = props.token;
 
     React.useEffect(() => { props.fetchData(token) }, [])
 
@@ -104,12 +93,6 @@ const Dashboard = (props) => {
         }
     }
 
-    if (user) {
-        props.resume.personal.firstName = user.firstName;
-        props.resume.personal.lastName = user.lastName;
-        props.resume.personal.email = user.email;
-    }
-
     const handleNext = () => {
         setActiveStep(activeStep + 1);
         console.log(props.resume);
@@ -129,7 +112,7 @@ const Dashboard = (props) => {
             props.postData(token, props.resume)
         }
         else {
-            history.push("/signup", props.resume);
+            history.push("/signup");
         }
     }
 
@@ -191,7 +174,8 @@ const Dashboard = (props) => {
 
 const mapStateToProps = state => {
     return {
-        resume: state.resume.data
+        resume: state.resume.data,
+        token: state.resume.token
     }
 }
 

@@ -7,13 +7,17 @@ import {
     POST_DATA_FAILED,
     UPDATE_DATA_REQUEST,
     UPDATE_DATA_SUCCESS,
-    UPDATE_DATA_FAILED
+    UPDATE_DATA_FAILED,
+    LOG_IN_REQUEST,
+    LOG_IN_SUCCESS,
+    LOG_IN_FAILED
 } from './actionTypes'
 import blankResume from '../resume';
 
 const initialState = {
     loading: false,
     error: '',
+    token: null,
     data: {
         title: "",
         template: "",
@@ -70,6 +74,23 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case LOG_IN_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case LOG_IN_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                token: action.payload
+            }
+        case LOG_IN_FAILED:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
         case FETCH_DATA_REQUEST:
             return {
                 ...state,
@@ -77,12 +98,14 @@ const reducer = (state = initialState, action) => {
             }
         case FETCH_DATA_SUCCESS:
             return {
+                ...state,
                 loading: false,
                 data: action.payload,
                 error: ''
             }
         case FETCH_DATA_FAILED:
             return {
+                ...state,
                 data: blankResume,
                 loading: false,
                 error: action.payload
@@ -94,6 +117,7 @@ const reducer = (state = initialState, action) => {
             }
         case POST_DATA_SUCCESS:
             return {
+                ...state,
                 loading: false,
                 data: action.payload,
                 error: ''
@@ -111,6 +135,7 @@ const reducer = (state = initialState, action) => {
             }
         case UPDATE_DATA_SUCCESS:
             return {
+                ...state,
                 loading: false,
                 data: action.payload,
                 error: ''

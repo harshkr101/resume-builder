@@ -9,11 +9,55 @@ import {
     POST_DATA_FAILED,
     UPDATE_DATA_REQUEST,
     UPDATE_DATA_SUCCESS,
-    UPDATE_DATA_FAILED
+    UPDATE_DATA_FAILED,
+    LOG_IN_REQUEST,
+    LOG_IN_SUCCESS,
+    LOG_IN_FAILED
 } from './actionTypes'
 
+export const loginCheck = (user, callback) => {
+    return (dispatch) => {
+        dispatch(logInRequest())
+
+        axios({
+            url: 'http://localhost:3000/api/login',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: JSON.stringify(user)
+        })
+            .then(response => {
+                const data = response.data
+                dispatch(logInSuccess(data.token))
+                callback()
+            })
+            .catch(error => {
+                dispatch(logInFailure(error.message))
+            })
+    }
+}
+
+export const logInRequest = () => {
+    return {
+        type: LOG_IN_REQUEST,
+    }
+}
+
+export const logInSuccess = token => {
+    return {
+        type: LOG_IN_SUCCESS,
+        payload: token
+    }
+}
+
+export const logInFailure = () => {
+    return {
+        type: LOG_IN_FAILED,
+    }
+}
+
 export const fetchData = (token) => {
-    console.log(token);
     var user;
     if (token) {
         var base64Url = token.split('.')[1];

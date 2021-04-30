@@ -15,7 +15,9 @@ import Project from './forms/Project';
 import Skill from './forms/Skill';
 import Achievement from './forms/Achievement';
 import Template from './forms/Template';
-import resume from '../resume';
+import { useHistory } from "react-router-dom"
+import { connect } from 'react-redux';
+import { fetchData, postData, updateData } from '../redux/actionCreators';
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -48,8 +50,9 @@ const useStyles = makeStyles((theme) => ({
         display: 'inline-block'
     },
     buttons: {
-        display: 'flex',
-        justifyContent: 'flex-end',
+        position: 'absolute',
+        left: '480px',
+        top: '80px',
     },
     button: {
         marginTop: theme.spacing(3),
@@ -57,135 +60,60 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const steps = ['Personal', 'Educational', 'Experience', 'Projects', 'Skills', 'Achievements', 'Template'];
-
-function getStepContent(step) {
-    switch (step) {
-        case 0:
-            return <Personal resume={resume} />;
-        case 1:
-            return <Education resume={resume} />;
-        case 2:
-            return <Experience resume={resume} />;
-        case 3:
-            return <Project resume={resume} />;
-        case 4:
-            return <Skill resume={resume} />;
-        case 5:
-            return <Achievement resume={resume} />;
-        case 6:
-            return <Template resume={resume} />;
-        default:
-            throw new Error('Unknown step');
-    }
-}
-
-export default function Dashboard(props) {
+const Dashboard = (props) => {
     const classes = useStyles();
+    const history = useHistory()
+
     const [activeStep, setActiveStep] = React.useState(0);
 
-    const token = props.location.state;
+    const token = props.token;
 
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace('-', '+').replace('_', '/');
-    const user = JSON.parse(window.atob(base64));
+    React.useEffect(() => { props.fetchData(token) }, [])
 
-    resume.personal.firstName = user.firstName || '';
-    resume.personal.lastName = user.lastName || '';
-    resume.personal.email = user.email || '';
+    const steps = ['Personal', 'Educational', 'Experience', 'Projects', 'Skills', 'Achievements', 'Template'];
+
+    function getStepContent(step) {
+        switch (step) {
+            case 0:
+                return <Personal resume={props.resume} />;
+            case 1:
+                return <Education resume={props.resume} />;
+            case 2:
+                return <Experience resume={props.resume} />;
+            case 3:
+                return <Project resume={props.resume} />;
+            case 4:
+                return <Skill resume={props.resume} />;
+            case 5:
+                return <Achievement resume={props.resume} />;
+            case 6:
+                return <Template resume={props.resume} />;
+            default:
+                throw new Error('Unknown step');
+        }
+    }
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
-        console.log(resume);
+        console.log(props.resume);
     };
 
     const handleBack = () => {
         setActiveStep(activeStep - 1);
     };
 
-    let resume_id = '';
-
-    const updateData = async (id) => {
-        const bodyData = {
-            data: resume,
-            user: user
-        }
-
-        try {
-            let response = await fetch(`http://localhost:3000/api/dashboard/resume/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'auth-token': token
-                },
-                body: JSON.stringify(bodyData)
-            })
-            return await response.json()
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
-    const getData = async () => {
-
-        try {
-            let response = await fetch(`http://localhost:3000/api/dashboard/resume/all/${user.id}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'auth-token': token
-                },
-            })
-            return await response.json()
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
-    getData().then((res) => {
-        console.log(res.data[0])
-        Object.entries(resume).map((item) => {
-            resume[item[0]] = res.data[0][item[0]];
-            //console.log(resume[item[0]], res.data[0][item[0]], item[0])
-            return resume;
-        })
-        console.log(resume)
-    }).catch((err) => {
-        console.log(err)
-    })
-
-    const create = async (resume) => {
-        const bodyData = {
-            data: resume,
-            user: user
-        }
-
-        try {
-            let response = await fetch('http://localhost:3000/api/dashboard/resume', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'auth-token': token
-                },
-                body: JSON.stringify(bodyData)
-            })
-            return await response.json()
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
     const clickSave = (event) => {
         event.preventDefault();
 
-        create(resume).then((data) => {
-            console.log(data)
-            resume_id = data._id;
-        }).catch((err) => {
-            updateData(resume_id).then((data) => {
-                console.log(data)
-            })
-        })
+        if (props.resume._id) {
+            props.updateData(token, props.resume);
+        }
+        else if (token) {
+            props.postData(token, props.resume)
+        }
+        else {
+            history.push("/signup");
+        }
     }
 
     return (
@@ -243,3 +171,18 @@ export default function Dashboard(props) {
         </React.Fragment>
     );
 }
+
+const mapStateToProps = state => {
+    return {
+        resume: state.resume.data,
+        token: state.resume.token
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+    fetchData: (props) => { dispatch(fetchData(props)) },
+    postData: (token, resume) => { dispatch(postData(token, resume)) },
+    updateData: (token, resume) => { dispatch(updateData(token, resume)) },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

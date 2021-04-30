@@ -11,7 +11,9 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom";
+import { connect } from 'react-redux';
+import { loginCheck } from '../redux/actionCreators';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,43 +46,17 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Login() {
+const Login = (props) => {
     const classes = useStyles();
     const history = useHistory()
 
     const [values, setValues] = useState({
         email: '',
-        password: '',
-        open: false,
-        error: ''
+        password: ''
     })
 
     const handleChange = name => event => {
         setValues({ ...values, [name]: event.target.value })
-    }
-
-    const goto = (res, token) => {
-        if (res.status === 200) {
-            history.push("/dashboard", token)
-        }
-
-    }
-
-    const loginCheck = async (user) => {
-        try {
-            let response = await fetch('http://localhost:3000/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(user)
-            })
-            let res = await response.json()
-            goto(response, res.token)
-            return response
-        } catch (err) {
-            console.log(err)
-        }
     }
 
     const clickSubmit = (event) => {
@@ -89,12 +65,9 @@ export default function Login() {
             email: values.email || undefined,
             password: values.password || undefined
         }
-        loginCheck(user).then((data) => {
-            if (data.error) {
-                setValues({ ...values, error: data.error })
-            } else {
-                setValues({ ...values, error: '', open: true })
-            }
+
+        props.loginCheck(user, function () {
+            history.push("/dashboard")
         })
     }
 
@@ -169,3 +142,15 @@ export default function Login() {
         </Grid>
     );
 }
+
+const mapStateToProps = state => {
+    return {
+        token: state.resume.token
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+    loginCheck: (props, callback) => { dispatch(loginCheck(props, callback)) },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

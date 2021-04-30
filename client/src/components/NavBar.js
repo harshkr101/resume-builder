@@ -67,7 +67,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    logout: (props, callback) => { dispatch(logout(props, callback)) },
+    logout: () => { dispatch(logout()) },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ButtonAppBar);

@@ -1,6 +1,8 @@
 import axios from 'axios';
 
 import {
+    SET_DATA_SUCCESS,
+    SET_DATA_BLANK,
     FETCH_DATA_REQUEST,
     FETCH_DATA_SUCCESS,
     FETCH_DATA_FAILED,
@@ -60,7 +62,7 @@ export const logInFailure = () => {
     }
 }
 
-export const logout = (user, callback) => {
+export const logout = () => {
     return (dispatch) => {
         dispatch(logOutRequest())
         dispatch(logOutSuccess())
@@ -86,7 +88,31 @@ export const logOutFailure = () => {
     }
 }
 
-export const fetchData = (token) => {
+export const setData = (index, callback) => {
+    return (dispatch) => {
+        if (index === -1)
+            dispatch(setDataBlank(index))
+        else dispatch(setDataSuccess(index))
+        callback()
+    }
+}
+
+export const setDataSuccess = index => {
+    return {
+        type: SET_DATA_SUCCESS,
+        payload: index
+    }
+}
+
+
+export const setDataBlank = index => {
+    return {
+        type: SET_DATA_BLANK,
+        payload: index
+    }
+}
+
+export const fetchData = (token, callback) => {
     var user;
     if (token) {
         var base64Url = token.split('.')[1];
@@ -108,7 +134,8 @@ export const fetchData = (token) => {
         })
             .then(response => {
                 const data = response.data
-                dispatch(fetchDataSuccess(data.data[0]))
+                dispatch(fetchDataSuccess(data.data))
+                callback()
             })
             .catch(error => {
                 dispatch(fetchDataFailure(error.message))

@@ -67,7 +67,8 @@ const Login = (props) => {
         }
 
         props.loginCheck(user, function () {
-            history.push("/dashboard")
+            console.log(props.resume)
+            history.push("/")
         })
     }
 
@@ -145,6 +146,7 @@ const Login = (props) => {
 
 const mapStateToProps = state => {
     return {
+        resume: state.resume,
         token: state.resume.token
     }
 }

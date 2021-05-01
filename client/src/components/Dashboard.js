@@ -67,9 +67,17 @@ const Dashboard = (props) => {
     const [activeStep, setActiveStep] = React.useState(0);
 
     const token = props.token;
-
-    React.useEffect(() => { props.fetchData(token) }, [])
-
+    /*
+        React.useEffect(() => {
+            props.fetchData(token, function () {
+                console.log(props.state)
+                setTimeout(function () {
+                    console.log(props.state)
+                    history.push("/dashboard")
+                }, 3000);
+            })
+        }, [])
+    */
     const steps = ['Personal', 'Educational', 'Experience', 'Projects', 'Skills', 'Achievements', 'Template'];
 
     function getStepContent(step) {
@@ -175,12 +183,13 @@ const Dashboard = (props) => {
 const mapStateToProps = state => {
     return {
         resume: state.resume.data,
-        token: state.resume.token
+        token: state.resume.token,
+        state: state.resume
     }
 }
 
 const mapDispatchToProps = dispatch => ({
-    fetchData: (props) => { dispatch(fetchData(props)) },
+    fetchData: (props, callback) => { dispatch(fetchData(props, callback)) },
     postData: (token, resume) => { dispatch(postData(token, resume)) },
     updateData: (token, resume) => { dispatch(updateData(token, resume)) },
 });

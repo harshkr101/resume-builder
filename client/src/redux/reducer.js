@@ -1,4 +1,6 @@
 import {
+    SET_DATA_SUCCESS,
+    SET_DATA_BLANK,
     FETCH_DATA_REQUEST,
     FETCH_DATA_SUCCESS,
     FETCH_DATA_FAILED,
@@ -76,97 +78,111 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+    const newState = { ...state };
     switch (action.type) {
         case LOG_IN_REQUEST:
             return {
-                ...state,
+                ...newState,
                 loading: true
             }
         case LOG_IN_SUCCESS:
             return {
-                ...state,
+                ...newState,
                 loading: false,
                 token: action.payload
             }
         case LOG_IN_FAILED:
             return {
-                ...state,
+                ...newState,
                 loading: false,
                 error: action.payload
             }
         case LOG_OUT_REQUEST:
             return {
-                ...state,
+                ...newState,
                 loading: true
             }
         case LOG_OUT_SUCCESS:
             return {
-                ...state,
+                ...newState,
+                data: blankResume,
                 loading: false,
                 token: action.payload
             }
         case LOG_OUT_FAILED:
             return {
-                ...state,
+                ...newState,
                 loading: false,
                 error: action.payload
             }
+        case SET_DATA_SUCCESS:
+            return {
+                ...newState,
+                data: state.data[action.payload],
+                error: ''
+            }
+        case SET_DATA_BLANK:
+            return {
+                ...newState,
+                data: initialState.data,
+                error: ''
+            }
         case FETCH_DATA_REQUEST:
             return {
-                ...state,
+                ...newState,
                 loading: true
             }
         case FETCH_DATA_SUCCESS:
             return {
-                ...state,
+                ...newState,
                 loading: false,
                 data: action.payload,
                 error: ''
             }
         case FETCH_DATA_FAILED:
             return {
-                ...state,
+                ...newState,
                 data: blankResume,
                 loading: false,
                 error: action.payload
             }
         case POST_DATA_REQUEST:
             return {
-                ...state,
+                ...newState,
                 loading: true
             }
         case POST_DATA_SUCCESS:
             return {
-                ...state,
+                ...newState,
                 loading: false,
                 data: action.payload,
                 error: ''
             }
         case POST_DATA_FAILED:
             return {
-                ...state,
+                ...newState,
                 loading: false,
                 error: action.payload
             }
         case UPDATE_DATA_REQUEST:
             return {
-                ...state,
+                ...newState,
                 loading: true
             }
         case UPDATE_DATA_SUCCESS:
             return {
-                ...state,
+                ...newState,
                 loading: false,
                 data: action.payload,
                 error: ''
             }
         case UPDATE_DATA_FAILED:
             return {
-                ...state,
+                ...newState,
                 loading: false,
                 error: action.payload
             }
-        default: return state
+        default: return newState
     }
 }
 

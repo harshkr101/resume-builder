@@ -22,10 +22,11 @@ import { fetchData, postData, updateData } from '../redux/actionCreators';
 const useStyles = makeStyles((theme) => ({
     appBar: {
         position: 'relative',
+        width: '100%',
     },
     layout: {
         width: 'auto',
-        [theme.breakpoints.up(500 + theme.spacing(2) * 2)]: {
+        [theme.breakpoints.up('md')]: {
             width: 500,
             marginLeft: '',
             marginRight: 'auto',
@@ -35,24 +36,51 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
     },
     paper: {
+        /*
         marginTop: theme.spacing(0),
         marginBottom: theme.spacing(3),
         padding: theme.spacing(2),
         [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-            marginTop: theme.spacing(2),
-            marginBottom: theme.spacing(6),
-            padding: theme.spacing(3),
+            
         },
+        */
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(6),
+        padding: theme.spacing(3),
+        /*
+        [theme.breakpoints.down('sm')]: {
+            backgroundColor: theme.palette.primary.main,
+        },
+        [theme.breakpoints.up('sm')]: {
+            backgroundColor: theme.palette.secondary.main,
+        },
+        [theme.breakpoints.up('md')]: {
+            backgroundColor: theme.palette.primary.main,
+        },
+        [theme.breakpoints.up('lg')]: {
+            backgroundColor: theme.palette.secondary.main,
+        },
+        */
     },
     stepper: {
         margin: theme.spacing(2, 1),
         width: '12%',
-        display: 'inline-block'
+        display: 'inline-block',
+        [theme.breakpoints.down('sm')]: {
+            display: 'none',
+        },
     },
     buttons: {
         position: 'absolute',
-        left: '480px',
+        right: '40px',
         top: '80px',
+        marginLeft: 'auto',
+        marginRight: '',
+        [theme.breakpoints.up('md')]: {
+            position: 'absolute',
+            left: '480px',
+            top: '80px',
+        },
     },
     button: {
         marginTop: theme.spacing(3),

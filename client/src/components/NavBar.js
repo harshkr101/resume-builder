@@ -5,6 +5,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import { connect } from 'react-redux';
+import { logout } from '../redux/actionCreators';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -26,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function ButtonAppBar() {
+const ButtonAppBar = (props) => {
     const classes = useStyles();
 
     return (
@@ -37,14 +39,35 @@ export default function ButtonAppBar() {
                     <Typography variant="h5" className={classes.title}>
                         <Link extact to="/" className={classes.link}>Resume Builder</Link>
                     </Typography>
-                    <Button color="secondary-dark">
-                        <Link to="/signup" className={classes.link}>Signup</Link>
-                    </Button>
-                    <Button color="secondary-dark">
-                        <Link to="/login" className={classes.link}>Login</Link>
-                    </Button>
+                    {(!props.token) ?
+                        (<React.Fragment>
+                            <Button color="secondary-dark">
+                                <Link to="/signup" className={classes.link}>Signup</Link>
+                            </Button>
+                            <Button color="secondary-dark">
+                                <Link to="/login" className={classes.link}>Login</Link>
+                            </Button>
+                        </React.Fragment>) :
+                        (<React.Fragment>
+                            <Button onClick={props.logout} color="secondary-dark">
+                                <Link to="/login" className={classes.link}>Logout</Link>
+                            </Button>
+                        </React.Fragment>)
+                    }
                 </Toolbar>
             </AppBar>
         </div>
     );
 }
+
+const mapStateToProps = state => {
+    return {
+        token: state.resume.token
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+    logout: (props, callback) => { dispatch(logout(props, callback)) },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ButtonAppBar);

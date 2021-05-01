@@ -6,7 +6,7 @@
     width:100%;
     height:100%;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    border: 2px solid black;
+   
 }
 
 .resume{
@@ -24,12 +24,32 @@
     display:flex;
     div{
         margin:1%;
-        margin-left: auto;
+        margin-left:auto;
+        margin-right: auto;
         padding:1%;
         font-size: 1.5em;
         text-align: center;
         justify-content: space-between;
     }
+}
+
+
+hr{
+    margin: 1% 2%;
+    border: 1px solid gray;
+}
+
+.main-content{
+    margin-top: 5%;
+}
+
+.sub-heading{
+    font-size: 1.5em;
+}
+
+.inline{
+    display: inline;
+    margin-bottom: 10%;
 }
 
 

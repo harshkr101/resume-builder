@@ -5,7 +5,6 @@ import TextField from '@material-ui/core/TextField';
 var _ = require('lodash');
 
 export default function FormSection(props) {
-
     const handleSchoolChange = (e) => {
         const updatedSection = [...props.section];
         //console.log(props.section)
@@ -15,6 +14,19 @@ export default function FormSection(props) {
         //console.log(e.target.value)
         props.update(updatedSection);
     };
+
+    const inputAttributes = (item) => {
+        const value = {
+            type: 'text',
+            shrink: false
+        }
+        if (item === 'date' || item === 'startDate' || item === 'endDate') {
+            value.type = 'date'
+            value.shrink = true
+        }
+
+        return value;
+    }
 
     return (
         <React.Fragment>
@@ -26,9 +38,15 @@ export default function FormSection(props) {
                                 <TextField
                                     id={name[0]}
                                     name={name[0]}
-                                    label={(name[0] == 'keywords') ? (_.startCase(name[0]) + ' (separated by a `,`)') : _.startCase(name[0])}
+                                    label={(name[0] === 'keywords') ? (_.startCase(name[0]) + ' (separated by a `,`)') : _.startCase(name[0])}
                                     value={props.section[props.id][name[0]]}
                                     onChange={handleSchoolChange}
+                                    type={inputAttributes(name[0]).type}
+                                    InputLabelProps={{
+                                        shrink: (inputAttributes(name[0]).type === 'date' ? true :
+                                            props.section[props.id][name[0]] ? true : false),
+                                        //color: props.section[props.id][name[0]].length < 3 ? 'primary' : 'secondary'
+                                    }}
                                     fullWidth
                                 />
                             </Grid>

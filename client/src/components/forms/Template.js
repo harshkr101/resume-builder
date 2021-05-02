@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from "react-router-dom"
 
 const useStyles = makeStyles((theme) => ({
     line: {
@@ -21,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 const Template = (props) => {
 
     const classes = useStyles();
+    const history = useHistory()
 
     const [title, setTitle] = useState(props.resume.title);
 
@@ -30,6 +33,12 @@ const Template = (props) => {
         setTitle(value);
         //console.log(resume.personal, personal, value);
         props.resume.title = title;
+    }
+
+    const handleClick = () => {
+
+        history.push("/template1")
+
     }
 
     if (props.resume.template === '')
@@ -51,6 +60,15 @@ const Template = (props) => {
                             onChange={handleChange}
                             fullWidth
                         />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Button onClick={handleClick}
+                            variant="contained"
+                            color="primary"
+                            className={classes.button}
+                        >
+                            Template 1
+                        </Button>
                     </Grid>
                 </Grid>
             </React.Fragment>

@@ -40,7 +40,7 @@ const Home = (props) => {
 
     const [title, setTitle] = React.useState('');
 
-    console.log(props.data)
+    //console.log(props.data)
 
     React.useEffect(() => {
         if (props.token) {

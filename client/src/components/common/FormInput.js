@@ -34,9 +34,9 @@ export default function FormSection(props) {
                 {
                     Object.entries(props.input).map((name, idx) => {
                         return (
-                            <Grid item xs={12}>
+                            <Grid key={idx} item xs={12}>
                                 <TextField
-                                    id={idx}
+                                    id={Math.random().toString(36).substring(2, 7)}
                                     name={name[0]}
                                     label={(name[0] === 'keywords') ? (_.startCase(name[0]) + ' (separated by a `,`)') : _.startCase(name[0])}
                                     value={props.section[props.id][name[0]]}

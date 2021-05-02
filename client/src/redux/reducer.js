@@ -15,7 +15,8 @@ import {
     LOG_IN_FAILED,
     LOG_OUT_REQUEST,
     LOG_OUT_SUCCESS,
-    LOG_OUT_FAILED
+    LOG_OUT_FAILED,
+    RENDER_PREVIEW_SUCCESS
 } from './actionTypes'
 import blankResume from '../resume';
 
@@ -23,6 +24,7 @@ const initialState = {
     loading: false,
     error: '',
     token: null,
+    image: '',
     data: {
         title: "",
         template: "",
@@ -106,6 +108,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...newState,
                 data: blankResume,
+                image: '',
                 loading: false,
                 token: action.payload
             }
@@ -125,6 +128,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...newState,
                 data: initialState.data,
+                image: '',
                 error: ''
             }
         case FETCH_DATA_REQUEST:
@@ -181,6 +185,11 @@ const reducer = (state = initialState, action) => {
                 ...newState,
                 loading: false,
                 error: action.payload
+            }
+        case RENDER_PREVIEW_SUCCESS:
+            return {
+                ...newState,
+                image: action.payload
             }
         default: return newState
     }

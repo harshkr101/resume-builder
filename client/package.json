@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "html2canvas": "^1.0.0-rc.7",
     "lodash": "^4.17.21",
     "node-sass": "^5.0.0",
     "react": "^17.0.1",

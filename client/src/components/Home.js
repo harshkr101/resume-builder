@@ -53,13 +53,11 @@ const Home = (props) => {
     const handleChange = (event) => {
         setTitle(event.target.value);
         props.setData(event.target.value, function () {
-            console.log(event.target.value)
             history.push("/dashboard")
         })
     };
 
     const handleClick = () => {
-        console.log(-1)
         props.setData(-1, function () {
             history.push("/dashboard")
         })

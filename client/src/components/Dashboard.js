@@ -32,6 +32,17 @@ const useStyles = makeStyles((theme) => ({
             marginRight: 'auto',
         },
     },
+    preview: {
+        width: '50%',
+        padding: '1%',
+        marginRight: '',
+        [theme.breakpoints.down('sm')]: {
+            display: 'none',
+        },
+    },
+    image: {
+        width: '100%',
+    },
     form: {
         display: 'flex',
     },
@@ -47,20 +58,6 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(6),
         padding: theme.spacing(3),
-        /*
-        [theme.breakpoints.down('sm')]: {
-            backgroundColor: theme.palette.primary.main,
-        },
-        [theme.breakpoints.up('sm')]: {
-            backgroundColor: theme.palette.secondary.main,
-        },
-        [theme.breakpoints.up('md')]: {
-            backgroundColor: theme.palette.primary.main,
-        },
-        [theme.breakpoints.up('lg')]: {
-            backgroundColor: theme.palette.secondary.main,
-        },
-        */
     },
     stepper: {
         margin: theme.spacing(2, 1),
@@ -203,6 +200,9 @@ const Dashboard = (props) => {
                         </React.Fragment>
                     </Paper>
                 </main>
+                <div id='preview' className={classes.preview} >
+                    {(props.image) ? <img alt='preview' className={classes.image} src={props.image} /> : <div></div>}
+                </div>
             </div>
         </React.Fragment>
     );
@@ -212,7 +212,7 @@ const mapStateToProps = state => {
     return {
         resume: state.resume.data,
         token: state.resume.token,
-        state: state.resume
+        image: state.resume.image
     }
 }
 

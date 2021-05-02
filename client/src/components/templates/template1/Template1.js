@@ -1,13 +1,17 @@
 import React from 'react';
 import './template1.scss';
 import { connect } from 'react-redux';
+import { renderPreview } from '../../../redux/actionCreators';
 
-const Template1 = ({ resume }) => {
+const Template1 = ({ resume, renderPreview }) => {
 
-    console.log(resume)
+
+    React.useEffect(() => {
+        renderPreview()
+    }, [])
 
     return (
-        <div className="container">
+        <div id='template' className="container">
 
             <div className="main">
 
@@ -49,11 +53,11 @@ const Template1 = ({ resume }) => {
                                     {resume.education.map((education, index) => (
                                         <div className="details">
 
-                                            <p key={index}>{education.degree}</p>
-                                            <p key={index}>{education.university}</p>
-                                            <p key={index} className="inline">{education.startDate} - </p>
-                                            <p key={index} className="inline">{education.endDate}</p>
-                                            <p key={index}>GPA: {education.gpa}</p>
+                                            <p key={`degree${index}`}>{education.degree}</p>
+                                            <p key={`university${index}`}>{education.university}</p>
+                                            <p key={`startDate${index}`} className="inline">{education.startDate} - </p>
+                                            <p key={`endDate${index}`} className="inline">{education.endDate}</p>
+                                            <p key={`gpa${index}`}>GPA: {education.gpa}</p>
 
 
                                         </div>
@@ -228,4 +232,8 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(Template1);
+const mapDispatchToProps = dispatch => ({
+    renderPreview: (props, callback) => { dispatch(renderPreview(props, callback)) },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Template1);

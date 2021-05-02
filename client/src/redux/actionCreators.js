@@ -1,4 +1,5 @@
 import axios from 'axios';
+import html2canvas from 'html2canvas';
 
 import {
     SET_DATA_SUCCESS,
@@ -17,7 +18,8 @@ import {
     LOG_IN_FAILED,
     LOG_OUT_REQUEST,
     LOG_OUT_SUCCESS,
-    LOG_OUT_FAILED
+    LOG_OUT_FAILED,
+    RENDER_PREVIEW_SUCCESS
 } from './actionTypes'
 
 export const loginCheck = (user, callback) => {
@@ -269,5 +271,21 @@ export const updateDataFailure = error => {
     return {
         type: UPDATE_DATA_FAILED,
         payload: error
+    }
+}
+
+export const renderPreview = () => {
+    return (dispatch) => {
+        html2canvas(document.querySelector("#template")).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+            dispatch(renderPreviewSuccess(imgData))
+        });
+    }
+}
+
+export const renderPreviewSuccess = image => {
+    return {
+        type: RENDER_PREVIEW_SUCCESS,
+        payload: image
     }
 }

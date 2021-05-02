@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { positions } from '@material-ui/system';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Paper from '@material-ui/core/Paper';
@@ -15,44 +16,78 @@ import Project from './forms/Project';
 import Skill from './forms/Skill';
 import Achievement from './forms/Achievement';
 import Template from './forms/Template';
+import HiddenResume from '../components/templates/HiddenResume'
 import { useHistory } from "react-router-dom"
 import { connect } from 'react-redux';
 import { fetchData, postData, updateData } from '../redux/actionCreators';
 
 const useStyles = makeStyles((theme) => ({
+    hidden: {
+        display: 'none',
+        maxHeight: '100%',
+        maxWidth: '100%',
+        position: 'absolute',
+        left: '0px',
+        top: '0px',
+    },
     appBar: {
         position: 'relative',
+        width: '100%',
     },
     layout: {
         width: 'auto',
-        [theme.breakpoints.up(500 + theme.spacing(2) * 2)]: {
+        [theme.breakpoints.up('md')]: {
             width: 500,
             marginLeft: '',
             marginRight: 'auto',
         },
     },
+    preview: {
+        width: '50%',
+        padding: '1%',
+        marginRight: '',
+        [theme.breakpoints.down('sm')]: {
+            display: 'none',
+        },
+    },
+    image: {
+        width: '100%',
+    },
     form: {
         display: 'flex',
     },
     paper: {
+        /*
         marginTop: theme.spacing(0),
         marginBottom: theme.spacing(3),
         padding: theme.spacing(2),
         [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-            marginTop: theme.spacing(2),
-            marginBottom: theme.spacing(6),
-            padding: theme.spacing(3),
+            
         },
+        */
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(6),
+        padding: theme.spacing(3),
     },
     stepper: {
         margin: theme.spacing(2, 1),
         width: '12%',
-        display: 'inline-block'
+        display: 'inline-block',
+        [theme.breakpoints.down('sm')]: {
+            display: 'none',
+        },
     },
     buttons: {
         position: 'absolute',
-        left: '480px',
+        right: '40px',
         top: '80px',
+        marginLeft: 'auto',
+        marginRight: '',
+        [theme.breakpoints.up('md')]: {
+            position: 'absolute',
+            left: '480px',
+            top: '80px',
+        },
     },
     button: {
         marginTop: theme.spacing(3),
@@ -62,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = (props) => {
     const classes = useStyles();
-    const history = useHistory()
+    const history = useHistory();
 
     const [activeStep, setActiveStep] = React.useState(0);
 
@@ -175,7 +210,11 @@ const Dashboard = (props) => {
                         </React.Fragment>
                     </Paper>
                 </main>
+                <div id='preview' className={classes.preview} >
+                    {(props.image) ? <img alt='preview' className={classes.image} src={props.image} /> : <div></div>}
+                </div>
             </div>
+            <HiddenResume className={classes.hidden} />
         </React.Fragment>
     );
 }
@@ -184,7 +223,7 @@ const mapStateToProps = state => {
     return {
         resume: state.resume.data,
         token: state.resume.token,
-        state: state.resume
+        image: state.resume.image
     }
 }
 

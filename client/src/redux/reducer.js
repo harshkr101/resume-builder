@@ -27,7 +27,7 @@ const initialState = {
     image: '',
     data: {
         title: "",
-        template: "",
+        template: "template1",
         personal: {
             firstName: "",
             lastName: "",
@@ -50,21 +50,21 @@ const initialState = {
                 organisation: "",
                 startDate: "",
                 endDate: "",
-                description: ""
+                description: ['']
             }
 
         ],
         skills: [
             {
                 skillName: '',
-                keywords: ''
+                keywords: ['']
             }
         ],
         projects: [
             {
                 projectName: '',
-                keywords: '',
-                projectDescription: '',
+                keywords: [''],
+                projectDescription: [''],
                 projectLink: ''
             }
         ],
@@ -73,7 +73,7 @@ const initialState = {
                 title: '',
                 date: '',
                 organisation: '',
-                description: ''
+                description: ['']
             }
         ],
     }

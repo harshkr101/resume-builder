@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { positions } from '@material-ui/system';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Paper from '@material-ui/core/Paper';
@@ -15,11 +16,20 @@ import Project from './forms/Project';
 import Skill from './forms/Skill';
 import Achievement from './forms/Achievement';
 import Template from './forms/Template';
+import HiddenResume from '../components/templates/HiddenResume'
 import { useHistory } from "react-router-dom"
 import { connect } from 'react-redux';
 import { fetchData, postData, updateData } from '../redux/actionCreators';
 
 const useStyles = makeStyles((theme) => ({
+    hidden: {
+        display: 'none',
+        maxHeight: '100%',
+        maxWidth: '100%',
+        position: 'absolute',
+        left: '0px',
+        top: '0px',
+    },
     appBar: {
         position: 'relative',
         width: '100%',
@@ -87,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = (props) => {
     const classes = useStyles();
-    const history = useHistory()
+    const history = useHistory();
 
     const [activeStep, setActiveStep] = React.useState(0);
 
@@ -204,6 +214,7 @@ const Dashboard = (props) => {
                     {(props.image) ? <img alt='preview' className={classes.image} src={props.image} /> : <div></div>}
                 </div>
             </div>
+            <HiddenResume className={classes.hidden} />
         </React.Fragment>
     );
 }

@@ -46,7 +46,7 @@ export default function FormSection(props) {
                     return (
                         <div key={`section-${idx}`}>
                             <hr className={classes.line}></hr>
-                            <FormInput section={[...section]} id={idx} update={update} input={props.input} />
+                            <FormInput section={[...section]} id={idx} update={update} input={props.input} name={props.section} />
                         </div>
                     );
                 })

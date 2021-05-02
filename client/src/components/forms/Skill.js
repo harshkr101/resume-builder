@@ -6,7 +6,7 @@ export default function Skill({ resume }) {
 
     const skill = {
         skillName: '',
-        keywords: ''
+        keywords: ['']
     };
 
     return (

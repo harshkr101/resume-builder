@@ -5,13 +5,12 @@ import { renderPreview } from '../../../redux/actionCreators';
 
 const Template1 = ({ resume, renderPreview }) => {
 
-
     React.useEffect(() => {
         renderPreview()
     }, [])
 
     return (
-        <div id='template' className="container">
+        <div className="container" id='template'>
 
             <div className="main">
 
@@ -53,11 +52,11 @@ const Template1 = ({ resume, renderPreview }) => {
                                     {resume.education.map((education, index) => (
                                         <div className="details">
 
-                                            <p key={`degree${index}`}>{education.degree}</p>
-                                            <p key={`university${index}`}>{education.university}</p>
-                                            <p key={`startDate${index}`} className="inline">{education.startDate} - </p>
-                                            <p key={`endDate${index}`} className="inline">{education.endDate}</p>
-                                            <p key={`gpa${index}`}>GPA: {education.gpa}</p>
+                                            <p key={index}>{education.degree}</p>
+                                            <p key={index}>{education.university}</p>
+                                            <p key={index} className="inline">{education.startDate} - </p>
+                                            <p key={index} className="inline">{education.endDate}</p>
+                                            <p key={index}>GPA: {education.gpa}</p>
 
 
                                         </div>
@@ -106,17 +105,18 @@ const Template1 = ({ resume, renderPreview }) => {
                                         <div className="details">
 
                                             <p key={index} className="sub-heading">{achivement.title}</p>
-
-
-
                                             <div>
 
                                                 <p key={index} className="inline">{achivement.organisation} - </p>
                                                 <p key={index} className="inline">{achivement.date}</p>
 
-                                                {achivement.description.map((description, i) => (
-                                                    <p key={i}>{description}</p>
-                                                ))}
+                                                <div className="description">
+                                                    {achivement.description.map((description, i) => (
+                                                        <p key={i} className="description">{description}</p>
+                                                    ))}
+                                                </div>
+
+
                                             </div>
 
                                             <br></br>
@@ -145,12 +145,13 @@ const Template1 = ({ resume, renderPreview }) => {
                                         <div className="details">
 
                                             <p key={index} className="sub-heading">{experience.title}</p>
-                                            <p key={index} className="inline">{experience.organisation}</p>
+                                            <p key={index} className="inline">{experience.organisation} </p>
                                             <p key={index} className="inline">({experience.startDate}- </p>
                                             <p key={index} className="inline">{experience.endDate})</p>
 
+                                            <div></div>
 
-                                            <div>
+                                            <div className="description">
                                                 {experience.description.map((description, i) => (
                                                     <p key={i}>{description}</p>
                                                 ))}
@@ -172,7 +173,7 @@ const Template1 = ({ resume, renderPreview }) => {
                                     {resume.projects.map((project, index) => (
                                         <div className="details">
 
-                                            <p key={index} className="sub-heading">{project.projectName}</p>
+                                            <p key={index} className="sub-heading">{project.projectName.toUpperCase()}</p>
 
 
 
@@ -184,7 +185,7 @@ const Template1 = ({ resume, renderPreview }) => {
                                             <br></br>
 
 
-                                            <div>
+                                            <div className="description">
                                                 {project.projectDescription.map((description, i) => (
                                                     <p key={i}>{description}</p>
                                                 ))}
@@ -225,6 +226,7 @@ const Template1 = ({ resume, renderPreview }) => {
         </div>
     )
 }
+
 
 const mapStateToProps = state => {
     return {

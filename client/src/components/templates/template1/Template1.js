@@ -100,17 +100,18 @@ const Template1 = ({resume}) => {
                                  <div className="details">
 
                                    <p key={index} className="sub-heading">{achivement.title}</p>
-
-                                  
-
                                    <div>
 
                                    <p key={index} className="inline">{achivement.organisation} - </p>
                                    <p key={index} className="inline">{achivement.date}</p>
 
+                                    <div className="description">
                                        {achivement.description.map((description,i)=>(
-                                           <p key={i}>{description}</p>
+                                           <p key={i} className="description">{description}</p>
                                        ))}
+                                    </div>
+
+
                                    </div>
                                    
                                    <br></br>
@@ -139,12 +140,13 @@ const Template1 = ({resume}) => {
                                     <div className="details">
 
                                     <p key={index} className="sub-heading">{experience.title}</p>
-                                    <p key={index} className="inline">{experience.organisation}</p>
+                                    <p key={index} className="inline">{experience.organisation} </p>
                                     <p key={index} className="inline">({experience.startDate}- </p>
                                     <p key={index} className="inline">{experience.endDate})</p>
                                         
+                                        <div></div>
 
-                                        <div>
+                                        <div className="description">
                                             {experience.description.map((description,i)=>(
                                                 <p key={i}>{description}</p>
                                             ))}
@@ -166,7 +168,7 @@ const Template1 = ({resume}) => {
                                     {resume.projects.map((project, index) => (
                                     <div className="details">
 
-                                    <p key={index} className="sub-heading">{project.projectName}</p>
+                                    <p key={index} className="sub-heading">{project.projectName.toUpperCase()}</p>
 
                                        
 
@@ -178,7 +180,7 @@ const Template1 = ({resume}) => {
                                         <br></br>
 
                                     
-                                        <div>
+                                        <div className="description">
                                             {project.projectDescription.map((description,i)=>(
                                                 <p key={i}>{description}</p>
                                             ))}

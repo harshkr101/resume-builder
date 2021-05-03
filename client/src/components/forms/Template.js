@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from "react-router-dom";
+import templates from '../templates/templates';
 
 const useStyles = makeStyles((theme) => ({
     line: {
@@ -22,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 const Template = (props) => {
 
     const classes = useStyles();
+    const history = useHistory()
 
     const [title, setTitle] = useState(props.resume.title);
 
@@ -33,8 +36,10 @@ const Template = (props) => {
         props.resume.title = title;
     }
 
-    if (props.resume.template === '')
-        props.resume.template = Math.random().toString(36).substring(2, 7);
+    const handleClick = (template) => {
+        props.resume.template = template
+        history.push(`/${template}`)
+    }
 
     return (
         <React.Fragment>
@@ -53,6 +58,17 @@ const Template = (props) => {
                             fullWidth
                         />
                     </Grid>
+                    {templates.map((template, index) => (
+                        <Grid key={index} item xs={12}>
+                            <Button onClick={() => { handleClick(template) }}
+                                variant="contained"
+                                color="primary"
+                                className={classes.button}
+                            >
+                                {template}
+                            </Button>
+                        </Grid>
+                    ))}
                 </Grid>
             </React.Fragment>
         </React.Fragment>

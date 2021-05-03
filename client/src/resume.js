@@ -1,7 +1,7 @@
 const resume = {
 
     title: "",
-    template: "",
+    template: "template1",
     personal: {
         firstName: "",
         lastName: "",
@@ -24,21 +24,21 @@ const resume = {
             organisation: "",
             startDate: "",
             endDate: "",
-            description: ""
+            description: ['']
         }
 
     ],
     skills: [
         {
             skillName: '',
-            keywords: ''
+            keywords: ['']
         }
     ],
     projects: [
         {
             projectName: '',
-            keywords: '',
-            projectDescription: '',
+            keywords: [''],
+            projectDescription: [''],
             projectLink: ''
         }
     ],
@@ -47,7 +47,7 @@ const resume = {
             title: '',
             date: '',
             organisation: '',
-            description: ''
+            description: ['']
         }
     ],
 }

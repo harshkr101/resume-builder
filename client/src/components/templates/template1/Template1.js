@@ -51,14 +51,11 @@ const Template1 = ({ resume, renderPreview }) => {
 
                                     {resume.education.map((education, index) => (
                                         <div className="details">
-
-                                            <p key={index}>{education.degree}</p>
+                                            <p key={index} className="sub-heading">{education.degree}</p>
                                             <p key={index}>{education.university}</p>
                                             <p key={index} className="inline">{education.startDate} - </p>
                                             <p key={index} className="inline">{education.endDate}</p>
                                             <p key={index}>GPA: {education.gpa}</p>
-
-
                                         </div>
                                     ))}
 
@@ -195,34 +192,10 @@ const Template1 = ({ resume, renderPreview }) => {
 
                                 </div>
                             </div>
-
-
-
                         </div>
-
-
-
                     </div>
-
-
-
-
-
-
-
-
-
                 </div>
-
-
-
-
-
             </div>
-
-
-
-
         </div>
     )
 }

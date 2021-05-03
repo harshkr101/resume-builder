@@ -51,6 +51,8 @@ hr{
 
 }
 
+
+
 .heading{
     h2{
     margin-top: 1%;
@@ -69,7 +71,9 @@ hr{
 
 .info{
     margin-bottom: 1%;
+    margin-top: 1%;
 }
+
 
 .details{
 
@@ -84,11 +88,12 @@ hr{
         font-family: 'Roboto', sans-serif;
         font-weight: bold;
         font-size: 1.5em;
-        margin-top: 1%;
+        margin-top: 3%;
     }
 
     .description{
         
+
         p::before{
             display: inline-block;
             width: 5px;

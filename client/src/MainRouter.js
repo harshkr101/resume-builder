@@ -5,7 +5,6 @@ import Home from './components/Home';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
-import Template1 from './components/templates/template1/Template1';
 
 
 const MainRouter = () => {
@@ -17,7 +16,6 @@ const MainRouter = () => {
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
         <Route path="/dashboard" component={Dashboard} />
-        <Route path="/template1" component={Template1} />
       </Switch>
     </div>
   );

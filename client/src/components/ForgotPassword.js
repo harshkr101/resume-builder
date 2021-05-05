@@ -55,15 +55,7 @@ export default function ForgotPassword() {
         if (res.status === 200) {
             history.push("/login", user)
         }else{
-
-            //alert("Email is wrong");
-          return(
-            <div className={classes.root}>
-                <Alert variant="filled" severity="error">
-                    Email is wrong
-                </Alert>
-          </div>
-          )
+           alert("Please enter correct email");
         }
     }
 

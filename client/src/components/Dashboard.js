@@ -137,7 +137,12 @@ const Dashboard = (props) => {
     }
 
     const handleNext = () => {
-        setActiveStep(activeStep + 1);
+
+        if (activeStep === 6) {
+            clickSave()
+        }
+        else setActiveStep(activeStep + 1);
+
         console.log(props.resume);
     };
 
@@ -146,7 +151,8 @@ const Dashboard = (props) => {
     };
 
     const clickSave = (event) => {
-        event.preventDefault();
+        if (event)
+            event.preventDefault();
 
         if (props.resume._id) {
             props.updateData(token, props.resume);
@@ -175,7 +181,7 @@ const Dashboard = (props) => {
                 <main className={classes.layout}>
                     <Paper className={classes.paper}>
                         <React.Fragment>
-                            {activeStep === steps.length ? (
+                            {/*{activeStep - 1 === steps.length ? (
                                 <React.Fragment>
                                     <Typography variant="h4">
                                         Review Your Resume...
@@ -202,11 +208,29 @@ const Dashboard = (props) => {
                                                 onClick={handleNext}
                                                 className={classes.button}
                                             >
-                                                {activeStep === steps.length - 1 ? 'Preview' : 'Next'}
+                                                {activeStep === steps.length - 1 ? 'Save Data' : 'Next'}
                                             </Button>
                                         </div>
                                     </React.Fragment>
-                                )}
+                                )}*/}
+                            <React.Fragment>
+                                {getStepContent(activeStep)}
+                                <div className={classes.buttons}>
+                                    {activeStep !== 0 && (
+                                        <Button onClick={handleBack} className={classes.button}>
+                                            Back
+                                        </Button>
+                                    )}
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={handleNext}
+                                        className={classes.button}
+                                    >
+                                        {activeStep === steps.length - 1 ? 'Save Data' : 'Next'}
+                                    </Button>
+                                </div>
+                            </React.Fragment>
                         </React.Fragment>
                     </Paper>
                 </main>
@@ -214,7 +238,7 @@ const Dashboard = (props) => {
                     {(props.image) ? <img alt='preview' className={classes.image} src={props.image} /> : <div></div>}
                 </div>
             </div>
-            <HiddenResume className={classes.hidden} />
+            <HiddenResume className={classes.hidden} id={props.resume.template} />
         </React.Fragment>
     );
 }

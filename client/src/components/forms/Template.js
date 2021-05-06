@@ -38,12 +38,13 @@ const Template = (props) => {
 
     const handleClick = (template) => {
         props.resume.template = template
-        history.push(`/${template}`)
+        const update = 'update'
+        history.push(`/${template}`, update)
     }
 
     return (
         <React.Fragment>
-            <h5>Choose Template</h5>
+            <h5>Choose Template To Update</h5>
             <React.Fragment>
                 <hr className={classes.line}></hr>
                 <Grid container spacing={3}>

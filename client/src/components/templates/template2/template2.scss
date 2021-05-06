@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
 
+#hide {
+    //visibility: hidden;
+    position: absolute;
+    top: -9999px; left: -9999px;
+ }
+ 
 .container{
     margin-top:1%;
     margin-bottom:1%;

@@ -1,18 +1,14 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Template1 from './template1/Template1'
-
-const useStyles = makeStyles((theme) => ({
-    hidden: {
-        display: 'none'
-    },
-}));
+import Template2 from './template2/Template2'
 
 const HiddenResume = (props) => {
-    const classes = useStyles();
 
     return (
-        <Template1 className={classes.hidden} />
+        <React.Fragment>
+            {props.id === 'template1' ? <Template1 /> : <div></div>}
+            {props.id === 'template2' ? <Template2 /> : <div></div>}
+        </React.Fragment>
     )
 
 }

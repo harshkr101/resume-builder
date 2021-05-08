@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { positions } from '@material-ui/system';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Paper from '@material-ui/core/Paper';
@@ -15,7 +14,7 @@ import Project from './forms/Project';
 import Skill from './forms/Skill';
 import Achievement from './forms/Achievement';
 import Template from './forms/Template';
-import HiddenResume from '../components/templates/HiddenResume'
+import HiddenResume from './templates/HiddenResume'
 import { useHistory } from "react-router-dom"
 import { connect } from 'react-redux';
 import { jsPDF } from "jspdf";
@@ -108,7 +107,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Dashboard = (props) => {
+const Builder = (props) => {
     const classes = useStyles();
     const history = useHistory();
 
@@ -121,7 +120,7 @@ const Dashboard = (props) => {
                 console.log(props.state)
                 setTimeout(function () {
                     console.log(props.state)
-                    history.push("/dashboard")
+                    history.push("/builder")
                 }, 3000);
             })
         }, [])
@@ -270,4 +269,4 @@ const mapDispatchToProps = dispatch => ({
     updateData: (token, resume) => { dispatch(updateData(token, resume)) },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(Builder);

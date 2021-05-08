@@ -45,7 +45,7 @@ const Home = (props) => {
     React.useEffect(() => {
         if (props.token) {
             props.fetchData(props.token, function () {
-                //history.push("/dashboard")
+                //history.push("/builder")
             })
         }
     }, [])
@@ -53,13 +53,13 @@ const Home = (props) => {
     const handleChange = (event) => {
         setTitle(event.target.value);
         props.setData(event.target.value, function () {
-            history.push("/dashboard")
+            history.push("/builder")
         })
     };
 
     const handleClick = () => {
         props.setData(-1, function () {
-            history.push("/dashboard")
+            history.push("/builder")
         })
     };
 

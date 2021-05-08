@@ -4,7 +4,7 @@ import NavBar from './components/NavBar';
 import Home from './components/Home';
 import Signup from './components/Signup';
 import Login from './components/Login';
-import Dashboard from './components/Dashboard';
+import Builder from './components/Builder';
 import Template1 from './components/templates/template1/Template1';
 import Template2 from './components/templates/template2/Template2';
 
@@ -17,7 +17,7 @@ const MainRouter = () => {
         <Route exact path="/" component={Home} />
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
-        <Route path="/dashboard" component={Dashboard} />
+        <Route path="/builder" component={Builder} />
         <Route path="/template1" component={Template1} />
         <Route path="/template2" component={Template2} />
       </Switch>

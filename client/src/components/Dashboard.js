@@ -138,11 +138,7 @@ const Dashboard = (props) => {
 
     const handleNext = () => {
 
-        if (activeStep === 6) {
-            clickSave()
-        }
-        else setActiveStep(activeStep + 1);
-
+        setActiveStep(activeStep + 1);
         console.log(props.resume);
     };
 
@@ -221,14 +217,24 @@ const Dashboard = (props) => {
                                             Back
                                         </Button>
                                     )}
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        onClick={handleNext}
-                                        className={classes.button}
-                                    >
-                                        {activeStep === steps.length - 1 ? 'Save Data' : 'Next'}
-                                    </Button>
+                                    {activeStep === steps.length - 1 ?
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={clickSave}
+                                            className={classes.button}
+                                        >
+                                            Save
+                                        </Button> :
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={handleNext}
+                                            className={classes.button}
+                                        >
+                                            Next
+                                        </Button>
+                                    }
                                 </div>
                             </React.Fragment>
                         </React.Fragment>
@@ -238,7 +244,11 @@ const Dashboard = (props) => {
                     {(props.image) ? <img alt='preview' className={classes.image} src={props.image} /> : <div></div>}
                 </div>
             </div>
-            <HiddenResume className={classes.hidden} id={props.resume.template} />
+            {(props.resume.template) ? <HiddenResume
+                className={classes.hidden}
+                id={props.resume.template} />
+                : <div></div>
+            }
         </React.Fragment>
     );
 }

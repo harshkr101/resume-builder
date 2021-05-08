@@ -27,7 +27,7 @@ const initialState = {
     image: '',
     data: {
         title: "",
-        template: "template1",
+        template: "",
         personal: {
             firstName: "",
             lastName: "",

@@ -123,7 +123,7 @@ const Login = (props) => {
                             className={classes.submit}
                             onClick={clickSubmit}
                         >
-                            Log In
+                            Sign In
                         </Button>
                         <Grid container>
                             <Grid item xs>

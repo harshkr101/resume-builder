@@ -45,7 +45,7 @@ const ButtonAppBar = (props) => {
                                 <Link to="/signup" className={classes.link}>Signup</Link>
                             </Button>
                             <Button color="secondary-dark">
-                                <Link to="/login" className={classes.link}>Login</Link>
+                                <Link to="/login" className={classes.link}>SignIn</Link>
                             </Button>
                         </React.Fragment>) :
                         (<React.Fragment>

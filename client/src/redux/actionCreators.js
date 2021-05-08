@@ -1,5 +1,6 @@
 import axios from 'axios';
 import html2canvas from 'html2canvas';
+import { jsPDF } from "jspdf";
 
 import {
     SET_DATA_SUCCESS,
@@ -289,3 +290,19 @@ export const renderPreviewSuccess = image => {
         payload: image
     }
 }
+
+export const generatePdf = (img) => {
+    return () => {
+        const pdf = new jsPDF();
+        console.log(img)
+        pdf.addImage(img, 'PNG', 0, 0);
+        pdf.save("resume.pdf");
+    }
+}
+/*
+export const generatePdfSuccess = image => {
+    return {
+        type: Generate_SUCCESS
+    }
+}
+*/

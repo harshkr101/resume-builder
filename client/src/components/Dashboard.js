@@ -8,7 +8,6 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import Personal from './forms/Personal';
 import Education from './forms/Education';
 import Experience from './forms/Experience';
@@ -19,6 +18,7 @@ import Template from './forms/Template';
 import HiddenResume from '../components/templates/HiddenResume'
 import { useHistory } from "react-router-dom"
 import { connect } from 'react-redux';
+import { jsPDF } from "jspdf";
 import { fetchData, postData, updateData } from '../redux/actionCreators';
 
 const useStyles = makeStyles((theme) => ({
@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(3),
     },
     stepper: {
-        margin: theme.spacing(2, 1),
+        margin: theme.spacing(8, 1),
         width: '12%',
         display: 'inline-block',
         [theme.breakpoints.down('sm')]: {
@@ -92,6 +92,19 @@ const useStyles = makeStyles((theme) => ({
     button: {
         marginTop: theme.spacing(3),
         marginLeft: theme.spacing(1),
+    },
+    pdf: {
+        //display: 'inherit',
+        height: 'fit-content',
+        position: 'absolute',
+        top: '80px',
+        left: '15px',
+        [theme.breakpoints.down('sm')]: {
+            right: '184px',
+            left: 'unset',
+            top: '96px',
+            width: 'fit-content',
+        },
     },
 }));
 
@@ -137,7 +150,6 @@ const Dashboard = (props) => {
     }
 
     const handleNext = () => {
-
         setActiveStep(activeStep + 1);
         console.log(props.resume);
     };
@@ -146,6 +158,21 @@ const Dashboard = (props) => {
         setActiveStep(activeStep - 1);
     };
 
+    const handlePdf = () => {
+        var img = document.getElementById('preview');
+        var width = img.clientWidth;
+        var height = img.clientHeight;
+        console.log(height, width)
+
+        if (props.image) {
+            const pdf = new jsPDF({
+                unit: "px",
+                format: [height, width]
+            });
+            pdf.addImage(props.image, 'PNG', 0.1, 0.1);
+            pdf.save("resume.pdf");
+        }
+    };
     const clickSave = (event) => {
         if (event)
             event.preventDefault();
@@ -167,6 +194,14 @@ const Dashboard = (props) => {
             <AppBar position="absolute" color="default" className={classes.appBar}>
             </AppBar>
             <div className={classes.form}>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handlePdf}
+                    className={classes.pdf}
+                >
+                    Download PDF
+                </Button>
                 <Stepper className={classes.stepper} orientation="vertical" activeStep={activeStep}>
                     {steps.map((label) => (
                         <Step key={label}>
@@ -177,38 +212,6 @@ const Dashboard = (props) => {
                 <main className={classes.layout}>
                     <Paper className={classes.paper}>
                         <React.Fragment>
-                            {/*{activeStep - 1 === steps.length ? (
-                                <React.Fragment>
-                                    <Typography variant="h4">
-                                        Review Your Resume...
-                                    </Typography>
-                                    <Button onClick={handleBack} className={classes.button}>
-                                        Back
-                                                </Button>
-                                    <Button onClick={clickSave} variant="contained" color="primary" className={classes.button}>
-                                        Save Resume Data
-                                    </Button>
-                                </React.Fragment>
-                            ) : (
-                                    <React.Fragment>
-                                        {getStepContent(activeStep)}
-                                        <div className={classes.buttons}>
-                                            {activeStep !== 0 && (
-                                                <Button onClick={handleBack} className={classes.button}>
-                                                    Back
-                                                </Button>
-                                            )}
-                                            <Button
-                                                variant="contained"
-                                                color="primary"
-                                                onClick={handleNext}
-                                                className={classes.button}
-                                            >
-                                                {activeStep === steps.length - 1 ? 'Save Data' : 'Next'}
-                                            </Button>
-                                        </div>
-                                    </React.Fragment>
-                                )}*/}
                             <React.Fragment>
                                 {getStepContent(activeStep)}
                                 <div className={classes.buttons}>

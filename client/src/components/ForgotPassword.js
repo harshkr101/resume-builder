@@ -9,15 +9,10 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useHistory } from "react-router-dom";
-import Alert from '@material-ui/lab/Alert';
+import { useAlert } from "react-alert";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '100%',
-        '& > * + *': {
-          marginTop: theme.spacing(2),
-        },
-      },
+    
     paper: {
         marginTop: theme.spacing(4),
         display: 'flex',
@@ -40,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ForgotPassword() {
     const classes = useStyles();
     const history = useHistory();
+    const alert = useAlert();
 
     const [values, setValues] = useState({
         email: '',
@@ -51,13 +47,23 @@ export default function ForgotPassword() {
         setValues({ ...values, [name]: event.target.value })
     }
 
-    const goto = (res, user) => {
+    const goto = (res) => {
+        console.log("result:",res);
+       
         if (res.status === 200) {
-            history.push("/login", user)
+           
+            alert.success("Please check your mail for password reset link");
+            alert.info("Redirecting you to login page")
+           setTimeout(() => {
+            history.push("/login");
+           }, 2000); 
+            
         }else{
-           alert("Please enter correct email");
+           alert.error("Invalid Email");
         }
     }
+
+    
 
     const create = async (user) => {
         try {
@@ -68,9 +74,8 @@ export default function ForgotPassword() {
                 },
                 body: JSON.stringify(user)
             })
-            let res = await response.json()
-            console.log(res)
-            goto(response, res.user)
+            goto(response);
+            
             return response
         } catch (err) {
             console.log(err)

@@ -16,7 +16,10 @@ import {
     LOG_OUT_REQUEST,
     LOG_OUT_SUCCESS,
     LOG_OUT_FAILED,
-    RENDER_PREVIEW_SUCCESS
+    RENDER_PREVIEW_SUCCESS,
+    UPDATE_USER_REQUEST,
+    UPDATE_USER_SUCCESS,
+    UPDATE_USER_FAILED,
 } from './actionTypes'
 import blankResume from '../resume';
 
@@ -190,6 +193,24 @@ const reducer = (state = initialState, action) => {
             return {
                 ...newState,
                 image: action.payload
+            }
+        case UPDATE_USER_REQUEST:
+            return {
+                ...newState,
+                loading: true
+            }
+        case UPDATE_USER_SUCCESS:
+            return {
+                ...newState,
+                loading: false,
+                data: action.payload,
+                error: ''
+            }
+        case UPDATE_USER_FAILED:
+            return {
+                ...newState,
+                loading: false,
+                error: action.payload
             }
         default: return newState
     }

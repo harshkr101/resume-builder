@@ -1,12 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import AssignmentIndTwoToneIcon from '@material-ui/icons/AssignmentIndTwoTone';
 import { connect } from 'react-redux';
-import { logout } from '../redux/actionCreators';
+import { logout, fetchData } from '../redux/actionCreators';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,6 +31,13 @@ const useStyles = makeStyles((theme) => ({
 
 const ButtonAppBar = (props) => {
     const classes = useStyles();
+    const history = useHistory();
+
+    const handleClick = () => {
+        props.fetchData(props.token, function () {
+            history.push("/dashboard")
+        })
+    }
 
     return (
         <div className={classes.root}>
@@ -49,6 +57,9 @@ const ButtonAppBar = (props) => {
                             </Button>
                         </React.Fragment>) :
                         (<React.Fragment>
+                            <Button color="secondary-dark" onClick={handleClick} >
+                                <AssignmentIndTwoToneIcon />
+                            </Button>
                             <Button onClick={props.logout} color="secondary-dark">
                                 <Link to="/login" className={classes.link}>Logout</Link>
                             </Button>
@@ -68,6 +79,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     logout: () => { dispatch(logout()) },
+    fetchData: (props, callback) => { dispatch(fetchData(props, callback)) },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ButtonAppBar);

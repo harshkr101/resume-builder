@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.primary.main,
         opacity: '0.75',
         width: '100%'
+    },
+    button: {
+        flexBasis: "50%"
     }
 }));
 
@@ -60,7 +63,7 @@ const Template = (props) => {
                         />
                     </Grid>
                     {templates.map((template, index) => (
-                        <Grid key={index} item xs={12}>
+                        <Grid key={index} item xs={12} className={classes.button} >
                             <Button onClick={() => { handleClick(template) }}
                                 variant="contained"
                                 color="primary"
@@ -72,7 +75,7 @@ const Template = (props) => {
                     ))}
                 </Grid>
             </React.Fragment>
-        </React.Fragment>
+        </React.Fragment >
     )
 }
 

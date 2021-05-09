@@ -90,6 +90,7 @@ const Dashboard = (props) => {
     const callDelete = async (index) => {
         await props.deleteData(props.token, props.resume.data[index])
     }
+
     const handleDelete = (index) => {
         callDelete(index)
             .then(() => {
@@ -106,8 +107,8 @@ const Dashboard = (props) => {
             lastName: values.lastName || undefined,
             email: values.email || undefined,
         }
-        console.log(user, props.token)
-        updateUser(user, props.token)
+        //console.log(user, props.token)
+        props.updateUser(user, props.token)
     }
 
     return (

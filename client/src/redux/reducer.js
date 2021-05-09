@@ -206,7 +206,6 @@ const reducer = (state = initialState, action) => {
             return {
                 ...newState,
                 loading: false,
-                data: action.payload,
                 error: ''
             }
         case UPDATE_USER_FAILED:

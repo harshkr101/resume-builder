@@ -1,7 +1,6 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -13,16 +12,16 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Description = ({ resume, section, index, name }) => {
+const Description = ({ sectionName, index, name, section }) => {
     const classes = useStyles();
 
-    const [lines, setLines] = React.useState(resume[section][index][name]);
+    console.log(sectionName, index, name)
+    const [lines, setLines] = React.useState(section[index][name]);
 
-    console.log(resume, section, index, name)
-    const addSection = () => {
+    const addLine = () => {
         const updatedLines = [...lines, '']
         setLines(updatedLines);
-        resume[section][index][name] = lines;
+        section[index][name] = lines;
     };
 
     const handleChange = (e) => {
@@ -30,7 +29,7 @@ const Description = ({ resume, section, index, name }) => {
         const updatedLines = lines
         updatedLines[id] = value
         setLines([...updatedLines]);
-        resume[section][index][name] = updatedLines;
+        section[index][name] = updatedLines;
     }
 
     return (
@@ -47,7 +46,7 @@ const Description = ({ resume, section, index, name }) => {
                 />
             ))}
 
-            <Button onClick={addSection}
+            <Button onClick={addLine}
                 variant="contained"
                 color="primary"
                 className={classes.button}
@@ -58,10 +57,4 @@ const Description = ({ resume, section, index, name }) => {
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        resume: state.resume.data
-    }
-}
-
-export default connect(mapStateToProps)(Description);
+export default Description

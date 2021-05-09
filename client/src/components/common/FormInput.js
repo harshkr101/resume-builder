@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Description from './Description';
 var _ = require('lodash');
 
-export default function FormSection(props) {
+export default function FormInput(props) {
     const handleChange = (e) => {
         const updatedSection = [...props.section];
         var keywords = e.target.value.split(',');
@@ -25,6 +25,10 @@ export default function FormSection(props) {
         return value;
     }
 
+    const updateSection = (item) => {
+        props.update(item);
+    }
+
     return (
         <React.Fragment>
             <Grid container spacing={3}>
@@ -34,7 +38,8 @@ export default function FormSection(props) {
                             <Grid key={idx} item xs={12}>
                                 {(name[0] === 'description' || name[0] === 'projectDescription') ?
                                     <Description
-                                        section={props.name}
+                                        sectionName={props.name}
+                                        section={props.section}
                                         index={props.id}
                                         name={name[0]}
                                     /> :

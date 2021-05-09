@@ -32,7 +32,12 @@ export default function FormSection(props) {
                     Object.entries(props.input).map((name, idx) => {
                         return (
                             <Grid key={idx} item xs={12}>
-                                {(name[0] === 'description' || name[0] === 'projectDescription') ? <Description section={props.name} index={props.id} name={(name[0] === 'description') ? 'description' : 'projectDescription'} /> :
+                                {(name[0] === 'description' || name[0] === 'projectDescription') ?
+                                    <Description
+                                        section={props.name}
+                                        index={props.id}
+                                        name={name[0]}
+                                    /> :
                                     <TextField
                                         id={Math.random().toString(36).substring(2, 7)}
                                         name={name[0]}

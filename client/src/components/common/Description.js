@@ -16,26 +16,26 @@ const useStyles = makeStyles((theme) => ({
 const Description = ({ resume, section, index, name }) => {
     const classes = useStyles();
 
-    const description = (name === 'description') ? 'description' : 'projectDescription'
+    const [lines, setLines] = React.useState(resume[section][index][name]);
 
-    const [lines, setLines] = React.useState(resume[section][index][description]);
-
-    //console.log(resume, '-', section, '-', resume[section], '-', Array.isArray(resume[section][index].description), '-', resume[section][0])
-
+    console.log(resume, section, index, name)
     const addSection = () => {
         const updatedLines = [...lines, '']
         setLines(updatedLines);
-        resume[section][index][description] = lines;
+        resume[section][index][name] = lines;
     };
 
     const handleChange = (e) => {
         const { id, value } = e.target;
-        resume[section][index][description][id] = value;
+        const updatedLines = lines
+        updatedLines[id] = value
+        setLines([...updatedLines]);
+        resume[section][index][name] = updatedLines;
     }
 
     return (
         <React.Fragment>
-            {resume[section][index][description].map((text, idx) => (
+            {lines.map((text, idx) => (
                 <TextField
                     id={idx}
                     name={idx}

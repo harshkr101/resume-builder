@@ -1,260 +1,248 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { positions } from '@material-ui/system';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Paper from '@material-ui/core/Paper';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Personal from './forms/Personal';
-import Education from './forms/Education';
-import Experience from './forms/Experience';
-import Project from './forms/Project';
-import Skill from './forms/Skill';
-import Achievement from './forms/Achievement';
-import Template from './forms/Template';
-import HiddenResume from '../components/templates/HiddenResume'
-import { useHistory } from "react-router-dom"
+import React, { useState } from 'react'
 import { connect } from 'react-redux';
-import { fetchData, postData, updateData } from '../redux/actionCreators';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import { fetchData, setData, updateUser, deleteData } from '../redux/actionCreators';
+import { useHistory } from "react-router-dom"
 
 const useStyles = makeStyles((theme) => ({
-    hidden: {
-        display: 'none',
-        maxHeight: '100%',
-        maxWidth: '100%',
-        position: 'absolute',
-        left: '0px',
-        top: '0px',
-    },
-    appBar: {
-        position: 'relative',
-        width: '100%',
-    },
-    layout: {
-        width: 'auto',
-        [theme.breakpoints.up('md')]: {
-            width: 500,
-            marginLeft: '',
-            marginRight: 'auto',
-        },
-    },
-    preview: {
-        width: '50%',
-        padding: '1%',
-        marginRight: '',
-        [theme.breakpoints.down('sm')]: {
-            display: 'none',
-        },
-    },
-    image: {
-        width: '100%',
-    },
-    form: {
-        display: 'flex',
-    },
-    paper: {
-        /*
-        marginTop: theme.spacing(0),
-        marginBottom: theme.spacing(3),
-        padding: theme.spacing(2),
-        [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-            
-        },
-        */
-        marginTop: theme.spacing(2),
-        marginBottom: theme.spacing(6),
-        padding: theme.spacing(3),
-    },
-    stepper: {
-        margin: theme.spacing(2, 1),
-        width: '12%',
+    container: {
+        maxWidth: '50%',
+        marginLeft: '25%',
+        marginRight: '0',
         display: 'inline-block',
         [theme.breakpoints.down('sm')]: {
-            display: 'none',
+            maxWidth: '100%',
+            marginLeft: 'unset',
         },
     },
-    buttons: {
-        position: 'absolute',
-        right: '40px',
-        top: '80px',
-        marginLeft: 'auto',
-        marginRight: '',
-        [theme.breakpoints.up('md')]: {
-            position: 'absolute',
-            left: '480px',
-            top: '80px',
-        },
+    paper: {
+        marginTop: theme.spacing(4),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
     },
-    button: {
+    form: {
+        width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing(3),
-        marginLeft: theme.spacing(1),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
+    cardGrid: {
+        paddingTop: theme.spacing(8),
+        paddingBottom: theme.spacing(8),
+    },
+    card: {
+        height: '100%',
+        //display: 'inline-block',
+        flexDirection: 'column',
+    },
+    cardMedia: {
+        paddingTop: '56.25%', // 16:9
+    },
+    cardContent: {
+        flexGrow: 1,
     },
 }));
+
 
 const Dashboard = (props) => {
     const classes = useStyles();
     const history = useHistory();
+    var base64Url = props.token.split('.')[1];
+    var base64 = base64Url.replace('-', '+').replace('_', '/');
+    const user = JSON.parse(window.atob(base64));
+    console.log(user)
 
-    const [activeStep, setActiveStep] = React.useState(0);
+    const [values, setValues] = useState({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+    })
 
-    const token = props.token;
-    /*
-        React.useEffect(() => {
-            props.fetchData(token, function () {
-                console.log(props.state)
-                setTimeout(function () {
-                    console.log(props.state)
-                    history.push("/dashboard")
-                }, 3000);
-            })
-        }, [])
-    */
-    const steps = ['Personal', 'Educational', 'Experience', 'Projects', 'Skills', 'Achievements', 'Template'];
+    React.useEffect(() => {
+        props.fetchData(props.token, function () {
+            //history.push("/builder")
+        })
+    }, [])
 
-    function getStepContent(step) {
-        switch (step) {
-            case 0:
-                return <Personal resume={props.resume} />;
-            case 1:
-                return <Education resume={props.resume} />;
-            case 2:
-                return <Experience resume={props.resume} />;
-            case 3:
-                return <Project resume={props.resume} />;
-            case 4:
-                return <Skill resume={props.resume} />;
-            case 5:
-                return <Achievement resume={props.resume} />;
-            case 6:
-                return <Template resume={props.resume} />;
-            default:
-                throw new Error('Unknown step');
-        }
+    const handleChange = name => event => {
+        setValues({ ...values, [name]: event.target.value })
     }
 
-    const handleNext = () => {
 
-        if (activeStep === 6) {
-            clickSave()
-        }
-        else setActiveStep(activeStep + 1);
-
-        console.log(props.resume);
+    const handleEdit = (index) => {
+        props.setData(index, function () {
+            history.push("/builder")
+        })
     };
 
-    const handleBack = () => {
-        setActiveStep(activeStep - 1);
-    };
+    const callDelete = async (index) => {
+        await props.deleteData(props.token, props.resume.data[index])
+    }
 
-    const clickSave = (event) => {
-        if (event)
-            event.preventDefault();
+    const handleDelete = (index) => {
+        callDelete(index)
+            .then(() => {
+                props.fetchData(props.token, function () {
+                    //history.push("/builder")  
+                })
+            })
+    }
 
-        if (props.resume._id) {
-            props.updateData(token, props.resume);
+    const clickSubmit = (event) => {
+        event.preventDefault();
+        const user = {
+            firstName: values.firstName || undefined,
+            lastName: values.lastName || undefined,
+            email: values.email || undefined,
         }
-        else if (token) {
-            props.postData(token, props.resume)
-        }
-        else {
-            history.push("/signup");
-        }
+        //console.log(user, props.token)
+        props.updateUser(user, props.token)
     }
 
     return (
         <React.Fragment>
-            <CssBaseline />
-            <AppBar position="absolute" color="default" className={classes.appBar}>
-            </AppBar>
-            <div className={classes.form}>
-                <Stepper className={classes.stepper} orientation="vertical" activeStep={activeStep}>
-                    {steps.map((label) => (
-                        <Step key={label}>
-                            <StepLabel>{label}</StepLabel>
-                        </Step>
-                    ))}
-                </Stepper>
-                <main className={classes.layout}>
-                    <Paper className={classes.paper}>
-                        <React.Fragment>
-                            {/*{activeStep - 1 === steps.length ? (
-                                <React.Fragment>
-                                    <Typography variant="h4">
-                                        Review Your Resume...
+            <Container component="main" maxWidth="xs" className={classes.container}>
+                <div className={classes.paper}>
+                    <Typography component="h1" variant="h5">
+                        Personal Details
+                    </Typography>
+                    <form className={classes.form} noValidate>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    autoComplete="firstName"
+                                    name="firstName"
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    id="firstName"
+                                    onChange={handleChange('firstName')}
+                                    value={values.firstName}
+                                    label="First Name"
+                                    autoFocus
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    id="lastName"
+                                    onChange={handleChange('lastName')}
+                                    value={values.lastName}
+                                    label="Last Name"
+                                    name="lastName"
+                                    autoComplete="lastName"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    onChange={handleChange('email')}
+                                    value={values.email}
+                                    label="Email Address"
+                                    name="email"
+                                    autoComplete="email"
+                                />
+                            </Grid>
+                        </Grid>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                            onClick={clickSubmit}
+                        >
+                            Update Details
+                        </Button>
+                    </form>
+                </div>
+            </Container>
+            {/*
+                props.resume.data.map((resume, idx) => {
+                    return (
+                        <Button id={idx}
+                            name={resume.title}
+                            value={idx}
+                            onChange={handleChange}
+                        >
+                            {resume.title}
+                        </Button>
+                    );
+                })
+            */}
+            <Container className={classes.cardGrid} maxWidth="md">
+                {/* End hero unit */}
+                <Grid container spacing={4}>
+                    {props.resume.data.map((item, id) => (
+                        <Grid item key={id} xs={12} sm={6} md={4}>
+                            <Card className={classes.card}>
+                                <CardContent className={classes.cardContent}>
+                                    <Typography gutterBottom variant="h5" component="h2">
+                                        {item.title}
                                     </Typography>
-                                    <Button onClick={handleBack} className={classes.button}>
-                                        Back
-                                                </Button>
-                                    <Button onClick={clickSave} variant="contained" color="primary" className={classes.button}>
-                                        Save Resume Data
-                                    </Button>
-                                </React.Fragment>
-                            ) : (
-                                    <React.Fragment>
-                                        {getStepContent(activeStep)}
-                                        <div className={classes.buttons}>
-                                            {activeStep !== 0 && (
-                                                <Button onClick={handleBack} className={classes.button}>
-                                                    Back
-                                                </Button>
-                                            )}
-                                            <Button
-                                                variant="contained"
-                                                color="primary"
-                                                onClick={handleNext}
-                                                className={classes.button}
-                                            >
-                                                {activeStep === steps.length - 1 ? 'Save Data' : 'Next'}
-                                            </Button>
-                                        </div>
-                                    </React.Fragment>
-                                )}*/}
-                            <React.Fragment>
-                                {getStepContent(activeStep)}
-                                <div className={classes.buttons}>
-                                    {activeStep !== 0 && (
-                                        <Button onClick={handleBack} className={classes.button}>
-                                            Back
-                                        </Button>
-                                    )}
+                                    <Typography>
+                                        You can use this section to describe the content.
+                                    </Typography>
+                                </CardContent>
+                                <CardActions>
                                     <Button
                                         variant="contained"
                                         color="primary"
-                                        onClick={handleNext}
                                         className={classes.button}
+                                        onClick={() => { handleEdit(id) }}
+                                        startIcon={<EditIcon />}
                                     >
-                                        {activeStep === steps.length - 1 ? 'Save Data' : 'Next'}
+                                        Edit
+                                </Button>
+                                    <Button
+                                        variant="contained"
+                                        color="secondary"
+                                        className={classes.button}
+                                        onClick={() => { handleDelete(id) }}
+                                        startIcon={<DeleteIcon />}
+                                    >
+                                        Delete
                                     </Button>
-                                </div>
-                            </React.Fragment>
-                        </React.Fragment>
-                    </Paper>
-                </main>
-                <div id='preview' className={classes.preview} >
-                    {(props.image) ? <img alt='preview' className={classes.image} src={props.image} /> : <div></div>}
-                </div>
-            </div>
-            <HiddenResume className={classes.hidden} id={props.resume.template} />
+                                </CardActions>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Container>
         </React.Fragment>
-    );
+    )
+
 }
 
 const mapStateToProps = state => {
     return {
-        resume: state.resume.data,
-        token: state.resume.token,
-        image: state.resume.image
+        resume: state.resume,
+        token: state.resume.token
     }
 }
 
 const mapDispatchToProps = dispatch => ({
     fetchData: (props, callback) => { dispatch(fetchData(props, callback)) },
-    postData: (token, resume) => { dispatch(postData(token, resume)) },
-    updateData: (token, resume) => { dispatch(updateData(token, resume)) },
+    updateUser: (user, token) => { dispatch(updateUser(user, token)) },
+    setData: (props, callback) => { dispatch(setData(props, callback)) },
+    deleteData: (token, resume) => { dispatch(deleteData(token, resume)) },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

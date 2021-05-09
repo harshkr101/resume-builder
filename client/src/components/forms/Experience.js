@@ -9,7 +9,7 @@ export default function Experience({ resume }) {
         organisation: "",
         startDate: "",
         endDate: "",
-        description: ""
+        description: [""]
     };
 
     return (

@@ -1,7 +1,6 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -13,29 +12,29 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Description = ({ resume, section, index, name }) => {
+const Description = ({ sectionName, index, name, section }) => {
     const classes = useStyles();
 
-    const description = (name === 'description') ? 'description' : 'projectDescription'
+    console.log(sectionName, index, name)
+    const [lines, setLines] = React.useState(section[index][name]);
 
-    const [lines, setLines] = React.useState(resume[section][index][description]);
-
-    //console.log(resume, '-', section, '-', resume[section], '-', Array.isArray(resume[section][index].description), '-', resume[section][0])
-
-    const addSection = () => {
+    const addLine = () => {
         const updatedLines = [...lines, '']
         setLines(updatedLines);
-        resume[section][index][description] = lines;
+        section[index][name] = lines;
     };
 
     const handleChange = (e) => {
         const { id, value } = e.target;
-        resume[section][index][description][id] = value;
+        const updatedLines = lines
+        updatedLines[id] = value
+        setLines([...updatedLines]);
+        section[index][name] = updatedLines;
     }
 
     return (
         <React.Fragment>
-            {resume[section][index][description].map((text, idx) => (
+            {lines.map((text, idx) => (
                 <TextField
                     id={idx}
                     name={idx}
@@ -47,7 +46,7 @@ const Description = ({ resume, section, index, name }) => {
                 />
             ))}
 
-            <Button onClick={addSection}
+            <Button onClick={addLine}
                 variant="contained"
                 color="primary"
                 className={classes.button}
@@ -58,10 +57,4 @@ const Description = ({ resume, section, index, name }) => {
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        resume: state.resume.data
-    }
-}
-
-export default connect(mapStateToProps)(Description);
+export default Description

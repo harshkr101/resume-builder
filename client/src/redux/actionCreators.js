@@ -24,6 +24,9 @@ import {
     UPDATE_USER_REQUEST,
     UPDATE_USER_SUCCESS,
     UPDATE_USER_FAILED,
+    DELETE_DATA_REQUEST,
+    DELETE_DATA_SUCCESS,
+    DELETE_DATA_FAILED,
 } from './actionTypes'
 
 export const loginCheck = (user, callback) => {
@@ -308,9 +311,10 @@ export const updateUser = (newUser, token) => {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace('-', '+').replace('_', '/');
     var user = JSON.parse(window.atob(base64));
-    console.log(user);
+
     user = { ...user, firstName: newUser.firstName, lastName: newUser.lastName, email: newUser.email }
     console.log(user);
+
     return (dispatch) => {
         dispatch(updateUserRequest())
         console.log(token);
@@ -351,6 +355,54 @@ export const updateUserSuccess = () => {
 export const updateUserFailure = error => {
     return {
         type: UPDATE_USER_FAILED,
+        payload: error
+    }
+}
+
+export const deleteData = (token, resume) => {
+
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace('-', '+').replace('_', '/');
+    const user = JSON.parse(window.atob(base64));
+
+    return (dispatch) => {
+        dispatch(deleteDataRequest())
+
+        axios({
+            url: `http://localhost:3000/api/dashboard/resume/${resume._id}`,
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': token
+            },
+            data: JSON.stringify({ user: user })
+        })
+            .then(response => {
+                const data = response.data
+                console.log(data.data);
+                dispatch(deleteDataSuccess())
+            })
+            .catch(error => {
+                dispatch(deleteDataFailure(error.message))
+            })
+    }
+}
+
+export const deleteDataRequest = () => {
+    return {
+        type: DELETE_DATA_REQUEST
+    }
+}
+
+export const deleteDataSuccess = () => {
+    return {
+        type: DELETE_DATA_SUCCESS,
+    }
+}
+
+export const deleteDataFailure = error => {
+    return {
+        type: DELETE_DATA_FAILED,
         payload: error
     }
 }

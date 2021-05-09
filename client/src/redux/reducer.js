@@ -20,6 +20,9 @@ import {
     UPDATE_USER_REQUEST,
     UPDATE_USER_SUCCESS,
     UPDATE_USER_FAILED,
+    DELETE_DATA_REQUEST,
+    DELETE_DATA_SUCCESS,
+    DELETE_DATA_FAILED,
 } from './actionTypes'
 import blankResume from '../resume';
 
@@ -207,6 +210,23 @@ const reducer = (state = initialState, action) => {
                 error: ''
             }
         case UPDATE_USER_FAILED:
+            return {
+                ...newState,
+                loading: false,
+                error: action.payload
+            }
+        case DELETE_DATA_REQUEST:
+            return {
+                ...newState,
+                loading: true
+            }
+        case DELETE_DATA_SUCCESS:
+            return {
+                ...newState,
+                loading: false,
+                error: ''
+            }
+        case DELETE_DATA_FAILED:
             return {
                 ...newState,
                 loading: false,

@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import { fetchData, setData, updateUser } from '../redux/actionCreators';
+import { fetchData, setData, updateUser, deleteData } from '../redux/actionCreators';
 import { useHistory } from "react-router-dom"
 
 const useStyles = makeStyles((theme) => ({
@@ -73,7 +73,6 @@ const Dashboard = (props) => {
     React.useEffect(() => {
         props.fetchData(props.token, function () {
             //history.push("/builder")
-            console.log()
         })
     }, [])
 
@@ -88,11 +87,18 @@ const Dashboard = (props) => {
         })
     };
 
-    const handleDelete = () => {
-        /*props.setData(-1, function () {
-            history.push("/builder")
-        })*/
-    };
+    const callDelete = async (index) => {
+        await props.deleteData(props.token, props.resume.data[index])
+    }
+    const handleDelete = (index) => {
+        callDelete(index)
+            .then(() => {
+                props.fetchData(props.token, function () {
+                    //history.push("/builder")  
+                })
+            })
+    }
+
     const clickSubmit = (event) => {
         event.preventDefault();
         const user = {
@@ -208,6 +214,7 @@ const Dashboard = (props) => {
                                         variant="contained"
                                         color="secondary"
                                         className={classes.button}
+                                        onClick={() => { handleDelete(id) }}
                                         startIcon={<DeleteIcon />}
                                     >
                                         Delete
@@ -232,8 +239,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     fetchData: (props, callback) => { dispatch(fetchData(props, callback)) },
-    updateUser: (token, resume) => { dispatch(updateUser(token, resume)) },
+    updateUser: (user, token) => { dispatch(updateUser(user, token)) },
     setData: (props, callback) => { dispatch(setData(props, callback)) },
+    deleteData: (token, resume) => { dispatch(deleteData(token, resume)) },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

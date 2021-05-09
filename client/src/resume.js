@@ -1,7 +1,7 @@
 const resume = {
 
     title: "",
-    template: "template1",
+    template: "",
     personal: {
         firstName: "",
         lastName: "",

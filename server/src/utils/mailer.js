@@ -3,7 +3,6 @@ import {config} from '../config/config.js';
 
 const sendMail= (sender,recipient,subject,content) => {
     
-  console.log(config);
 
  let transport = nodemailer.createTransport({
         host: config.MAIL_HOST,

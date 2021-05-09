@@ -5,10 +5,11 @@ import Home from './components/Home';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Builder from './components/Builder';
+import Dashboard from './components/Dashboard';
+import ForgotPassword from './components/ForgotPassword';
+import ResetPassword from './components/ResetPassword';
 import Template1 from './components/templates/template1/Template1';
 import Template2 from './components/templates/template2/Template2';
-import Dashboard from "./components/Dashboard";
-
 
 const MainRouter = () => {
   return (
@@ -19,6 +20,8 @@ const MainRouter = () => {
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
         <Route path="/builder" component={Builder} />
+        <Route path="/password/forgot" component={ForgotPassword} />
+        <Route path="/password/reset" component={ResetPassword} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/template1" component={Template1} />
         <Route path="/template2" component={Template2} />

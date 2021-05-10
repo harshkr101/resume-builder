@@ -128,6 +128,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...newState,
                 data: state.data[action.payload],
+                image: '',
                 error: ''
             }
         case SET_DATA_BLANK:

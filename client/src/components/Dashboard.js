@@ -15,6 +15,9 @@ import { fetchData, setData, updateUser, deleteData } from '../redux/actionCreat
 import { useHistory } from "react-router-dom"
 
 const useStyles = makeStyles((theme) => ({
+    title: {
+        margin: theme.spacing(4)
+    },
     container: {
         maxWidth: '50%',
         marginLeft: '25%',
@@ -38,9 +41,21 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    line: {
+        height: '10px',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: '35px',
+        marginBottom: '20px',
+        border: 'none',
+        backgroundColor: theme.palette.primary.main,
+        opacity: '0.75',
+        width: '70%'
+    },
     cardGrid: {
-        paddingTop: theme.spacing(8),
-        paddingBottom: theme.spacing(8),
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+        textAlign: 'center'
     },
     card: {
         height: '100%',
@@ -53,6 +68,9 @@ const useStyles = makeStyles((theme) => ({
     cardContent: {
         flexGrow: 1,
     },
+    actions: {
+        marginLeft: '33px'
+    }
 }));
 
 
@@ -115,7 +133,7 @@ const Dashboard = (props) => {
         <React.Fragment>
             <Container component="main" maxWidth="xs" className={classes.container}>
                 <div className={classes.paper}>
-                    <Typography component="h1" variant="h5">
+                    <Typography component="h1" variant="h5" className={classes.title}>
                         Personal Details
                     </Typography>
                     <form className={classes.form} noValidate>
@@ -174,25 +192,15 @@ const Dashboard = (props) => {
                     </form>
                 </div>
             </Container>
-            {/*
-                props.resume.data.map((resume, idx) => {
-                    return (
-                        <Button id={idx}
-                            name={resume.title}
-                            value={idx}
-                            onChange={handleChange}
-                        >
-                            {resume.title}
-                        </Button>
-                    );
-                })
-            */}
+            <hr className={classes.line}></hr>
             <Container className={classes.cardGrid} maxWidth="md">
-                {/* End hero unit */}
+                <Typography component="h1" variant="h5" className={classes.title}>
+                    Saved Resumes
+                </Typography>
                 <Grid container spacing={4}>
                     {props.resume.data.map((item, id) => (
                         <Grid item key={id} xs={12} sm={6} md={4}>
-                            <Card className={classes.card}>
+                            <Card className={classes.card} color="secondary">
                                 <CardContent className={classes.cardContent}>
                                     <Typography gutterBottom variant="h5" component="h2">
                                         {item.title}
@@ -201,7 +209,7 @@ const Dashboard = (props) => {
                                         You can use this section to describe the content.
                                     </Typography>
                                 </CardContent>
-                                <CardActions>
+                                <CardActions className={classes.actions}>
                                     <Button
                                         variant="contained"
                                         color="primary"

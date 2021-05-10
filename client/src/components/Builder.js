@@ -198,6 +198,7 @@ const Builder = (props) => {
                     color="primary"
                     onClick={handlePdf}
                     className={classes.pdf}
+                    disabled={(props.resume.template) ? "" : "true"}
                 >
                     Download PDF
                 </Button>

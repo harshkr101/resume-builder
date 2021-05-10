@@ -24,8 +24,10 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     link: {
-        textDecoration: 'none',
-        color: 'inherit'
+        '&:hover': {
+            textDecoration: 'none',
+            color: 'inherit'
+        }
     }
 }));
 

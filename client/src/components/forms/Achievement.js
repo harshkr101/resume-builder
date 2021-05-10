@@ -8,7 +8,7 @@ export default function Achievement({ resume }) {
         title: '',
         date: '',
         organisation: '',
-        description: ''
+        description: ['']
     };
 
     return (

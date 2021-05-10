@@ -297,15 +297,6 @@ export const renderPreviewSuccess = image => {
     }
 }
 
-export const generatePdf = (img) => {
-    return () => {
-        const pdf = new jsPDF();
-        console.log(img)
-        pdf.addImage(img, 'PNG', 0, 0);
-        pdf.save("resume.pdf");
-    }
-}
-
 export const updateUser = (newUser, token) => {
 
     var base64Url = token.split('.')[1];

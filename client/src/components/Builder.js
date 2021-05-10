@@ -157,18 +157,23 @@ const Builder = (props) => {
         setActiveStep(activeStep - 1);
     };
 
-    const handlePdf = () => {
-        var img = document.getElementById('preview');
-        var width = img.clientWidth;
-        var height = img.clientHeight;
+    const generatePdf = () => {
+        var img = new Image();
+        img.src = props.image;
+        console.log(img.height, img.width)
+
+        var preview = document.getElementById('preview');
+        var width = preview.clientWidth;
+        var height = preview.clientHeight;
         console.log(height, width)
 
         if (props.image) {
             const pdf = new jsPDF({
+                orientation: (height > width) ? "portrait" : "landscape",
                 unit: "px",
-                format: [height, width]
+                format: [height, width]//[height, width]//[img.height * (0.5625), img.width * (0.5625)]
             });
-            pdf.addImage(props.image, 'PNG', 0.1, 0.1);
+            pdf.addImage(img, 'PNG', 0, 0);
             pdf.save("resume.pdf");
         }
     };
@@ -196,9 +201,9 @@ const Builder = (props) => {
                 <Button
                     variant="contained"
                     color="primary"
-                    onClick={handlePdf}
+                    onClick={generatePdf}
                     className={classes.pdf}
-                    disabled={(props.resume.template) ? "" : "true"}
+                    disabled={(props.image) ? "" : "true"}
                 >
                     Download PDF
                 </Button>
@@ -243,15 +248,11 @@ const Builder = (props) => {
                         </React.Fragment>
                     </Paper>
                 </main>
-                <div id='preview' className={classes.preview} >
-                    {(props.image) ? <img alt='preview' className={classes.image} src={props.image} /> : <div></div>}
+                <div className={classes.preview} >
+                    {(props.image) ? <img id='preview' alt='preview' className={classes.image} src={props.image} /> : <div></div>}
                 </div>
             </div>
-            {(props.resume.template) ? <HiddenResume
-                className={classes.hidden}
-                id={props.resume.template} />
-                : <div></div>
-            }
+            {(props.resume.template) ? <HiddenResume id={"pdf"} className={classes.hidden} /> : <div id={"pdf"} ></div>}
         </React.Fragment>
     );
 }

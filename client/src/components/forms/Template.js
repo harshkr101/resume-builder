@@ -47,7 +47,7 @@ const Template = (props) => {
 
     return (
         <React.Fragment>
-            <h5>Choose Template To Update</h5>
+            <h5>Choose Template</h5>
             <React.Fragment>
                 <hr className={classes.line}></hr>
                 <Grid container spacing={3}>

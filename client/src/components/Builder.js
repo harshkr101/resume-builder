@@ -150,7 +150,6 @@ const Builder = (props) => {
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
-        console.log(props.resume);
     };
 
     const handleBack = () => {
@@ -160,23 +159,22 @@ const Builder = (props) => {
     const generatePdf = () => {
         var img = new Image();
         img.src = props.image;
-        console.log(img.height, img.width)
-
         var preview = document.getElementById('preview');
         var width = preview.clientWidth;
         var height = preview.clientHeight;
-        console.log(height, width)
 
         if (props.image) {
+            
             const pdf = new jsPDF({
                 orientation: (height > width) ? "portrait" : "landscape",
                 unit: "px",
                 format: [height, width]//[height, width]//[img.height * (0.5625), img.width * (0.5625)]
             });
-            pdf.addImage(img, 'PNG', 0, 0);
+            pdf.addImage(img, 'PNG', 0,0,width,height,'SLOW');
             pdf.save("resume.pdf");
         }
     };
+    
     const clickSave = (event) => {
         if (event)
             event.preventDefault();

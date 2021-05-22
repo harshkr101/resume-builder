@@ -66,7 +66,8 @@ const Login = (props) => {
             password: values.password || undefined
         }
 
-        props.loginCheck(user, function () {
+        props.loginCheck(user, function (token) {
+            localStorage.setItem('token', token);
             console.log(props.resume)
             history.push("/")
         })

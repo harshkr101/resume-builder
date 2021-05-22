@@ -44,7 +44,7 @@ export const loginCheck = (user, callback) => {
             .then(response => {
                 const data = response.data
                 dispatch(logInSuccess(data.token))
-                callback()
+                callback(data.token)
             })
             .catch(error => {
                 dispatch(logInFailure(error.message))

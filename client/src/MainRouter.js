@@ -10,8 +10,19 @@ import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 import Template1 from './components/templates/template1/Template1';
 import Template2 from './components/templates/template2/Template2';
+import { connect } from 'react-redux';
+import { logInSuccess } from './redux/actionCreators';
 
-const MainRouter = () => {
+const MainRouter = (props) => {
+  
+  const storedJwt = localStorage.getItem('token');
+
+  React.useEffect(() => {
+    if(storedJwt)
+      props.logInSuccess(storedJwt)
+  }, [])
+  
+
   return (
     <div>
       <NavBar />
@@ -30,4 +41,15 @@ const MainRouter = () => {
   );
 }
 
-export default MainRouter;
+const mapStateToProps = state => {
+  return {
+      resume: state.resume,
+      token: state.resume.token
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  logInSuccess: (props, callback) => { dispatch(logInSuccess(props)) },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainRouter);

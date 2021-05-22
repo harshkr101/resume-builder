@@ -40,7 +40,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = (props) => {
     const classes = useStyles();
-    var base64Url = props.token.split('.')[1];
+    const token = localStorage.getItem('token');
+    var base64Url = token.split('.')[1];
     var base64 = base64Url.replace('-', '+').replace('_', '/');
     const user = JSON.parse(window.atob(base64));
     console.log(user)

@@ -7,6 +7,9 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import Personal from './forms/Personal';
 import Education from './forms/Education';
 import Experience from './forms/Experience';
@@ -105,6 +108,12 @@ const useStyles = makeStyles((theme) => ({
             width: 'fit-content',
         },
     },
+    listLabel: {
+        margin: '0px'
+    },
+    listItem: {
+        padding: '0px'
+    }
 }));
 
 const Builder = (props) => {
@@ -114,17 +123,7 @@ const Builder = (props) => {
     const [activeStep, setActiveStep] = React.useState(0);
 
     const token = props.token;
-    /*
-        React.useEffect(() => {
-            props.fetchData(token, function () {
-                console.log(props.state)
-                setTimeout(function () {
-                    console.log(props.state)
-                    history.push("/builder")
-                }, 3000);
-            })
-        }, [])
-    */
+    
     const steps = ['Personal', 'Educational', 'Experience', 'Projects', 'Skills', 'Achievements', 'Template'];
 
     function getStepContent(step) {
@@ -147,6 +146,10 @@ const Builder = (props) => {
                 throw new Error('Unknown step');
         }
     }
+
+    const handleClick = (idx) => {
+        setActiveStep(idx);
+    };
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
@@ -206,11 +209,22 @@ const Builder = (props) => {
                     Download PDF
                 </Button>
                 <Stepper className={classes.stepper} orientation="vertical" activeStep={activeStep}>
-                    {steps.map((label) => (
+                    {steps.map((label,idx) => (
                         <Step key={label}>
-                            <StepLabel>{label}</StepLabel>
+                            <StepLabel>
+                                <ListItem key={label} button className={classes.listItem} onClick={() => { handleClick(idx) }}>
+                                    <ListItemText primary={label} className={classes.listLabel}/>
+                                </ListItem>
+                            </StepLabel>
                         </Step>
                     ))}
+                    {/*<List>
+                        {steps.map((label, idx) => (
+                            <ListItem key={label} button onClick={() => { handleClick(idx) }}>
+                                <ListItemText primary={label} />
+                            </ListItem>
+                        ))}
+                    </List>*/}
                 </Stepper>
                 <main className={classes.layout}>
                     <Paper className={classes.paper}>

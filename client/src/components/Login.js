@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
         height: '100vh',
     },
     image: {
-        backgroundImage: 'url(https://source.unsplash.com/800x450/?resume)',
         backgroundRepeat: 'no-repeat',
         backgroundColor:
             theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -68,7 +67,6 @@ const Login = (props) => {
 
         props.loginCheck(user, function (token) {
             localStorage.setItem('token', token);
-            console.log(props.resume)
             history.push("/")
         })
     }
@@ -76,7 +74,9 @@ const Login = (props) => {
     return (
         <Grid container component="main" className={classes.root}>
             <CssBaseline />
-            <Grid item xs={false} sm={4} md={7} className={classes.image} />
+            <Grid item xs={false} sm={4} md={7} >
+                <img src={process.env.PUBLIC_URL+'/assets/login.svg'}  alt="login"/>
+            </Grid>
             <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                 <div className={classes.paper}>
                     <Avatar className={classes.avatar}>

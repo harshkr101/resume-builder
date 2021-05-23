@@ -170,7 +170,7 @@ const Builder = (props) => {
             
             const pdf = new jsPDF({
                 orientation: (height > width) ? "portrait" : "landscape",
-                unit: "px",
+                unit: "pt",
                 format: [height, width]//[height, width]//[img.height * (0.5625), img.width * (0.5625)]
             });
             pdf.addImage(img, 'PNG', 0,0,width,height,'SLOW');

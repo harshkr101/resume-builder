@@ -1,6 +1,7 @@
 import React from "react";
 import { Switch, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
+import Footer from './components/Footer';
 import Home from './components/Home';
 import Signup from './components/Signup';
 import Login from './components/Login';
@@ -37,6 +38,7 @@ const MainRouter = (props) => {
         <Route path="/template1" component={Template1} />
         <Route path="/template2" component={Template2} />
       </Switch>
+      <Footer/>
     </div>
   );
 }

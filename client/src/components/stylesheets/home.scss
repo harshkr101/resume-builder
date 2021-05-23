@@ -1,11 +1,13 @@
-
-.container-fluid{
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
+.page-wrapper{
+    width: 100%;
+    height: 100%;
 }
 
 .main{
+
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
 
 .top{
         .left{
@@ -18,17 +20,15 @@
                     font-weight: bolder;
                 }
                 .main-subheading{
-                    font-size:1.5em;
+                    font-size:2em;
                     color: gray
                 }
             }
 
             .btn{
                 margin-top: 1%;
-                padding:3%;
-                color:black;
-                font-weight: bold;
-                background-color: #00E5FF;
+                padding:2%;
+                font-weight: bolder;
                 border: 1px solid  gray;
                 font-size: 1.5em;
             }
@@ -66,18 +66,23 @@
         margin-left: 3%;
       .card{
 
-        height:200px;
+        height:250px;
         width:500px;
         margin-bottom: 1%;
         margin-left: 2%;
-        background-color:#c0fefc;
+        background-color:rgba(255, 255, 255, 1);
         border-radius: 3%;
 
+        .card-heading{
+            font-size: 2em;
+            margin-top: 5%;
+            font-weight: bolder;
+        }
     
         .card-body{
 
             .card-title{
-                font-size:2.5em;
+                font-size:1.5em;
                 font-weight: bold;
                 text-align: center;
              
@@ -86,6 +91,7 @@
             .card-text{
                 font-size:1.5em;
                 text-align: center;
+                color:gray;
             }
 
         }
@@ -96,5 +102,52 @@
 }
 
 }
+    .features{
+        margin-right: 10%;
+        margin-left: 10%;
+        .features-heading{
+            margin-top: 5%;
+            text-align: center;
+            h1{
+                font-size: 4em;
+                font-weight: bolder;
+            }
+        }
 
+        .features-content{
+            .text-content{
+                margin-top: 10%;
+                .heading{
+                    font-size: 3em;
+                    font-weight: bold;
+                }
+
+                .text{
+                    font-size: 1.5em;
+                    color: gray;
+                }
+                
+            }
+            
+        }
+    }
+
+    .build-wrapper{
+        background: rgb(2,0,36);
+        background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,0.7525210767900911) 35%, rgba(0,212,255,1) 77%);
+        
+        .build-resume{
+            text-align: center;
+            .btn{
+                margin-top: 1%;
+                margin-bottom: 1%;
+                padding:1%;
+                font-weight: bolder;
+                border: 1px solid #ffffff;
+                font-size: 1.5em;
+            }
+        }
+    
+    }
 }
+

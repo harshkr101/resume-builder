@@ -38,36 +38,81 @@ const Home = (props) => {
     const publicURL = process.env.PUBLIC_URL; 
 
     return (
+        
+            <div className="container-fluid">
 
-            <div className="container  m-0 col-12">
-                <div className="top m-0 row" >
-                         <div className="col-4  left">
-                             <div>
-                                <h1>Build your resume today</h1>
-                                <br/>
-                                <h4>Build a resume tailored to your needs</h4>
+                <div className="main">
+
+                <section className="top row" >
+                         <div className="col-5 left">
+                             <div className=" heading-content align-middle">
+                                <span className="main-heading">Build your resume today</span>
+                                <br></br>
+                                <span className="main-subheading">Build a resume tailored to your needs</span>
                             </div>
                             <br></br>
                             <div>
-                                <button className="btn btn-primary btn-lg" onClick={handleClick}>BUILD RESUME</button>
+                                <button className="btn  btn-lg" onClick={handleClick}>BUILD RESUME</button>
                             </div>
                          </div>
 
-                         <div className="col-8 right">
-                             <img  src={publicURL+"/assets/tailored.jpg"}  alt="tailored resume"/>
-
+                         <div className="col-7 right ">
+                             <img  src={publicURL+"/assets/resume.png"}   alt=" resume"/>
                          </div>
+                </section>
 
-                       
+                <section className="start ">
+                    
+                    <div className="start-heading ">
+                        <span >How to Start?</span>
+                    </div>
+
+                   
+
+                    <div className="content row align-content-center">
+
+                        <div className="card-wrapper first col-md">
+
+                        <div className="card">
+                            <div className="card-body">
+                                <h5 className="card-title">Fill the form</h5>
+                                <p className="card-text">Fill out your details in six easy steps</p>
+
+                            </div>
+                        </div>
+                        </div>
+
+                        <div className="card-wrapper col-md">
+
+                        <div className="card">
+                           
+                            <div className="card-body">
+                                <h5 className="card-title">Choose template</h5>
+                                <p className="card-text">Choose a template from multiple provided templates</p>
+
+                            </div>
+                        </div>
+
+                        </div>
+
+                        <div className="card-wrapper col-md">
+                        <div className="card col-md">
+                           
+                            <div className="card-body">
+                                <h5 className="card-title">Download Resume</h5>
+                                <p className="card-text">That's it! Now you can download your resume in pdf form</p>
+
+                            </div>
+                        </div>
+                        </div>
+
+                    </div>
+                </section>
                 </div>
 
-                <div className="">
+              
 
-                </div>
             </div>
-
-            
-
     )
 
 }

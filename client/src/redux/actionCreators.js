@@ -85,6 +85,7 @@ export const logOutRequest = () => {
 }
 
 export const logOutSuccess = token => {
+    localStorage.removeItem('token');
     return {
         type: LOG_OUT_SUCCESS,
         payload: null

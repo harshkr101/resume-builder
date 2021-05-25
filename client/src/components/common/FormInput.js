@@ -25,10 +25,6 @@ export default function FormInput(props) {
         return value;
     }
 
-    const updateSection = (item) => {
-        props.update(item);
-    }
-
     return (
         <React.Fragment>
             <Grid container spacing={3}>

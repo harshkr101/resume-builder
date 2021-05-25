@@ -91,7 +91,8 @@ const reducer = (state = initialState, action) => {
         case LOG_IN_REQUEST:
             return {
                 ...newState,
-                loading: true
+                loading: true,
+                error: ''
             }
         case LOG_IN_SUCCESS:
             return {
@@ -141,7 +142,8 @@ const reducer = (state = initialState, action) => {
         case FETCH_DATA_REQUEST:
             return {
                 ...newState,
-                loading: true
+                loading: true,
+                error: ''
             }
         case FETCH_DATA_SUCCESS:
             return {

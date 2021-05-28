@@ -23,14 +23,15 @@ const Description = ({ sectionName, index, name, section }) => {
     console.log(sectionName, index, name)
     const [lines, setLines] = React.useState(section[index][name]);
 
-    const [errorText, setErrorText] = React.useState('')
+    const [errorText, setErrorText] = React.useState({})
 
-    const validateInput = (input) => {
+    const validateInput = (id, input) => {
         if (input.length < 3)
-            setErrorText('Too Small Text')
-        else setErrorText('')
+            setErrorText({ ...errorText, [id]: 'Too Small Text' })
+        else if (input.length > 100)
+            setErrorText({ ...errorText, [id]: 'Too Large Text' })
+        else setErrorText({ ...errorText, [id]: '' })
     }
-
 
     const addLine = () => {
         const updatedLines = [...lines, '']
@@ -40,7 +41,7 @@ const Description = ({ sectionName, index, name, section }) => {
 
     const handleChange = (e) => {
         const { id, value } = e.target;
-        validateInput(value)
+        validateInput(id, value)
         const updatedLines = lines
         updatedLines[id] = value
         setLines([...updatedLines]);
@@ -58,11 +59,11 @@ const Description = ({ sectionName, index, name, section }) => {
                         value={text}
                         onChange={handleChange}
                         type='text'
-                        error={errorText}
+                        error={errorText[idx]}
                         fullWidth
                     />
-                    {(errorText) ?
-                        <Alert className={classes.alert} severity="error">{errorText}</Alert> : <div></div>
+                    {(errorText[idx]) ?
+                        <Alert className={classes.alert} severity="error">{errorText[idx]}</Alert> : <div></div>
                     }
                 </div>
             ))}

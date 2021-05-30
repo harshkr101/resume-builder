@@ -1,6 +1,6 @@
 import axios from 'axios';
 import html2canvas from 'html2canvas';
-import { jsPDF } from "jspdf";
+//import { jsPDF } from "jspdf";
 
 import {
     SET_DATA_SUCCESS,
@@ -65,9 +65,10 @@ export const logInSuccess = token => {
     }
 }
 
-export const logInFailure = () => {
+export const logInFailure = (error) => {
     return {
         type: LOG_IN_FAILED,
+        payload: error
     }
 }
 

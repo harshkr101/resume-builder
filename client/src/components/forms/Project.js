@@ -7,8 +7,8 @@ export default function Project({ resume }) {
     const project = {
         projectName: '',
         keywords: '',
+        projectLink: '',
         projectDescription: [''],
-        projectLink: ''
     };
 
     return (

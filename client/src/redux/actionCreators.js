@@ -27,7 +27,8 @@ import {
     DELETE_DATA_REQUEST,
     DELETE_DATA_SUCCESS,
     DELETE_DATA_FAILED,
-    SET_TITLE
+    SET_TITLE,
+    SET_PERSONAL_DETAILS
 } from './actionTypes'
 
 export const loginCheck = (user, callback) => {
@@ -404,6 +405,13 @@ export const deleteDataFailure = error => {
 export const setTitle = data => {
     return {
         type: SET_TITLE,
+        payload: data
+    }
+}
+
+export const setPersonalDetails = data => {
+    return {
+        type: SET_PERSONAL_DETAILS,
         payload: data
     }
 }

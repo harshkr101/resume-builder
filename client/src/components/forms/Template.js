@@ -101,7 +101,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    setTitle: (props, callback) => { dispatch(setTitle(props, callback)) },
+    setTitle: (props) => { dispatch(setTitle(props)) },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Template);

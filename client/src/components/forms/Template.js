@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 import { connect } from 'react-redux';
 import { setTitle } from '../../redux/actionCreators';
 import templates from '../templates/templates';
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
     line: {
@@ -22,7 +23,11 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         flexBasis: "50%"
-    }
+    },
+    alert: {
+        padding: '0px',
+        width: '100%',
+    },
 }));
 
 
@@ -31,14 +36,18 @@ const Template = (props) => {
     const classes = useStyles();
     const history = useHistory()
 
-    //const [title, setTitle] = useState(props.resume.title);
+    const [errorText, setErrorText] = React.useState('')
+
+    const validateInput = (input) => {
+        if (input.length < 3)
+            setErrorText('Too Small Input')
+        else setErrorText('')
+    }
 
     const handleChange = (e) => {
         const { value } = e.target;
-
+        validateInput(value)
         props.setTitle(value);
-        //console.log(resume.personal, personal, value);
-        //props.resume.title = title;
     }
 
     const handleClick = (template) => {
@@ -61,9 +70,13 @@ const Template = (props) => {
                             label="Title"
                             value={props.resume.title}
                             onChange={handleChange}
+                            error={errorText}
                             fullWidth
                         />
                     </Grid>
+                    {(errorText) ?
+                        <Alert className={classes.alert} severity="error">{errorText}</Alert> : <div></div>
+                    }
                     {templates.map((template, index) => (
                         <Grid key={index} item xs={12} className={classes.button} >
                             <Button onClick={() => { handleClick(template) }}

@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
+import { connect } from 'react-redux';
+import { setTitle } from '../../redux/actionCreators';
 import templates from '../templates/templates';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,14 +31,14 @@ const Template = (props) => {
     const classes = useStyles();
     const history = useHistory()
 
-    const [title, setTitle] = useState(props.resume.title);
+    //const [title, setTitle] = useState(props.resume.title);
 
     const handleChange = (e) => {
         const { value } = e.target;
 
-        setTitle(value);
+        props.setTitle(value);
         //console.log(resume.personal, personal, value);
-        props.resume.title = title;
+        //props.resume.title = title;
     }
 
     const handleClick = (template) => {
@@ -57,7 +59,7 @@ const Template = (props) => {
                             id="title"
                             name="title"
                             label="Title"
-                            value={title}
+                            value={props.resume.title}
                             onChange={handleChange}
                             fullWidth
                         />
@@ -79,4 +81,14 @@ const Template = (props) => {
     )
 }
 
-export default Template;
+const mapStateToProps = state => {
+    return {
+        resume: state.resume,
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+    setTitle: (props, callback) => { dispatch(setTitle(props, callback)) },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Template);

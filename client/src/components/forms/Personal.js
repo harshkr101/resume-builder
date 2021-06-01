@@ -4,6 +4,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Alert from '@material-ui/lab/Alert';
+import { connect } from 'react-redux';
+import { setPersonalDetails } from '../../redux/actionCreators';
 
 const useStyles = makeStyles((theme) => ({
     line: {
@@ -27,15 +29,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function PersonalForm({ resume }) {
+function PersonalForm(props) {
 
     const classes = useStyles();
 
-    const [personal, setPersonal] = useState(resume.personal);
-
     const regex = {
         email: /^([a-z0-9_\.\+-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/,
-        name: /^[A-Z][a-zA-Z]{3,}$/,
+        name: /^[A-Z][a-zA-Z]{1,}$/,
         website: /(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/,
         phone: /^\d{6,}$/
     }
@@ -73,22 +73,11 @@ export default function PersonalForm({ resume }) {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-
-        setPersonal(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
-        //console.log(resume.personal, personal, value);
-        resume.personal = personal;
+        const newDetails = { ...props.resume.personal, [name]: value }
+        setPersonalDetails({ ...props.resume, personal: newDetails });
+        props.resume.personal = newDetails;
 
         validateInput(name, value)
-        /*
-         const updatedSection = resume.personal;
-         updatedSection[name] = value;
-         setPersonal(updatedSection)
-         resume.personal = personal;
-         console.log(resume.personal, personal, value);
-         */
     }
 
     return (
@@ -104,7 +93,7 @@ export default function PersonalForm({ resume }) {
                         id="firstName"
                         name="firstName"
                         label="First name"
-                        value={personal.firstName}
+                        value={props.resume.personal.firstName}
                         onChange={handleChange}
                         fullWidth
                         autoComplete="given-name"
@@ -117,7 +106,7 @@ export default function PersonalForm({ resume }) {
                         id="lastName"
                         name="lastName"
                         label="Last name"
-                        value={personal.lastName}
+                        value={props.resume.personal.lastName}
                         onChange={handleChange}
                         fullWidth
                         autoComplete="family-name"
@@ -136,7 +125,7 @@ export default function PersonalForm({ resume }) {
                         id="email"
                         name="email"
                         label="Email Address"
-                        value={personal.email}
+                        value={props.resume.personal.email}
                         onChange={handleChange}
                         fullWidth
                         autoComplete="email"
@@ -151,7 +140,7 @@ export default function PersonalForm({ resume }) {
                         id="phone"
                         name="phone"
                         label="Phone No."
-                        value={personal.phone}
+                        value={props.resume.personal.phone}
                         onChange={handleChange}
                         fullWidth
                         autoComplete="tel"
@@ -167,7 +156,7 @@ export default function PersonalForm({ resume }) {
                         id="website"
                         name="website"
                         label="Professional Profile/Website"
-                        value={personal.website}
+                        value={props.resume.personal.website}
                         onChange={handleChange}
                         fullWidth
                         error={errorText.website}
@@ -179,3 +168,15 @@ export default function PersonalForm({ resume }) {
         </React.Fragment>
     );
 }
+
+const mapStateToProps = state => {
+    return {
+        resume: state.resume.data,
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+    setPersonalDetails: (props) => { dispatch(setPersonalDetails(props)) },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PersonalForm);

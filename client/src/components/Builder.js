@@ -7,7 +7,7 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
+//import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Personal from './forms/Personal';
@@ -123,13 +123,13 @@ const Builder = (props) => {
     const [activeStep, setActiveStep] = React.useState(0);
 
     const token = props.token;
-    
+
     const steps = ['Personal', 'Educational', 'Experience', 'Projects', 'Skills', 'Achievements', 'Template'];
 
     function getStepContent(step) {
         switch (step) {
             case 0:
-                return <Personal resume={props.resume} />;
+                return <Personal />;
             case 1:
                 return <Education resume={props.resume} />;
             case 2:
@@ -167,17 +167,17 @@ const Builder = (props) => {
         var height = preview.clientHeight;
 
         if (props.image) {
-            
+
             const pdf = new jsPDF({
                 orientation: (height > width) ? "portrait" : "landscape",
                 unit: "pt",
                 format: [height, width]//[height, width]//[img.height * (0.5625), img.width * (0.5625)]
             });
-            pdf.addImage(img, 'PNG', 0,0,width,height,'SLOW');
+            pdf.addImage(img, 'PNG', 0, 0, width, height, 'SLOW');
             pdf.save("resume.pdf");
         }
     };
-    
+
     const clickSave = (event) => {
         if (event)
             event.preventDefault();
@@ -209,11 +209,11 @@ const Builder = (props) => {
                     Download PDF
                 </Button>
                 <Stepper className={classes.stepper} orientation="vertical" activeStep={activeStep}>
-                    {steps.map((label,idx) => (
+                    {steps.map((label, idx) => (
                         <Step key={label}>
                             <StepLabel>
                                 <ListItem key={label} button className={classes.listItem} onClick={() => { handleClick(idx) }}>
-                                    <ListItemText primary={label} className={classes.listLabel}/>
+                                    <ListItemText primary={label} className={classes.listLabel} />
                                 </ListItem>
                             </StepLabel>
                         </Step>

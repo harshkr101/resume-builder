@@ -19,6 +19,8 @@ export default function FormInput(props) {
 
     const [errorText, setErrorText] = React.useState({})
 
+    const [minSize, setMinSize] = React.useState(50)
+
     const validateInput = (id, name, input) => {
         if (name === 'gpa')
             if (input.length < 1)
@@ -32,6 +34,17 @@ export default function FormInput(props) {
             else if (input.length > 100)
                 setErrorText({ ...errorText, [id]: 'Too Large Input' })
             else setErrorText({ ...errorText, [id]: '' })
+        else if (name === 'keywords') {
+            var keywords = input.split(',');
+            setMinSize(4)
+            keywords.forEach(keyword => {
+                if (keyword.length < 4)
+                    setMinSize(keyword.length)
+            })
+            if (minSize < 4)
+                setErrorText({ ...errorText, [id]: 'Too Small Keyword' })
+            else setErrorText({ ...errorText, [id]: '' })
+        }
         else {
             if (input.length < 3)
                 setErrorText({ ...errorText, [id]: 'Too Small Input' })

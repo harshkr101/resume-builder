@@ -101,7 +101,7 @@ export default function Signup() {
                 body: JSON.stringify(user)
             })
             let res = await response.json()
-            console.log(res)
+            //console.log(res)
             goto(response, res.user)
             return response
         } catch (err) {

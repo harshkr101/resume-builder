@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 const Description = ({ sectionName, index, name, section }) => {
     const classes = useStyles();
 
-    console.log(sectionName, index, name)
+    //console.log(sectionName, index, name)
     const [lines, setLines] = React.useState(section[index][name]);
 
     const [errorText, setErrorText] = React.useState({})

@@ -44,7 +44,7 @@ const Dashboard = (props) => {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace('-', '+').replace('_', '/');
     const user = JSON.parse(window.atob(base64));
-    console.log(user)
+    //console.log(user)
 
     const [values, setValues] = useState({
         firstName: user.firstName,

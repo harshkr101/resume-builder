@@ -177,7 +177,7 @@ export const fetchDataFailure = error => {
 }
 
 export const postData = (token, resume) => {
-    console.log(token);
+    //console.log(token);
 
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace('-', '+').replace('_', '/');
@@ -240,7 +240,7 @@ export const updateData = (token, resume) => {
         data: resume,
         user: user
     }
-    console.log(token);
+    //console.log(token);
 
     return (dispatch) => {
         dispatch(updateDataRequest())
@@ -256,7 +256,7 @@ export const updateData = (token, resume) => {
         })
             .then(response => {
                 const data = response.data
-                console.log(data.data);
+                //console.log(data.data);
                 dispatch(updateDataSuccess(data.data))
             })
             .catch(error => {
@@ -308,11 +308,11 @@ export const updateUser = (newUser, token) => {
     var user = JSON.parse(window.atob(base64));
 
     user = { ...user, firstName: newUser.firstName, lastName: newUser.lastName, email: newUser.email }
-    console.log(user);
+    //console.log(user);
 
     return (dispatch) => {
         dispatch(updateUserRequest())
-        console.log(token);
+        //console.log(token);
 
         axios({
             url: `http://localhost:3000/api/dashboard/user/${user.id}`,
@@ -325,7 +325,7 @@ export const updateUser = (newUser, token) => {
         })
             .then(response => {
                 const data = response.data
-                console.log(data.data);
+                //console.log(data.data);
                 dispatch(updateUserSuccess())
             })
             .catch(error => {
@@ -374,7 +374,7 @@ export const deleteData = (token, resume) => {
         })
             .then(response => {
                 const data = response.data
-                console.log(data.data);
+                //console.log(data.data);
                 dispatch(deleteDataSuccess())
             })
             .catch(error => {

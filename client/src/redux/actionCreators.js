@@ -1,6 +1,7 @@
 import axios from 'axios';
 import html2canvas from 'html2canvas';
 //import { jsPDF } from "jspdf";
+import { config } from '../config/config.js';
 
 import {
     SET_DATA_SUCCESS,
@@ -36,7 +37,7 @@ export const loginCheck = (user, callback) => {
         dispatch(logInRequest())
 
         axios({
-            url: 'http://localhost:3000/api/login',
+            url: `${config.REACT_APP_API_URL}/api/login`,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -139,7 +140,7 @@ export const fetchData = (token, callback) => {
     return (dispatch) => {
         dispatch(fetchDataRequest())
 
-        axios.get(`http://localhost:3000/api/dashboard/resume/all/${user.id}`, {
+        axios.get(`${config.REACT_APP_API_URL}/api/dashboard/resume/all/${user.id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'auth-token': token
@@ -192,7 +193,7 @@ export const postData = (token, resume) => {
         dispatch(postDataRequest())
 
         axios({
-            url: 'http://localhost:3000/api/dashboard/resume',
+            url: `${config.REACT_APP_API_URL}/api/dashboard/resume`,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -246,7 +247,7 @@ export const updateData = (token, resume) => {
         dispatch(updateDataRequest())
 
         axios({
-            url: `http://localhost:3000/api/dashboard/resume/${resume._id}`,
+            url: `${config.REACT_APP_API_URL}/api/dashboard/resume/${resume._id}`,
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -315,7 +316,7 @@ export const updateUser = (newUser, token) => {
         //console.log(token);
 
         axios({
-            url: `http://localhost:3000/api/dashboard/user/${user.id}`,
+            url: `${config.REACT_APP_API_URL}/api/dashboard/user/${user.id}`,
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -364,7 +365,7 @@ export const deleteData = (token, resume) => {
         dispatch(deleteDataRequest())
 
         axios({
-            url: `http://localhost:3000/api/dashboard/resume/${resume._id}`,
+            url: `${config.REACT_APP_API_URL}/api/dashboard/resume/${resume._id}`,
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

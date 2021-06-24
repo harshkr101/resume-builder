@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useHistory } from "react-router-dom"
 import Alert from '@material-ui/lab/Alert';
+import { config } from '../config/config.js';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -93,7 +94,7 @@ export default function Signup() {
 
     const create = async (user) => {
         try {
-            let response = await fetch('http://localhost:3000/api/signup', {
+            let response = await fetch(`${config.REACT_APP_API_URL}/api/signup`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

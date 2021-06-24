@@ -10,6 +10,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useHistory } from "react-router-dom";
 import { useAlert } from "react-alert";
+import { config } from '../config/config.js';
+
 
 const useStyles = makeStyles((theme) => ({
 
@@ -67,7 +69,7 @@ export default function ForgotPassword() {
 
     const create = async (user) => {
         try {
-            let response = await fetch('http://localhost:3000/api/password/forgot', {
+            let response = await fetch(`${config.REACT_APP_API_URL}/api/password/forgot`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

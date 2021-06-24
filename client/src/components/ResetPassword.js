@@ -12,6 +12,8 @@ import { useHistory } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { useLocation } from "react-router-dom";
 import jwt from 'jsonwebtoken';
+import { config } from '../config/config.js';
+
 
 const useStyles = makeStyles((theme) => ({
 
@@ -89,7 +91,7 @@ export default function ResetPassword() {
 
     const create = async (user) => {
         try {
-            let response = await fetch('http://localhost:3000/api/password/reset', {
+            let response = await fetch(`${config.REACT_APP_API_URL}/api/password/reset`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

@@ -9,7 +9,7 @@ const Template1 = ({ resume, renderPreview }) => {
 
     React.useEffect(() => {
         renderPreview()
-    }, [])
+    }, []) //eslint-disable-line
 
     return (
         <div id={location.state ? '' : 'hide'}>

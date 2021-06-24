@@ -325,7 +325,7 @@ export const updateUser = (newUser, token) => {
             data: JSON.stringify(user)
         })
             .then(response => {
-                const data = response.data
+                //const data = response.data
                 //console.log(data.data);
                 dispatch(updateUserSuccess())
             })
@@ -374,7 +374,7 @@ export const deleteData = (token, resume) => {
             data: JSON.stringify({ user: user })
         })
             .then(response => {
-                const data = response.data
+                //const data = response.data
                 //console.log(data.data);
                 dispatch(deleteDataSuccess())
             })

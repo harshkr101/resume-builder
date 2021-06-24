@@ -51,7 +51,7 @@ const Dashboard = (props) => {
         props.fetchData(props.token, function () {
             //history.push("/builder")
         })
-    }, [])
+    }, []) //eslint-disable-line
 
     const handleEdit = (index) => {
         props.setData(index, function () {

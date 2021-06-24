@@ -56,7 +56,7 @@ const Dashboard = (props) => {
         props.fetchData(props.token, function () {
             //history.push("/builder")
         })
-    }, [])
+    }, []) //eslint-disable-line
 
     const handleChange = name => event => {
         setValues({ ...values, [name]: event.target.value })

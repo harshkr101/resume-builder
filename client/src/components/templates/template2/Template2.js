@@ -11,7 +11,7 @@ const Template2 = ({ resume, renderPreview }) => {
 
     React.useEffect(() => {
         renderPreview()
-    }, [])
+    }, []) //eslint-disable-line
 
 
 

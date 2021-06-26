@@ -44,7 +44,7 @@ const Dashboard = (props) => {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace('-', '+').replace('_', '/');
     const user = JSON.parse(window.atob(base64));
-    console.log(user)
+    //console.log(user)
 
     const [values, setValues] = useState({
         firstName: user.firstName,
@@ -56,7 +56,7 @@ const Dashboard = (props) => {
         props.fetchData(props.token, function () {
             //history.push("/builder")
         })
-    }, [])
+    }, []) //eslint-disable-line
 
     const handleChange = name => event => {
         setValues({ ...values, [name]: event.target.value })

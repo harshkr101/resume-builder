@@ -15,14 +15,14 @@ import { connect } from 'react-redux';
 import { logInSuccess } from './redux/actionCreators';
 
 const MainRouter = (props) => {
-  
+
   const storedJwt = localStorage.getItem('token');
 
   React.useEffect(() => {
-    if(storedJwt)
+    if (storedJwt)
       props.logInSuccess(storedJwt)
-  }, [])
-  
+  }, []) //eslint-disable-line
+
 
   return (
     <div>
@@ -38,15 +38,15 @@ const MainRouter = (props) => {
         <Route path="/template1" component={Template1} />
         <Route path="/template2" component={Template2} />
       </Switch>
-      <Footer/>
+      <Footer />
     </div>
   );
 }
 
 const mapStateToProps = state => {
   return {
-      resume: state.resume,
-      token: state.resume.token
+    resume: state.resume,
+    token: state.resume.token
   }
 }
 

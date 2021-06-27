@@ -10,9 +10,6 @@ import { connect } from 'react-redux';
 import { logout, fetchData } from '../redux/actionCreators';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-    },
     menuButton: {
         marginRight: theme.spacing(2),
     },
@@ -42,7 +39,7 @@ const ButtonAppBar = (props) => {
     }
 
     return (
-        <div className={classes.root}>
+        <div>
             <AppBar position="static">
                 <Toolbar>
                     <img className={classes.logo} src="./logo.png" alt="logo" />

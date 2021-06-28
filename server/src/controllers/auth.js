@@ -149,11 +149,12 @@ export const ForgotPassword = async (req, res) => {
     <h3>Password Reset</h3>
     <br>
     <p>Here is your password reset link</p>
-    <pre><a href = ${config.CLIENT_URL}/password/reset?token=${token}>Reset Password</a></pre>
+   <p>${config.CLIENT_URL}/password/reset?token=${token}</p>
+
     `;
 
     try {
-        sendMail(config.MAIL_SENDER, user.email, "PASSWORD RESET LINK", mailHtmlContent);
+        sendMail(config.MAIL_SENDER, user.email, "PASSWORD RESET", mailHtmlContent);
     } catch (error) {
         return res.status(500).json({ error: err });
     }

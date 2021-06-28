@@ -1,6 +1,6 @@
 import axios from 'axios';
 import html2canvas from 'html2canvas';
-import { jsPDF } from "jspdf";
+//import { jsPDF } from "jspdf";
 
 import {
     SET_DATA_SUCCESS,
@@ -27,6 +27,8 @@ import {
     DELETE_DATA_REQUEST,
     DELETE_DATA_SUCCESS,
     DELETE_DATA_FAILED,
+    SET_TITLE,
+    SET_PERSONAL_DETAILS
 } from './actionTypes'
 
 export const loginCheck = (user, callback) => {
@@ -65,9 +67,10 @@ export const logInSuccess = token => {
     }
 }
 
-export const logInFailure = () => {
+export const logInFailure = (error) => {
     return {
         type: LOG_IN_FAILED,
+        payload: error
     }
 }
 
@@ -396,5 +399,19 @@ export const deleteDataFailure = error => {
     return {
         type: DELETE_DATA_FAILED,
         payload: error
+    }
+}
+
+export const setTitle = data => {
+    return {
+        type: SET_TITLE,
+        payload: data
+    }
+}
+
+export const setPersonalDetails = data => {
+    return {
+        type: SET_PERSONAL_DETAILS,
+        payload: data
     }
 }

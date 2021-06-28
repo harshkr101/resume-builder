@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
+import { connect } from 'react-redux';
+import { setTitle } from '../../redux/actionCreators';
 import templates from '../templates/templates';
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
     line: {
@@ -20,7 +23,11 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         flexBasis: "50%"
-    }
+    },
+    alert: {
+        padding: '0px',
+        width: '100%',
+    },
 }));
 
 
@@ -29,14 +36,18 @@ const Template = (props) => {
     const classes = useStyles();
     const history = useHistory()
 
-    const [title, setTitle] = useState(props.resume.title);
+    const [errorText, setErrorText] = React.useState('')
+
+    const validateInput = (input) => {
+        if (input.length < 3)
+            setErrorText('Too Small Input')
+        else setErrorText('')
+    }
 
     const handleChange = (e) => {
         const { value } = e.target;
-
-        setTitle(value);
-        //console.log(resume.personal, personal, value);
-        props.resume.title = title;
+        validateInput(value)
+        props.setTitle(value);
     }
 
     const handleClick = (template) => {
@@ -57,11 +68,15 @@ const Template = (props) => {
                             id="title"
                             name="title"
                             label="Title"
-                            value={title}
+                            value={props.resume.title}
                             onChange={handleChange}
+                            error={errorText}
                             fullWidth
                         />
                     </Grid>
+                    {(errorText) ?
+                        <Alert className={classes.alert} severity="error">{errorText}</Alert> : <div></div>
+                    }
                     {templates.map((template, index) => (
                         <Grid key={index} item xs={12} className={classes.button} >
                             <Button onClick={() => { handleClick(template) }}
@@ -79,4 +94,14 @@ const Template = (props) => {
     )
 }
 
-export default Template;
+const mapStateToProps = state => {
+    return {
+        resume: state.resume,
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+    setTitle: (props) => { dispatch(setTitle(props)) },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Template);

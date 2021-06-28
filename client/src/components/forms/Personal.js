@@ -3,6 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import Alert from '@material-ui/lab/Alert';
+import { connect } from 'react-redux';
+import { setPersonalDetails } from '../../redux/actionCreators';
 
 const useStyles = makeStyles((theme) => ({
     line: {
@@ -15,32 +18,66 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.primary.main,
         opacity: '0.75',
         width: '100%'
-    }
+    },
+    alert: {
+        padding: '0px',
+        width: '100%',
+    },
+    alertHalf: {
+        padding: '0px',
+        width: '50%',
+    },
 }));
 
-export default function PersonalForm({ resume }) {
+function PersonalForm(props) {
 
     const classes = useStyles();
 
-    const [personal, setPersonal] = useState(resume.personal);
+    const regex = {
+        email: /^([a-z0-9_\.\+-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/,
+        name: /^[A-Z][a-zA-Z]{1,}$/,
+        website: /(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/,
+        phone: /^\d{6,}$/
+    }
+
+    const [errorText, setErrorText] = useState({
+        email: '',
+        firstName: '',
+        lastName: '',
+        website: '',
+        phone: ''
+    })
+
+    const validateInput = (name, input) => {
+        if (name === 'firstName' || name === 'lastName') {
+            if (!input.match(regex.name))
+                setErrorText({ ...errorText, [name]: 'Invalid Name; Length > 2' })
+            else setErrorText({ ...errorText, [name]: '' })
+        }
+        if (name === 'email') {
+            if (!input.match(regex.email))
+                setErrorText({ ...errorText, [name]: 'Invalid Email Id' })
+            else setErrorText({ ...errorText, [name]: '' })
+        }
+        if (name === 'phone') {
+            if (!input.match(regex.phone))
+                setErrorText({ ...errorText, [name]: 'Invalid Phone No., Min. Length 6' })
+            else setErrorText({ ...errorText, [name]: '' })
+        }
+        if (name === 'website') {
+            if (!input.match(regex.website))
+                setErrorText({ ...errorText, [name]: 'Invalid Link' })
+            else setErrorText({ ...errorText, [name]: '' })
+        }
+    }
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        const newDetails = { ...props.resume.personal, [name]: value }
+        setPersonalDetails({ ...props.resume, personal: newDetails });
+        props.resume.personal = newDetails;
 
-        setPersonal(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
-        //console.log(resume.personal, personal, value);
-        resume.personal = personal;
-
-        /*
-         const updatedSection = resume.personal;
-         updatedSection[name] = value;
-         setPersonal(updatedSection)
-         resume.personal = personal;
-         console.log(resume.personal, personal, value);
-         */
+        validateInput(name, value)
     }
 
     return (
@@ -56,10 +93,11 @@ export default function PersonalForm({ resume }) {
                         id="firstName"
                         name="firstName"
                         label="First name"
-                        value={personal.firstName}
+                        value={props.resume.personal.firstName}
                         onChange={handleChange}
                         fullWidth
                         autoComplete="given-name"
+                        error={errorText.firstName}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -68,46 +106,77 @@ export default function PersonalForm({ resume }) {
                         id="lastName"
                         name="lastName"
                         label="Last name"
-                        value={personal.lastName}
+                        value={props.resume.personal.lastName}
                         onChange={handleChange}
                         fullWidth
                         autoComplete="family-name"
+                        error={errorText.lastName}
                     />
                 </Grid>
+                {(errorText.firstName) ?
+                    <Alert className={classes.alertHalf} severity="error">{errorText.firstName}</Alert> : <div className={classes.alertHalf} ></div>
+                }
+                {(errorText.lastName) ?
+                    <Alert className={classes.alertHalf} severity="error">{errorText.lastName}</Alert> : <div></div>
+                }
                 <Grid item xs={12}>
                     <TextField
                         required
                         id="email"
                         name="email"
                         label="Email Address"
-                        value={personal.email}
+                        value={props.resume.personal.email}
                         onChange={handleChange}
                         fullWidth
                         autoComplete="email"
+                        error={errorText.email}
                     />
                 </Grid>
+                {(errorText.email) ?
+                    <Alert className={classes.alert} severity="error">{errorText.email}</Alert> : <div></div>
+                }
                 <Grid item xs={12}>
                     <TextField
                         id="phone"
                         name="phone"
                         label="Phone No."
-                        value={personal.phone}
+                        value={props.resume.personal.phone}
                         onChange={handleChange}
                         fullWidth
                         autoComplete="tel"
+                        error={errorText.phone}
                     />
                 </Grid>
+                {(errorText.phone) ?
+                    <Alert className={classes.alert} severity="error">{errorText.phone}</Alert> : <div></div>
+                }
+
                 <Grid item xs={12}>
                     <TextField
                         id="website"
                         name="website"
                         label="Professional Profile/Website"
-                        value={personal.website}
+                        value={props.resume.personal.website}
                         onChange={handleChange}
                         fullWidth
+                        error={errorText.website}
                     />
-                </Grid>
+                </Grid>{(errorText.website) ?
+                    <Alert className={classes.alert} severity="error">{errorText.website}</Alert> : <div></div>
+                }
             </Grid>
         </React.Fragment>
     );
 }
+
+const mapStateToProps = state => {
+    return {
+        resume: state.resume.data,
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+    setPersonalDetails: (props) => { dispatch(setPersonalDetails(props)) },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PersonalForm);

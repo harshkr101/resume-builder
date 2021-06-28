@@ -199,7 +199,7 @@ export const ResetPassword = async (req, res) => {
     `;
 
     try {
-        sendMail(config.MAIL_SENDER, req.body.email, "PASSWORD RESET SUCCESSFULL", mailHtmlContent);
+        sendMail(config.MAIL_USER, req.body.email, "PASSWORD RESET SUCCESSFULL", mailHtmlContent);
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: "Unable to send mail" });

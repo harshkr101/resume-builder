@@ -7,7 +7,6 @@ export const config= {
   JWT_SECRET: process.env.JWT_SECRET,
   CLIENT_URL: process.env.CLIENT_URL,
   MAIL_USER: process.env.MAIL_USERNAME,
-  MAIL_PASSWORD: process.env.MAIL_PASSWORD,
   OAUTH_CLIENTID: process.env.OAUTH_CLIENTID,
   OAUTH_CLIENT_SECRET: process.env.OAUTH_CLIENT_SECRET,
   OAUTH_REFRESH_TOKEN: process.env.OAUTH_REFRESH_TOKEN

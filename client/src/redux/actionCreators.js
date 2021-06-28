@@ -1,6 +1,7 @@
 import axios from 'axios';
 import html2canvas from 'html2canvas';
 //import { jsPDF } from "jspdf";
+import { config } from '../config/config.js';
 
 import {
     SET_DATA_SUCCESS,
@@ -36,7 +37,7 @@ export const loginCheck = (user, callback) => {
         dispatch(logInRequest())
 
         axios({
-            url: 'http://localhost:3000/api/login',
+            url: `${config.REACT_APP_API_URL}/api/login`,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -139,7 +140,7 @@ export const fetchData = (token, callback) => {
     return (dispatch) => {
         dispatch(fetchDataRequest())
 
-        axios.get(`http://localhost:3000/api/dashboard/resume/all/${user.id}`, {
+        axios.get(`${config.REACT_APP_API_URL}/api/dashboard/resume/all/${user.id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'auth-token': token
@@ -177,7 +178,7 @@ export const fetchDataFailure = error => {
 }
 
 export const postData = (token, resume) => {
-    console.log(token);
+    //console.log(token);
 
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace('-', '+').replace('_', '/');
@@ -192,7 +193,7 @@ export const postData = (token, resume) => {
         dispatch(postDataRequest())
 
         axios({
-            url: 'http://localhost:3000/api/dashboard/resume',
+            url: `${config.REACT_APP_API_URL}/api/dashboard/resume`,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -240,13 +241,13 @@ export const updateData = (token, resume) => {
         data: resume,
         user: user
     }
-    console.log(token);
+    //console.log(token);
 
     return (dispatch) => {
         dispatch(updateDataRequest())
 
         axios({
-            url: `http://localhost:3000/api/dashboard/resume/${resume._id}`,
+            url: `${config.REACT_APP_API_URL}/api/dashboard/resume/${resume._id}`,
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -256,7 +257,7 @@ export const updateData = (token, resume) => {
         })
             .then(response => {
                 const data = response.data
-                console.log(data.data);
+                //console.log(data.data);
                 dispatch(updateDataSuccess(data.data))
             })
             .catch(error => {
@@ -308,14 +309,14 @@ export const updateUser = (newUser, token) => {
     var user = JSON.parse(window.atob(base64));
 
     user = { ...user, firstName: newUser.firstName, lastName: newUser.lastName, email: newUser.email }
-    console.log(user);
+    //console.log(user);
 
     return (dispatch) => {
         dispatch(updateUserRequest())
-        console.log(token);
+        //console.log(token);
 
         axios({
-            url: `http://localhost:3000/api/dashboard/user/${user.id}`,
+            url: `${config.REACT_APP_API_URL}/api/dashboard/user/${user.id}`,
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -324,8 +325,8 @@ export const updateUser = (newUser, token) => {
             data: JSON.stringify(user)
         })
             .then(response => {
-                const data = response.data
-                console.log(data.data);
+                //const data = response.data
+                //console.log(data.data);
                 dispatch(updateUserSuccess())
             })
             .catch(error => {
@@ -364,7 +365,7 @@ export const deleteData = (token, resume) => {
         dispatch(deleteDataRequest())
 
         axios({
-            url: `http://localhost:3000/api/dashboard/resume/${resume._id}`,
+            url: `${config.REACT_APP_API_URL}/api/dashboard/resume/${resume._id}`,
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -373,8 +374,8 @@ export const deleteData = (token, resume) => {
             data: JSON.stringify({ user: user })
         })
             .then(response => {
-                const data = response.data
-                console.log(data.data);
+                //const data = response.data
+                //console.log(data.data);
                 dispatch(deleteDataSuccess())
             })
             .catch(error => {

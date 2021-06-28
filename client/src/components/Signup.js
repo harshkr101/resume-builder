@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useHistory } from "react-router-dom"
 import Alert from '@material-ui/lab/Alert';
+import { config } from '../config/config.js';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -50,7 +51,7 @@ export default function Signup() {
     })
 
     const regex = {
-        email: '^([a-z0-9_\.\+-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$',
+        email: '^([a-z0-9_\.\+-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$', //eslint-disable-line
         name: '^[A-Z][a-zA-Z]{1,}$',
         password: '(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{6,})$'
     }
@@ -93,7 +94,7 @@ export default function Signup() {
 
     const create = async (user) => {
         try {
-            let response = await fetch('http://localhost:3000/api/signup', {
+            let response = await fetch(`${config.REACT_APP_API_URL}/api/signup`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -101,7 +102,7 @@ export default function Signup() {
                 body: JSON.stringify(user)
             })
             let res = await response.json()
-            console.log(res)
+            //console.log(res)
             goto(response, res.user)
             return response
         } catch (err) {

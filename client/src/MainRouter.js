@@ -13,40 +13,56 @@ import Template1 from './components/templates/template1/Template1';
 import Template2 from './components/templates/template2/Template2';
 import { connect } from 'react-redux';
 import { logInSuccess } from './redux/actionCreators';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(() => ({
+  wrapper: {
+    display: 'flex',
+    minHeight: '100vh',
+    flexDirection: 'column',
+  },
+  mainContent: {
+    flexGrow: 1
+  }
+}));
 
 const MainRouter = (props) => {
-  
+
+  const classes = useStyles();
+
   const storedJwt = localStorage.getItem('token');
 
   React.useEffect(() => {
-    if(storedJwt)
+    if (storedJwt)
       props.logInSuccess(storedJwt)
-  }, [])
-  
+  }, []) //eslint-disable-line
+
 
   return (
-    <div>
+    <div className={classes.wrapper}>
       <NavBar />
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path="/signup" component={Signup} />
-        <Route path="/login" component={Login} />
-        <Route path="/builder" component={Builder} />
-        <Route path="/password/forgot" component={ForgotPassword} />
-        <Route path="/password/reset" component={ResetPassword} />
-        <Route path="/dashboard" component={Dashboard} />
-        <Route path="/template1" component={Template1} />
-        <Route path="/template2" component={Template2} />
-      </Switch>
-      <Footer/>
+      <div className={classes.mainContent}>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/signup" component={Signup} />
+          <Route path="/login" component={Login} />
+          <Route path="/builder" component={Builder} />
+          <Route path="/password/forgot" component={ForgotPassword} />
+          <Route path="/password/reset" component={ResetPassword} />
+          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/template1" component={Template1} />
+          <Route path="/template2" component={Template2} />
+        </Switch>
+      </div>
+      <Footer />
     </div>
   );
 }
 
 const mapStateToProps = state => {
   return {
-      resume: state.resume,
-      token: state.resume.token
+    resume: state.resume,
+    token: state.resume.token
   }
 }
 

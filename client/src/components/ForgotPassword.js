@@ -10,9 +10,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useHistory } from "react-router-dom";
 import { useAlert } from "react-alert";
+import { config } from '../config/config.js';
+
 
 const useStyles = makeStyles((theme) => ({
-    
+
     paper: {
         marginTop: theme.spacing(4),
         display: 'flex',
@@ -48,26 +50,26 @@ export default function ForgotPassword() {
     }
 
     const goto = (res) => {
-        console.log("result:",res);
-       
+        //console.log("result:",res);
+
         if (res.status === 200) {
-           
+
             alert.success("Please check your mail for password reset link");
             alert.info("Redirecting you to login page")
-           setTimeout(() => {
-            history.push("/login");
-           }, 2000); 
-            
-        }else{
-           alert.error("Invalid Email");
+            setTimeout(() => {
+                history.push("/login");
+            }, 2000);
+
+        } else {
+            alert.error("Invalid Email");
         }
     }
 
-    
+
 
     const create = async (user) => {
         try {
-            let response = await fetch('http://localhost:3000/api/password/forgot', {
+            let response = await fetch(`${config.REACT_APP_API_URL}/api/password/forgot`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -75,7 +77,7 @@ export default function ForgotPassword() {
                 body: JSON.stringify(user)
             })
             goto(response);
-            
+
             return response
         } catch (err) {
             console.log(err)
@@ -101,14 +103,14 @@ export default function ForgotPassword() {
             <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <VpnKeyIcon/>
+                    <VpnKeyIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Forgot Password?
                 </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
-                        
+
                         <Grid item xs={12}>
                             <TextField
                                 variant="outlined"

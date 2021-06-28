@@ -10,11 +10,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useHistory } from "react-router-dom";
 import { useAlert } from "react-alert";
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import jwt from 'jsonwebtoken';
+import { config } from '../config/config.js';
+
 
 const useStyles = makeStyles((theme) => ({
-    
+
     paper: {
         marginTop: theme.spacing(4),
         display: 'flex',
@@ -57,39 +59,39 @@ export default function ResetPassword() {
         return new URLSearchParams(useLocation().search);
     }
 
-    const getToken = () =>{
+    const getToken = () => {
         let token = query.get("token");
         return token;
     }
 
-    const verifyToken = (token) =>{
-        jwt.verify(getToken(), 'resume', function(err, decoded) {
-          });
+    const verifyToken = (token) => {
+        jwt.verify(getToken(), 'resume', function (err, decoded) {
+        });
     }
 
 
 
     const goto = (res) => {
-        console.log("result:",res);
-       
+        //console.log("result:",res);
+
         if (res.status === 200) {
-           
+
             alert.success("Password reset successfull");
             alert.info("Redirecting you to login page")
             setTimeout(() => {
                 history.push("/login");
-            }, 2000); 
-            
-        }else{
-           alert.error("Invalid token");
+            }, 2000);
+
+        } else {
+            alert.error("Invalid token");
         }
     }
 
-    
+
 
     const create = async (user) => {
         try {
-            let response = await fetch('http://localhost:3000/api/password/reset', {
+            let response = await fetch(`${config.REACT_APP_API_URL}/api/password/reset`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -112,11 +114,11 @@ export default function ResetPassword() {
 
         const user = {
             password: values.password || undefined,
-            email: userEmail|| undefined,
-            token: token    || undefined
+            email: userEmail || undefined,
+            token: token || undefined
         }
 
-        if(verifyToken()){
+        if (verifyToken()) {
             create(user).then((data) => {
                 if (data.error) {
                     setValues({ ...values, error: data.error })
@@ -124,14 +126,14 @@ export default function ResetPassword() {
                     setValues({ ...values, error: '', open: true })
                 }
             })
-        }else{
+        } else {
             alert.error("Invalid token");
             setTimeout(() => {
                 history.push("/login");
-            }, 2000); 
+            }, 2000);
         }
 
-        
+
     }
 
     return (
@@ -139,13 +141,13 @@ export default function ResetPassword() {
             <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <VpnKeyIcon/>
+                    <VpnKeyIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Reset Password
                 </Typography>
                 <form className={classes.form} noValidate>
-                    <Grid container spacing={2}>        
+                    <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField
                                 variant="outlined"

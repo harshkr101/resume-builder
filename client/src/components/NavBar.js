@@ -33,9 +33,9 @@ const ButtonAppBar = (props) => {
     const history = useHistory();
 
     const handleClick = () => {
-        props.fetchData(props.token, function () {
-            history.push("/dashboard")
-        })
+        //props.fetchData(props.token, function () {
+        history.push("/dashboard")
+        //})
     }
 
     return (

@@ -184,7 +184,7 @@ const Home = (props) => {
 
                 <section className="build-wrapper ">
                     <div className="build-resume align-items-center justify-content-center">
-                        <button className="btn btn-primary btn-lg">BUILD MY RESUME</button>
+                        <button className="btn btn-primary btn-lg" onClick = {handleClick}>BUILD MY RESUME</button>
                     </div>
                 </section>
             </div>

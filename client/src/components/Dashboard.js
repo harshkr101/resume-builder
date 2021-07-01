@@ -1,16 +1,27 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import Profile from './Profile';
 import SavedResumes from './SavedResumes';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     menu: {
+        // display: 'flex',
+        // position: 'absolute'
+        margin: 'auto',
+        marginTop: theme.spacing(4),
+        marginBottom: theme.spacing(1),
         display: 'flex',
-        position: 'absolute'
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: '80%',
+        [theme.breakpoints.down('sm')]: {
+            width: '100%',
+        },
+        flexGrow: 1,
+        borderRadius: theme.spacing(3)
     },
     menuPaper: {
         marginTop: theme.spacing(10),
@@ -18,37 +29,39 @@ const useStyles = makeStyles((theme) => ({
         position: 'relative',
         whiteSpace: 'nowrap',
         width: '240px',
+        display: 'none'
     },
+    label: {
+        fontWeight: '900'
+    },
+    line: {
+        height: '10px',
+        marginLeft: '25%',
+        border: 'none',
+        backgroundColor: theme.palette.primary.main,
+        opacity: '0.75',
+        width: '50%',
+        textAlign: 'center'
+    },
+
 }));
 
 
 const Dashboard = (props) => {
     const classes = useStyles();
 
-    const [content, setContent] = React.useState(1);
+    const [content, setContent] = React.useState(0);
 
-    const handleClick = (id) => {
-        setContent(id);
+    const handleChange = (event, newValue) => {
+        console.log(newValue)
+        setContent(newValue);
     };
-
-    const mainListItems = (
-        <div>
-            <ListItem button onClick={() => { handleClick(1) }}>
-                <ListItemText primary="Profile" />
-            </ListItem>
-            <ListItem button onClick={() => { handleClick(2) }}>
-                <ListItemText primary="Saved Resumes" />
-            </ListItem>
-        </div>
-    );
 
     function getContent(id) {
         switch (id) {
             case 0:
-                return <div></div>
-            case 1:
                 return <Profile />;
-            case 2:
+            case 1:
                 return <SavedResumes />;
             default:
                 throw new Error('Unknown');
@@ -58,18 +71,28 @@ const Dashboard = (props) => {
     return (
         <React.Fragment>
             <div className={classes.menu}>
-                <Drawer
-                    variant="permanent"
-                    classes={{ paper: classes.menuPaper }}
-                    open='true'
+                <Tabs
+                    onChange={handleChange}
+                    indicatorColor="default"
+                    textColor="default"
+                    centered
                 >
-                    <List>{mainListItems}</List>
-                </Drawer>
+                    <Tab className={classes.label} label="Profile" />
+                    <Tab className={classes.label} disabled={(Array.isArray(props.resume.data)) ? '' : 'true'} label="Saved Resumes" />
+                </Tabs>
             </div>
+            <hr className={classes.line}></hr>
             {getContent(content)}
         </React.Fragment>
     )
 
 }
 
-export default Dashboard;
+
+const mapStateToProps = state => {
+    return {
+        resume: state.resume,
+    }
+}
+
+export default connect(mapStateToProps)(Dashboard);

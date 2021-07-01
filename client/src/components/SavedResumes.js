@@ -15,16 +15,16 @@ import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     title: {
-        margin: theme.spacing(4)
+        margin: theme.spacing(8)
     },
     cardGrid: {
         marginTop: theme.spacing(4),
-        marginLeft: '15%',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        paddingBottom: theme.spacing(2),
-        textAlign: 'center'
+        // marginLeft: '15%',
+        // display: 'flex',
+        // flexDirection: 'column',
+        // alignItems: 'center',
+        // paddingBottom: theme.spacing(2),
+        // textAlign: 'center'
     },
     card: {
         height: '100%',

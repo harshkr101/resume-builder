@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     },
     layout: {
         width: 'auto',
-        [theme.breakpoints.up('md')]: {
+        [theme.breakpoints.up('lg')]: {
             width: 500,
             marginLeft: '',
             marginRight: 'auto',
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
         width: '50%',
         padding: '1%',
         marginRight: '',
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             display: 'none',
         },
     },
@@ -75,20 +75,27 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(8, 1),
         width: '12%',
         display: 'inline-block',
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             display: 'none',
         },
     },
     buttons: {
         position: 'absolute',
-        right: '40px',
-        top: '80px',
+        right: '20px',
+        top: '96px',
         marginLeft: 'auto',
         marginRight: '',
-        [theme.breakpoints.up('md')]: {
+        [theme.breakpoints.up('lg')]: {
             position: 'absolute',
             left: '480px',
             top: '80px',
+        },
+        [theme.breakpoints.up('sm')]: {
+            position: 'absolute',
+            right: '40px',
+            top: '80px',
+            marginLeft: 'auto',
+            marginRight: '',
         },
     },
     button: {
@@ -99,12 +106,18 @@ const useStyles = makeStyles((theme) => ({
         //display: 'inherit',
         height: 'fit-content',
         position: 'absolute',
-        top: '80px',
+        top: '84px',
         left: '15px',
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             right: '184px',
             left: 'unset',
-            top: '96px',
+            top: '104px',
+            width: 'fit-content',
+        },
+        [theme.breakpoints.down('xs')]: {
+            right: '20px',
+            left: 'unset',
+            top: '76px',
             width: 'fit-content',
         },
     },
@@ -232,11 +245,9 @@ const Builder = (props) => {
                             <React.Fragment>
                                 {getStepContent(activeStep)}
                                 <div className={classes.buttons}>
-                                    {activeStep !== 0 && (
-                                        <Button onClick={handleBack} className={classes.button}>
-                                            Back
-                                        </Button>
-                                    )}
+                                    <Button onClick={handleBack} className={classes.button} disabled={(activeStep === 0) ? 'true' : ''}>
+                                        Back
+                                    </Button>
                                     {activeStep === steps.length - 1 ?
                                         <Button
                                             variant="contained"

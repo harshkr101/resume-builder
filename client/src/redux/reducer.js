@@ -24,7 +24,8 @@ import {
     DELETE_DATA_SUCCESS,
     DELETE_DATA_FAILED,
     SET_TITLE,
-    SET_PERSONAL_DETAILS
+    SET_PERSONAL_DETAILS,
+    UPDATE_DATA
 } from './actionTypes'
 import blankResume from '../resume';
 
@@ -242,6 +243,11 @@ const reducer = (state = initialState, action) => {
                 title: action.payload
             }
         case SET_PERSONAL_DETAILS:
+            return {
+                ...newState,
+                data: action.payload
+            }
+        case UPDATE_DATA:
             return {
                 ...newState,
                 data: action.payload

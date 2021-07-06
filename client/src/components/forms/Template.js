@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import { connect } from 'react-redux';
-import { setTitle } from '../../redux/actionCreators';
+import { setTitle, updateResumeData } from '../../redux/actionCreators';
 import templates from '../templates/templates';
 import Alert from '@material-ui/lab/Alert';
 
@@ -48,10 +48,15 @@ const Template = (props) => {
         const { value } = e.target;
         validateInput(value)
         props.setTitle(value);
+
+        const newData = { ...props.resume.data, title: value }
+        props.updateResumeData(newData);
+        props.resume.data = newData;
     }
 
     const handleClick = (template) => {
         props.resume.template = template
+        props.resume.data.template = template
         const update = 'update'
         history.push(`/${template}`, update)
     }
@@ -68,7 +73,7 @@ const Template = (props) => {
                             id="title"
                             name="title"
                             label="Title"
-                            value={props.resume.title}
+                            value={props.resume.data.title}
                             onChange={handleChange}
                             error={errorText}
                             fullWidth
@@ -102,6 +107,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     setTitle: (props) => { dispatch(setTitle(props)) },
+    updateResumeData: (props) => { dispatch(updateResumeData(props)) },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Template);

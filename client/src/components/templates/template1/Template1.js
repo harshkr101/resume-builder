@@ -96,7 +96,7 @@ const Template1 = ({ resume, renderPreview }) => {
                                 <div className="achivements content">
 
                                     <div className="heading">
-                                        <h2>ACHIVEMENTS</h2>
+                                        <h2>ACHIEVEMENTS</h2>
                                     </div>
 
                                     <div className="info">

@@ -73,7 +73,7 @@ const Template = (props) => {
                             id="title"
                             name="title"
                             label="Title"
-                            value={props.resume.title}
+                            value={props.resume.data.title}
                             onChange={handleChange}
                             error={errorText}
                             fullWidth

@@ -15,16 +15,23 @@ import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     title: {
-        margin: theme.spacing(8)
+        margin: theme.spacing(4)
     },
-    cardGrid: {
-        marginTop: theme.spacing(4),
-        // marginLeft: '15%',
-        // display: 'flex',
-        // flexDirection: 'column',
-        // alignItems: 'center',
-        // paddingBottom: theme.spacing(2),
-        // textAlign: 'center'
+    container: {
+        maxWidth: '40%',
+        marginLeft: '30%',
+        marginRight: '0',
+        display: 'inline-block',
+        [theme.breakpoints.down('sm')]: {
+            maxWidth: '100%',
+            marginLeft: 'unset',
+        },
+    },
+    paper: {
+        //marginTop: theme.spacing(4),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
     },
     card: {
         height: '100%',
@@ -36,9 +43,12 @@ const useStyles = makeStyles((theme) => ({
     },
     cardContent: {
         flexGrow: 1,
+        display: 'inline-block',
+        width: '48%'
     },
     actions: {
-        marginLeft: '33px'
+        marginLeft: '33px',
+        display: 'inline-block'
     }
 }));
 
@@ -74,46 +84,45 @@ const Dashboard = (props) => {
 
     return (
         <React.Fragment>
-            <Container className={classes.cardGrid} maxWidth="md">
-                <Typography component="h1" variant="h5" className={classes.title}>
-                    Saved Resumes
+            <Container component="main" maxWidth="xs" className={classes.container}>
+                <div className={classes.paper}>
+                    <Typography component="h1" variant="h5" className={classes.title}>
+                        Saved Resumes
                 </Typography>
-                <Grid container spacing={4}>
-                    {props.resume.data.map((item, id) => (
-                        <Grid item key={id} xs={12} sm={6} md={4}>
-                            <Card className={classes.card} color="secondary">
-                                <CardContent className={classes.cardContent}>
-                                    <Typography gutterBottom variant="h5" component="h2">
-                                        {item.title}
-                                    </Typography>
-                                    <Typography>
-                                        You can use this section to describe the content.
-                                    </Typography>
-                                </CardContent>
-                                <CardActions className={classes.actions}>
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        className={classes.button}
-                                        onClick={() => { handleEdit(id) }}
-                                        startIcon={<EditIcon />}
-                                    >
-                                        Edit
+                    <Grid container spacing={8}>
+                        {(props.resume.data.length) && props.resume.data.map((item, id) => (
+                            <Grid item key={id} md={12} >
+                                <Card className={classes.card} color="secondary">
+                                    <CardContent className={classes.cardContent}>
+                                        <Typography gutterBottom variant="h5" component="h2">
+                                            {item.title}
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions className={classes.actions}>
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            className={classes.button}
+                                            onClick={() => { handleEdit(id) }}
+                                            startIcon={<EditIcon />}
+                                        >
+                                            Edit
                                 </Button>
-                                    <Button
-                                        variant="contained"
-                                        color="secondary"
-                                        className={classes.button}
-                                        onClick={() => { handleDelete(id) }}
-                                        startIcon={<DeleteIcon />}
-                                    >
-                                        Delete
+                                        <Button
+                                            variant="contained"
+                                            color="secondary"
+                                            className={classes.button}
+                                            onClick={() => { handleDelete(id) }}
+                                            startIcon={<DeleteIcon />}
+                                        >
+                                            Delete
                                     </Button>
-                                </CardActions>
-                            </Card>
-                        </Grid>
-                    ))}
-                </Grid>
+                                    </CardActions>
+                                </Card>
+                            </Grid>
+                        ))}
+                    </Grid>
+                </div>
             </Container>
         </React.Fragment>
     )

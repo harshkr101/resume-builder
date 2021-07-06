@@ -43,8 +43,8 @@ const Home = (props) => {
 
             <div className="main container-fluid">
 
-                <section className="top row" >
-                    <div className="col-5 left">
+                <section className="top row d-flex" >
+                    <div className="col-sm left">
                         <div className=" heading-content align-middle">
                             <span className="main-heading">Build your resume today</span>
                             <br></br>
@@ -56,7 +56,7 @@ const Home = (props) => {
                         </div>
                     </div>
 
-                    <div className="col-7 right ">
+                    <div className="col-sm right ">
                         <img src={publicURL + "/assets/resume.png"} alt=" resume" />
                     </div>
                 </section>
@@ -71,7 +71,7 @@ const Home = (props) => {
 
                     <div className="content row align-content-center">
 
-                        <div className="card-wrapper first col-md">
+                        <div className="card-wrapper  col-sm">
 
                             <div className="card">
                                 <div className="card-heading">1</div>
@@ -83,7 +83,7 @@ const Home = (props) => {
                             </div>
                         </div>
 
-                        <div className="card-wrapper col-md">
+                        <div className="card-wrapper col-sm">
 
                             <div className="card">
                                 <div className="card-heading">2</div>
@@ -96,7 +96,7 @@ const Home = (props) => {
 
                         </div>
 
-                        <div className="card-wrapper col-md">
+                        <div className="card-wrapper col-sm">
                             <div className="card col-md">
                                 <div className="card-heading">3</div>
                                 <div className="card-body">
@@ -120,7 +120,7 @@ const Home = (props) => {
 
                         <div className="wrapper row">
 
-                            <div className="text-content col-md">
+                            <div className="text-content col-sm">
                                 <div className="heading">Blazingly Fast</div>
                                 <div className="text">
                                     With out easy to use services you can build
@@ -128,7 +128,7 @@ const Home = (props) => {
                                     </div>
                             </div>
 
-                            <div className="image-content col-md">
+                            <div className="image-content col-sm">
                                 <img src={publicURL + '/assets/fast.svg'} alt="fast" />
                             </div>
 
@@ -136,12 +136,12 @@ const Home = (props) => {
 
 
                         <div className="wrapper row">
-                            <div className="image-content col-md">
+                            <div className="image-content col-sm">
                                 <img src={publicURL + '/assets/plan.svg'} alt="template" />
 
                             </div>
 
-                            <div className="text-content col-md">
+                            <div className="text-content col-sm">
                                 <div className="heading">Ready to use templates</div>
                                 <div className="text">
                                     We provide multiple ready to use templates to
@@ -153,7 +153,7 @@ const Home = (props) => {
 
 
                         <div className="wrapper row">
-                            <div className="text-content col-md">
+                            <div className="text-content col-sm">
                                 <div className="heading">Free of Cost</div>
                                 <div className="text">
                                     We do not charge you any money for our services
@@ -162,14 +162,14 @@ const Home = (props) => {
                                     </div>
                             </div>
 
-                            <div className="image-content col-md">
+                            <div className="image-content col-sm">
                                 <img src={publicURL + '/assets/payment.svg'} alt="money" />
                             </div>
                         </div>
 
 
                         <div className="wrapper row">
-                            <   div className="image-content col-md">
+                            <   div className="image-content col-sm">
                                 <img src={publicURL + '/assets/design.svg'} alt="design" />
                             </div>
                             <div className="text-content col-md">

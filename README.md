@@ -3,7 +3,7 @@
 
 Resume Build is a web application built on MERN stack. It provides users the facility of building resume in less than 5 minutes.
 
-Demo: [Resume Builder](https://myresumebuilder.me/)
+Demo: [Resume Builder](https://brave-goodall-c9adb7.netlify.app/)
 
 ## Client
 
